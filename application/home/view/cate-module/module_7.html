@@ -1,0 +1,361 @@
+<!--科研详情-->
+<body class="ins_body thr_body">
+{include file="public/header" /}
+{include file="public/banner" /}
+<div class="uix-ajax-load__loader"><span></span></div>
+<div id="ind_con_box" class="ind_con_box ">
+    <div class="uix-ajax-load__fullpage-container">
+        <section class="uix-height--100 is-mobile-still">
+            <div class="ajax-container" data-ajax-method="POST" data-ajax-page-id="1">
+                <div class="js-uix-ajax-load__container">
+                    <div class="uix-ajax-load__container">
+                        <div class="pub_pad_left pure">
+                        </div>
+                        <div class="fou_ban_img_box">
+                            <img src="__UPLOAD_PATH__/{$banner_img}" alt="">
+                            <div class="fou_ban_sty scroll-animate classGo" data-Tclass="removeAn"></div>
+                            <div class="thr_name scroll-animate" data-delay="2" data-effect="fadeInUpSmall">
+                                {if $third_id eq 77}
+                                {$gaas.title}
+                                {elseif $third_id eq 78/}
+                                {$sawfilter.title}
+                                {elseif $third_id eq 59/}
+                                {$fsp.title}
+                                {elseif $third_id eq 72/}
+                                {$solutionone.title}
+                                {elseif $third_id eq 60/}
+                                {$fs.title}
+                                {elseif $third_id eq 73/}
+                                {$solutiontwo.title}
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="pub_pad_left pub_pad_right pure fou_info_box  none_bg gaa_info_box">
+                            {if $third_id eq 77}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$gaas.photo}" alt="">
+                            {elseif $third_id eq 78/}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$sawfilter.photo}" alt="">
+                            {elseif $third_id eq 59/}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$fsp.photo}" alt="">
+                            {elseif $third_id eq 72/}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$solutionone.photo}" alt="">
+                            {elseif $third_id eq 60/}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$fs.photo}" alt="">
+                            {elseif $third_id eq 73/}
+                            <img class="gaa_img_left" src="__UPLOAD_PATH__/{$solutiontwo.photo}" alt="">
+                            {/if}
+                            <div class="scroll-animate thr_title gaa_text_right fou_info_font_sty"
+                                 data-effect="fadeInUpSmall">
+                                {if $third_id eq 77}
+                                {$gaas.content}
+                                {elseif $third_id eq 78/}
+                                {$sawfilter.content}
+                                {elseif $third_id eq 59/}
+                                {$fsp.content}
+                                {elseif $third_id eq 72/}
+                                {$solutionone.content}
+                                {elseif $third_id eq 60/}
+                                {$fs.content}
+                                {elseif $third_id eq 73/}
+                                {$solutiontwo.content}
+                                {/if}
+                            </div>
+                        </div>
+                        {if $third_id eq 77}
+                        <div class="pub_pad_left pub_pad_right pure fou_con_box pad_top0">
+                            <div class="thr_tab_box">
+
+                                <div class="thr_tab_nav_box thr_tab_nav_box_4 pure scroll-animate father"
+                                     data-child=".at_on" data-delay=".05" data-effect="fadeInUpSmall">
+
+                                    <a class="on at_on"><span>GaAs-InGaP HBT</span></a>
+                                    <a class=" at_on"><span>GaAs-pHEMT</span></a>
+                                    <a class=" at_on"><span>GaAs-IPD</span></a>
+                                    <a class=" at_on"><span>GaAs-BiHEMT</span></a>
+                                    <span class="tab_nav_line"></span>
+
+                                </div>
+                                <div class="thr_tab_case">
+                                    <div class="thr_tab_con">
+                                        <div class="thr_title_l_box">
+                                            <img src="__IMG__/1550193375669.jpg" alt="">
+                                            <span class="thr_title_l thr_name"><span class="scroll-animate" data-effect="fadeInUpSmall">Introduction</span></span>
+                                        </div>
+                                        <div class="fon_num_tex_box scroll-animate father pure" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <span class="fon_num at_on">01</span>
+                                            <div class="fon_tex fou_info_font_sty font_regular at_on">SAIC provide a
+                                                complete range of applications in different fields of products on
+                                                HBT process development to meet the diversity of wireless
+                                                communication needs. In terms of market application, 5G products are
+                                                also developed in the technical field along with the application of
+                                                handheld wireless communication to the Internet of things(IoT).
+                                            </div>
+                                        </div>
+                                        <div class="thr_data_box scroll-animate father" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <div class="at_on">
+
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>Process</th>
+                                                        <th>Application</th>
+                                                        <th>Features</th>
+                                                        <th>PDK Download</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H20HG6</td>
+                                                        <td>3G/4G/Wi-Fi PA/Sub-6G/TX module,Gain Block</td>
+                                                        <td>1. High current gain up to 120<br />
+                                                            2. High Linearity and high ruggedness;<br />
+                                                            3. 5G product application; sub-6G range</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H20HG7</td>
+                                                        <td>3G/4G/Wi-Fi PA/Sub-6G/TX module,Gain Block</td>
+                                                        <td>1. High current gain up to 120<br />
+                                                            2. High Linearity and high ruggedness;<br />
+                                                            3. 5G product application; sub-6G range</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H20HP1</td>
+                                                        <td>5G NR PA</td>
+                                                        <td>InGaP HBT - 4G+ /5G NR HPUE/APT PA</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H20HP2</td>
+                                                        <td>5G NR PA</td>
+                                                        <td>InGaP HBT - 4G+ /5G NR HPUE/APT PA</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thr_tab_con">
+                                        <div class="thr_title_l_box">
+                                            <img src="__IMG__/1550193375669.jpg" alt="">
+                                            <span class="thr_title_l thr_name"><span class="scroll-animate" data-effect="fadeInUpSmall">Introduction</span></span>
+                                        </div>
+                                        <div class="fon_num_tex_box scroll-animate father pure" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <span class="fon_num at_on">02</span>
+                                            <div class="fon_tex fou_info_font_sty font_regular at_on">SAIC provides
+                                                a complete range of products in different application fields on GaAs
+                                                pHEMT process development, and the application frequency covers Ka
+                                                band. With product variety, to meet the diversity of market demand.
+                                                0.15μm T-gate technology uses variable shaped electron beam to
+                                                achieve good wafer consistency and high productivity, and has the
+                                                ability to extend to smaller line width.</div>
+                                        </div>
+                                        <div class="thr_data_box scroll-animate father" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <div class="at_on">
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>Process</th>
+                                                        <th>Application</th>
+                                                        <th>Features</th>
+                                                        <th>PDK Download</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>P25ED3</td>
+                                                        <td>LNA/Logic/RF Switch/PA</td>
+                                                        <td>1. 0.5&mu;m E-Mode &amp; 1.0&mu;m D-Mode pHEMT for
+                                                            logic<br />
+                                                            2. 0.25&mu;m D-Mode T-gate pHEMT for PA, LNA and
+                                                            switch<br />
+                                                            3. NFmin &lt; 0.65dB @6GHz<br />
+                                                            4. Power density &gt; 900 mW/mm. (@10GHz)<br />
+                                                            5. High fT (~45 GHz) &amp; fMax (~120 GHz)</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>P25ED5</td>
+                                                        <td>LNA/Logic/RF Switch/PA</td>
+                                                        <td>1. 0.5&mu;m E-Mode &amp; 1.0&mu;m D-Mode pHEMT for
+                                                            logic<br />
+                                                            2. 0.25&mu;m D-Mode T-gate pHEMT for PA, LNA and
+                                                            switch<br />
+                                                            3. NFmin &lt; 0.65dB @6GHz<br />
+                                                            4. Power density &gt; 900 mW/mm. (@10GHz)<br />
+                                                            5. High fT (~45 GHz) &amp; fMax (~120 GHz)</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>P15LN2</td>
+                                                        <td>Low noise amplifier &amp; LNB</td>
+                                                        <td>1. 0.15&mu;m D-mode T-gate process with Air
+                                                            Bridge<br />
+                                                            2. NFmin &lt; 0.4dB, and Ga &gt;14dB @12GHz<br />
+                                                            3. 0.5&mu;m E/D-mode gate process for logic</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>P10PA1</td>
+                                                        <td>W bands power amplifier</td>
+                                                        <td>&nbsp;0.15&mu;m D-mode pHEMT-PA and LNA up to W band
+                                                        </td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thr_tab_con">
+                                        <div class="thr_title_l_box">
+                                            <img src="__IMG__/1550193375669.jpg" alt="">
+                                            <span class="thr_title_l thr_name"><span class="scroll-animate" data-effect="fadeInUpSmall">Introduction</span></span>
+                                        </div>
+                                        <div class="fon_num_tex_box scroll-animate father pure" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <span class="fon_num at_on">03</span>
+                                            <div class="fon_tex fou_info_font_sty font_regular at_on">SAIC IPD is a
+                                                customization process, base material has the feature of high
+                                                insulation and high impedance, so it can provide RF wtih integrated
+                                                passive components required for high performance requirements, such
+                                                as resistance, inductance, capacitance, etc.</div>
+                                        </div>
+                                        <div class="thr_data_box scroll-animate father" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <div class="at_on">
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>Process</th>
+                                                        <th>Application</th>
+                                                        <th>Features</th>
+                                                        <th>PDK Download</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>IPDPI</td>
+                                                        <td>High Q RF Passive - Filter and Matching/Bias Network
+                                                        </td>
+                                                        <td>Multiple metal layers inter-connection with
+                                                            polyimide dielectric and integrated Resistance,
+                                                            capacitance, inductance circuit components</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>IPDAB</td>
+                                                        <td>High Q RF Passive - Filter and Matching/Bias Network
+                                                        </td>
+                                                        <td>Multiple metal layers inter-connection with air
+                                                            bridge structure and integrated Resistance,
+                                                            capacitance, inductance circuit components</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="thr_tab_con">
+                                        <div class="thr_title_l_box">
+                                            <img src="__IMG__/1550193375669.jpg" alt="">
+                                            <span class="thr_title_l thr_name"><span class="scroll-animate" data-effect="fadeInUpSmall">Introduction</span></span>
+                                        </div>
+                                        <div class="fon_num_tex_box scroll-animate father pure" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <span class="fon_num at_on">04</span>
+                                            <div class="fon_tex fou_info_font_sty font_regular at_on">The design of
+                                                BiHEMT is based on the concept of the silicon-based BiCMOS, but the
+                                                difference lies in BiHEMT through the circuit design with the aid of
+                                                epitaxial growth and the chip technology to InGaP our HBT linear
+                                                power amplifier, AlGaAs pHEMT frequency switch, AlGaAs pHEMT logic
+                                                control circuit, AlGaAs pHEM low noise power amplifier, passive
+                                                components and internal connection integration in a single gallium
+                                                arsenide chip. BiHEMT has recently become a new trend in GaAs
+                                                microwave circuits due to its ability to improve chip integration,
+                                                reduce chip size and reduce material and manufacturing costs.</div>
+                                        </div>
+                                        <div class="thr_data_box scroll-animate father" data-child=".at_on"
+                                             data-delay=".05" data-effect="fadeInUpSmall">
+                                            <div class="at_on">
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>Process</th>
+                                                        <th>Application</th>
+                                                        <th>Features</th>
+                                                        <th>PDK Download</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>B25ED</td>
+                                                        <td>Wi-Fi PA/LNA/RF Switch</td>
+                                                        <td>1. 0.25μm T-gate E-mode by e-beam writer<br />
+                                                            2. Lower NFmin of 0.4dB<br />
+                                                            3. Lower switching time and less than 250 fs</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>B50ED</td>
+                                                        <td>Wi-Fi PA/LNA/RF Switch</td>
+                                                        <td>1. 0.5μm T-gate E-mode by e-beam writer<br />
+                                                            2. Lower NFmin of 0.5dB</td>
+                                                        <td><a href="https://mysaic.sanan-ic.com/"
+                                                               target="_blank">PDK Download</a></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {else/}
+                        {/if}
+                        {include file="public/footer" /}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!--视频弹窗-->
+<div class="video_sha sha_bg">
+    <div class="sha_btn_close"><i class="newiconfont">&#xe635;</i></div>
+    <div class="sha_vid">
+        <video class="scroll-animate" data-delay=".5" data-effect="flipInX_slow" controls loop
+               playsinline="" x-webkit-airplay="" webkit-playsinline="" x5-video-player-type="h5"></video>
+    </div>
+</div>
+<!--轮播-->
+<script type="text/javascript" src="__JS__/swiper.min.js"></script>
+<!--监听滚动条-->
+<script type="text/javascript" src="__JS__/jquery.waypoints.min.js"></script>
+<script type="text/javascript" src="__JS__/main.js"></script>
+<!--滚动条-->
+<script type="text/javascript" src="__JS__/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src='__JS__/classie.js'></script>
+<script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
+<script type="text/javascript" src='__JS__/classie.js'></script>
+<!--<script type="text/javascript" src='__JS__/jquery.parallax.js'></script>-->
+<script type="text/javascript" src='__JS__/app.js'></script>
+<script type="text/javascript" src='__JS__/smooth.js'></script>
+
+
+<script src="__JS__/jquery.lettering.js"></script>
+
+
+<script src="__JS__/jquery.textillate.js"></script>
+<script src="__JS__/run.js"></script>
+<script src="__JS__/TweenMax.js"></script>
+<script src="__JS__/mo.min.js"></script>
+
+<script src="__JS__/public.js"></script>
+<!--<script src="__JS__/ajax-page-loader.js"></script>-->
+</body>

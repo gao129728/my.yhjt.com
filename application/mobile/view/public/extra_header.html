@@ -1,0 +1,51 @@
+<div id="menu">
+    <div class="f1">
+        <div class="close"><img src="__IMG__/close.png" alt="" style="width: 20px;"></div>
+        <ul>
+            <li class="one-level active">
+                <a href="/mobile/index/index">Home</a>
+            </li>
+            {volist name="nav_cate" id="vo"}
+            <li class="one-level hasChild">
+                <a href="#">{$vo.name}</a>
+                <div class="f2">
+                    <ul>
+                        {volist name="vo.sub" id="vos"}
+                        <li><a href="{$vos.url}">{$vos.name}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </li>
+            {/volist}
+
+<!--            <li class="one-level"><a href="#">团队风采</a></li>-->
+
+        </ul>
+        <div class="lag_box fcc">
+            <div class="down_box fcc">English<span class="iconfont icon-CaretDown"></span></div>
+            <ul class="lag_list">
+                <li><a href="http://yhjt.fr.cfsite4.ahcfkj.com/mobile">Français</a></li>
+                <li><a href="http://yhjt.ita.cfsite4.ahcfkj.com/mobile">Italiano</a></li>
+                <li><a href="http://yhjt.pt.cfsite4.ahcfkj.com/mobile">Português</a></li>
+            </ul>
+        </div>
+        <div class="login_out_box fcc">
+            <div class="box fcc" onclick="location.href='/mobile/member/loginOut'">Login Out</div>
+        </div>
+
+    </div>
+</div>
+<div class="headerbg"></div>
+<div class="hserch">
+    <a href="" class="img" title="宇环集团">
+        <img src="__IMG__/logo2.png" alt="">
+    </a>
+    <i>close</i>
+    <form method="get" action="{:url('mobile/search/index')}"
+          onsubmit="if(this.keys.value == '' || this.keys.value == 'Search...'){alert('Keyword cannot be empty!'); this.keys.focus(); return false; }">
+        <div class="box f-cb">
+            <input type="text" name="keys" placeholder="Search..." class="inp inptet">
+            <input type="submit" value=" " class="sub">
+        </div>
+    </form>
+</div>

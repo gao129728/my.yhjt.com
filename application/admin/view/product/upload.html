@@ -1,0 +1,111 @@
+<link rel="stylesheet" type="text/css" href="__CSS__/upload.css">
+<script src="__JS__/jquery.min.js?v=2.1.4"></script>
+<div style="width:300px;">
+    <div id="video_upload_area">
+        <div class="video_notice">请勿上传色情、反动等违法文件</div>
+        <div class="video_textarea_upload" id="video_textarea_upload">
+             <div class="video_upload_words">
+                <a class="video_upload_btn" id="video_upload_btn">+</a>
+                <a class="video_name_box" id="video_name_box" href="javascript:void(0)">
+                    <img src="__IMG__/icon_video.png" style="width:13.5px;height: 9px"/>
+                    <em id="video_file_name"></em>
+                    <span class="photo_upload_close" onclick="reupload_video()" href="javascript:void(0);"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="layer_point">
+        <dl id="video_loading" class="point clearfix" style="display: none;padding: 0 0 60px">
+            <dt style="" id="loading_bar">
+                <span class="loading_bar"><em id="percent" style="width: 27%;"></em></span>
+                <span id="percentnum" class="S_txt2 load_num">27%</span>
+            </dt>
+            <dd>
+                <p id="updesc">文件上传中...</p>
+                <p class="S_txt2"><label id="uploading_tip">上传速度取决于您的网速，请耐心等待。</label><a href="javascript:void(0);" id="video_upload_cancel" onclick="video_upload_cancel()">取消上传</a>
+                </p>
+            </dd>
+        </dl>
+        <div id="video_success" style="display: none">
+            <dl class="point clearfix">
+                <dt>
+                    <span class="W_icon icon_succB"></span>
+                </dt>
+                <dd>
+                    <p id="upload_succ">文件上传成功</p>
+                </dd>
+            </dl>
+            <div class="upload_know">
+                <a class="btn" href="javascript:void(0);" onclick="fadeout_div('#video_box_outside')">我知道了</a>
+            </div>
+        </div>
+    </div>
+    <div class="upload_video_area" id="upload_video_area">
+        <a id="upload_video" class="btn disabled" href="javascript:void(0);">开始上传</a>
+    </div>
+    <div class="arrow_layer"><span class="arrow_top_area"><i class="arrow_top_bg"></i><em class="arrow_top"></em></span></div>
+</div>
+<script type="text/javascript" src="__JS__/plugins/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="__JS__/upload.js"></script>
+<script>
+    var data={
+        id:'{$id}',
+        page:'{$page}',
+    };
+
+    var uploader_video = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: ['video_upload_btn'],
+        url: "{:url('uploadannex')}",
+        flash_swf_url: '/static/admin/js/plugins/plupload/Moxie.swf',
+        silverlight_xap_url: '/static/admin/js/plugins/plupload/Moxie.xap',
+        multipart_params:data,
+        filters: {
+            max_file_size: '1gb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+            mime_types: [//允许文件上传类型
+                {title: "files", extensions: "mpg,m4v,mp4,flv,3gp,mov,avi,rmvb,mkv,wmv,zip,rar,xlsx,lsx,pdf,doc"}
+            ]
+        },
+        //       chunk_size: "5mb", //分片上传文件时，每片文件被切割成的大小，为数字时单位为字节。也可以使用一个带单位的字符串，如"200kb"。当该值为0时表示不使用分片上传功能
+        multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+        init: {
+            FilesAdded: function(up, files) { //文件上传前
+
+                $("#video_name_box").css({"display": "inline-block"});
+                $("#video_upload_btn").hide();
+                $("#video_file_name").text(files[0].name);
+                $("#upload_video").removeClass("disabled");
+
+                $("#upload_video").click(function() {
+                    uploader_video.start(); //调用实例对象的start()方法开始上传文件，当然你也可以在其他地方调用该方法
+                });
+                $("#video_iput").attr("file_id", files[0]['id']);
+                //                    console.log(files);
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                $("#video_loading").show();
+                $('#upload_video_area,#video_upload_area').hide();
+                var percent = file.percent;
+                $("#percent").css({"width": percent + "%"});
+                $("#percentnum").text(percent + "%");
+                $("#video_success").hide();
+
+            },
+            FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+                $("#video_loading").hide();
+                $("#video_success").show();
+                var data = eval("(" + info.response + ")");//解析返回的json数据
+                $("#video_iput").html("<input type='hidden'id='video_file' value='" + data.pic + "'/><input type='hidden'id='video_name' value='" + data.name + "'/>");
+            },
+            Error: function(up, err) { //上传出错的时候触发
+                alert(err.message);
+            }
+        }
+    });
+    uploader_video.init();
+    function fadeout_div(id) {
+        parent.location.reload(true);
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+</script>

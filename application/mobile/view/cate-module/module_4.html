@@ -1,0 +1,32 @@
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        <!--{include file="public/sub_menu" /}-->
+        <div class="box news-list">
+            <div class="big-tit">{$navCate.en_name}</div>
+            <ul>
+                {volist name="lists" id="vo"}
+                <li>
+                    <a href="{:getDetailUrl($vo.id,$vo.website)}" class="acea-row">
+                        <div class="pic-box">
+                            <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                        </div>
+                        <div class="cont-box">
+                            <div class="title line1">{$vo.title}</div>
+                            <div class="cont line2">
+                                {$vo.content}
+                            </div>
+                            <div class="time acea-row row-middle">
+                                <img src="__IMG__/time.png" alt="">{$vo.create_time|date="Y-m-d",###}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+            <div class="page-box">
+                {$lists->render()}
+            </div>
+        </div>
+    </div>
+</div>

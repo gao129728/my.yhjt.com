@@ -1,0 +1,239 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style.css" />
+<div class="wrapper wrapper-content animated fadeInRight" style="overflow-y:auto;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <!--<div class="ibox-title-goback">-->
+                        <!--<a href="{$backUrl}"><i class="fa fa-reply"></i> 返回</a>-->
+                    <!--</div>-->
+                    <h5>编辑内容</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <form class="form-horizontal m-t" name="edit" id="edit" method="post" action="edit_nature">
+                        <input type="hidden" name="id" value="{$article.id}">
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">所属分类：</label>
+                                    <div class="input-group col-sm-4">
+                                        <select class="form-control m-b chosen-select"  name="nature_id" id="nature_id">
+                                            <option {if $article.nature_id eq 0}selected{/if} value="0">==请选择==</option>
+                                            {volist name="cates" id="vo"}
+                                            <option {if $article.nature_id eq $vo.id}selected{/if} value="{$vo.id}" >{$vo.name}</option>
+                                            {/volist}
+                                        </select>
+
+                                        <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="如果已有子级分类，请选择最后一个子级别"><i class="fa fa-question-circle-o"></i></a></span>
+               
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">标题：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="name" type="text" class="form-control" name="name" value="{$article.name}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">序号：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="sortnum" type="text" class="form-control" name="sortnum"  value="{$article.sortnum}" placeholder="请输入序号" >
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">链接：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="url" type="text" class="form-control" name="url" value="{$article.url}">
+                                    </div>
+                                </div>
+                               
+                                
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">发布日期：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input type="text" class="form-control input_wd2" id="create_time" name="create_time" value="{$article.create_time|date='Y-m-d H:i:s',###}" readonly="readonly" style="background:url(__IMG__/WdatePicker.jpg) no-repeat 97% center">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">缩略图：</label>
+                                    <div class="input-group col-sm-4">
+                                        <div class="uploadImg-box">
+                                            <input type="file" name="pic" id="pic" class="imgFile" onchange="previewImage(this)"/>
+                                            <div class="up-img {if $article.pic neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                            {if $article.pic neq ''}
+                                            <input type="checkbox" name="delPic" class="input-del" value="1" />
+                                            <div class="imgView"><img src="__UPLOAD_PATH__/{$article.pic}"/></div>
+                                            {/if}
+                                            <div class="uploadCover">
+                                                <div class="ulinfo clearfix">
+                                                    <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                    <span class="up-del"><i class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                                    <div class="col-sm-6">
+                                        <div class="radio i-checks">
+                                            <input type="radio" name='status' value="1" {if condition="$article['status'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                            <input type="radio" name='status' value="0" {if condition="$article['status'] eq 0 "}checked{/if}/>关闭
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="{$backUrl}"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#gid').change(function(){
+            var aa=$(this).children('option:selected').val();  //弹出select的值
+            var html='<option value="0">顶级分类</option>';
+            if(aa==0){
+                layer.msg('请选择有效分类', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }else{
+                $.ajax({
+                    url:"{:url('vote/ajax')}",
+                    data:'gid='+aa,
+                    type:'post',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code>0){
+                            if(data.list.length>0){
+                                for(var i=0;i<data.list.length;i++){
+                                    html+='<option value="'+data.list[i].id+'">'+data.list[i].name+'</option>';
+                                }
+                                $('#fid').html(html);
+                            }else{
+                                $('#fid').html(html);
+                            }
+
+                        }
+                    }
+
+                });
+            }
+        });
+        $("#fid").change(function(){
+            var aa=$(this).children('option:selected').val();  //弹出select的值
+            if(aa==0){
+                $("#dai").attr('value',1);
+                $("#dai").val('1');
+                return true;
+            }else{
+                $.ajax({
+                    url:"{:url('vote/daishu')}",
+                    data:'id='+aa,
+                    type:'post',
+                    dataType:'json',
+                    success:function(data){
+                        if(data.code>0){
+                            $("#dai").attr('value',data.dai+1);
+                            $("#dai").val(data.dai+1);
+                            return true;
+
+                        }
+                    }
+
+                });
+            }
+
+
+
+        })
+    })
+
+
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#create_time'
+            ,type:'datetime'
+        });
+    });
+    $(function(){
+        $('#edit').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            if ($.trim($('#nature_id').val()) == '')
+            {
+                layer.msg('请选择所属分类', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if( '' == $.trim($('#name').val())){
+                layer.msg('标题不能为空', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+
+
+            if( '' == $.trim($('#create_time').val())){
+                layer.msg('发布日期不能为空', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.href="{$backUrl}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

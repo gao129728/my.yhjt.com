@@ -1,0 +1,41 @@
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        <ul class="tile-nav acea-row row-between-wrapper">
+            {volist name="sub_menu" id="vo"}
+            <li {if $vo.isCurrent eq 1}class="on"{else/}class=""{/if}><a href="{$vo.url}">{$vo.name}</a></li>
+            {/volist}
+        </ul>
+        <div class="box">
+            <div class="big-tit">{$navCate.en_name}</div>
+            <div class="news-details">
+                {if $cate.info_state == 6}
+                <div class="title">{$info.title}</div>
+                <div style="text-align: center">
+                    <img src="__UPLOAD_PATH__/{$info.photo}">
+                </div>
+                {else/}
+                <div class="title">{$info.title}</div>
+                <div class="date"> <span> Date: {$info.create_time|date="Y-m-d",###}</span> <span>Views: {$info.views}</span></div>
+                <div class="details-cont">
+                    {$info.content}
+                </div>
+                {/if}
+                <div class="FastMove acea-row row-around-wrapper">
+                    {if $page.prev_id eq 0}
+                    <a class="Prev">No more</a>
+                    {else /}
+<!--                    <a class="Prev" href="{$page.prev_url}">Prev: {$page.prev_title}</a>-->
+                    <a class="Prev" href="{$page.prev_url}">Prev</a>
+                    {/if}
+                    {if $page.next_id eq 0}
+                    <a class="Next">No more</a>
+                    {else/}
+<!--                    <a class="Next" href="{$page.next_url}">Next: {$page.next_title}</a>-->
+                    <a class="Next" href="{$page.next_url}">Next</a>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

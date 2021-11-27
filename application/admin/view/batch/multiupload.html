@@ -1,0 +1,95 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style.css" />
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-title-goback">
+                        <a href="{:url('batchupload')}"><i class="fa fa-reply"></i> 返回</a>
+                    </div>
+                    <h5>批量上传</h5>
+                </div>
+                <div class="ibox-content form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择栏目：</label>
+                        <div class="input-group col-sm-1 text-group">
+                            {$cate_name}
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题：</label>
+                        <div class="input-group col-sm-3 text-group">
+                            {if $title eq ''}原图片名称{else/}{$title}{/if}
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上传类别：</label>
+                        <div class="input-group col-sm-6 text-group">
+                            {if $upload_sort eq 1}缩略图{else/}内容{/if}
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">缩略图样式：</label>
+                        <div class="input-group col-sm-6">
+                            <div class="radio i-checks">
+                                {switch name="photo_style" }
+                                    {case value="0"}
+                                        {if $upload_sort eq 1}原始图片高宽{else/}无缩略图{/if}
+                                    {/case}
+                                    {case value="1"}固定宽和高，宽度：{$small_img_width}px &nbsp;&nbsp;&nbsp;&nbsp;高度：{$small_img_height}px{/case}
+                                    {case value="2"}固定宽度，宽度：{$small_img_width}px &nbsp;&nbsp;&nbsp;&nbsp;高度：自适应{/case}
+                                    {case value="3"}固定高度，宽度：自适应 &nbsp;&nbsp;&nbsp;&nbsp;高度：{$small_img_height}px{/case}
+                                    {case value="4"}左上裁剪，宽度：{$small_img_width}px &nbsp;&nbsp;&nbsp;&nbsp;高度：{$small_img_height}px{/case}
+                                    {case value="5"}居中裁剪，宽度：{$small_img_width}px &nbsp;&nbsp;&nbsp;&nbsp;高度：{$small_img_height}px{/case}
+                                    {default /}错误
+                                {/switch}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择图片：</label>
+                        <div class="col-sm-7 input-group">
+                            <div id="wrapper" class="multiu-wrap">
+                                <div id="container">
+                                    <div id="uploader">
+                                        <div class="queueList">
+                                            <div id="dndArea" class="placeholder">
+                                                <div id="filePicker"></div>
+                                                <p class="tips">或将照片拖到这里，单次最多可选100张</p>
+                                            </div>
+                                        </div>
+                                        <div class="statusBar" style="display:none;">
+                                            <div class="progress">
+                                                <span class="text">0%</span>
+                                                <span class="percentage"></span>
+                                            </div><div class="info"></div>
+                                            <div class="btns">
+                                                <div id="filePicker2"></div><div class="uploadBtn">开始上传</div><div class="delAll">清空</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript" src="/static/admin/webUploader/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/admin/webUploader/upload.js"></script>
+<script type="text/javascript">
+    //设置需要传递的参数
+    var upload_data_arr = new Array("{$cate_id}", "{$title}", "{$upload_sort}", "{$photo_style}", "{$small_img_width}", "{$small_img_height}");
+</script>
+</body>
+</html>

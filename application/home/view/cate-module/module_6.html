@@ -1,0 +1,23 @@
+<!--honor-->
+<div class="container w1200">
+    {include file="public/left_menu" /}
+    {include file="public/sub_menu" /}
+    <div class="cont-box">
+    </div>
+    <ul class="honor clearfix">
+        {volist name="lists" id="vo"}
+        <li class="fl">
+            <a href="{:getDetailUrl($vo.id,$vo.website)}" rel="lightbox" title=" ">
+                <div class="pic-box">
+                    <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                </div>
+                <div class="pic-title">{$vo.title}</div>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+    <div class="page-box">
+        {$lists->render()}
+    </div>
+</div>
+

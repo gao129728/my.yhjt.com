@@ -1,0 +1,132 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <!--<div class="ibox-title-goback">-->
+                        <!--<a href="javascript:history.back();"><i class="fa fa-reply"></i> 返回</a>-->
+                    <!--</div>-->
+                    <h5>添加分类</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <form class="form-horizontal" name="add_vcate" id="add_cate" method="post" action="{:url('add_vcate')}">
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="name" type="text" class="form-control" name="name" >
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">序号：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="sortnum" type="text" class="form-control input_wd1" name="sortnum" value="{$sortnum}">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">类别：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='style' value="1" checked="checked"/>单选&nbsp;&nbsp;
+                                    <input type="radio" name='style' value="2" />多选
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='status' value="1" checked="checked"/>开启&nbsp;&nbsp;
+                                    <input type="radio" name='status' value="0" />关闭
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $('input[name="cateStyle"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        var item = $('.cate-style .set-item-'+val);
+        if(val == 0){
+            $('.cate-style .set-item').hide();
+        }else{
+            item.show();
+            item.siblings().hide();
+        }
+        if(val == 4){
+            $('.info-style').hide();
+        }else {
+            $('.info-style').show();
+        }
+
+    });
+
+    $('input[name="infoStyle"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        var item = $('.info-style .set-item-'+val);
+        if(val == 0){
+            $('.info-style .set-item').hide();
+        }else{
+            item.show();
+            item.siblings().hide();
+        }
+    });
+
+    $(function(){
+        $('#add_cate').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm(){
+            if( '' == $.trim($('#name').val())){
+                layer.msg('请输入分类名称',{icon:2,time:1500,shade: 0.1}, function(index){
+                layer.close(index);
+                });
+                return false;
+            }
+
+
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('index')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+</script>
+</body>
+</html>

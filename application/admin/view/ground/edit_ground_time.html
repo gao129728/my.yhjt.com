@@ -1,0 +1,108 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<style>
+    .chosen-select{padding:6px 5px}
+</style>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>添加场地时间</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="edit_ground_time" id="edit_ground_time" method="post" action="{:url('edit_ground_time')}">
+                        <input type="hidden" name="id" value="{$cate.id}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">时间段：</label>
+                            <div class="input-group col-sm-4">
+                                <select class="form-control chosen-select" name="start_time_h" id='start_time_h' style="width:50px;">
+                                    {volist name="hour_arr" id="vo"}
+                                    <option value="{$vo}" {if $cate.start_time_h eq $vo}selected{/if}>{$vo}</option>
+                                    {/volist}
+                                </select>
+                                <span style="float: left; padding:0 5px; line-height: 34px;">:</span>
+                                <select class="form-control chosen-select" name="start_time_m" id='start_time_m' style="width:50px;">
+                                    {volist name="min_arr" id="vo"}
+                                    <option value="{$vo}" {if $cate.start_time_m eq $vo}selected{/if}>{$vo}</option>
+                                    {/volist}
+                                </select>
+                                <span style="float: left; padding:0 10px; line-height: 34px;">—</span>
+                                <select class="form-control chosen-select" name="end_time_h" id='end_time_h' style="width:50px;">
+                                    {volist name="hour_arr" id="vo"}
+                                    <option value="{$vo}" {if $cate.end_time_h eq $vo}selected{/if}>{$vo}</option>
+                                    {/volist}
+                                </select>
+                                <span style="float: left; padding:0 5px; line-height: 34px;">:</span>
+                                <select class="form-control chosen-select" name="end_time_m" id='end_time_m' style="width:50px;">
+                                    {volist name="min_arr" id="vo"}
+                                    <option value="{$vo}" {if $cate.end_time_m eq $vo}selected{/if}>{$vo}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='status' value="1" {if condition="$cate['status'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                    <input type="radio" name='status' value="0" {if condition="$cate['status'] eq 0 "}checked{/if}/>关闭
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+
+
+    $(function(){
+        $('#edit_ground_time').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm(){
+            return true;
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('ground/ground_time')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+</script>
+</body>
+</html>

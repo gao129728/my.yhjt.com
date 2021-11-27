@@ -1,0 +1,141 @@
+<div class="ind_banner_box">
+    <span id="scr">
+        <label>Start</label>
+        <b></b>
+        <b></b>
+        <b></b>
+    </span>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--视频banner&弹出视频-->
+            <div class="swiper-slide" data-swiper-autoplay="13000">
+                <div class="ind_video_case">
+                    <!--data-map4Src  放完整视频地址-->
+                    <div class="ind_ban_vid_box ban_video_src"
+                         data-map4Src="__UPLOAD_FILE__/{$vbanner.annex}">
+                        <video preload="auto" id="video1" loop muted playsinline="" x-webkit-airplay=""
+                               webkit-playsinline="" x5-video-player-type="h5"
+                               src="__UPLOAD_FILE__/{$popvideo.annex}"></video>
+                    </div>
+                    <div class="ind_video_box">
+                        <div class="can_video">
+                            <video loop muted playsinline="" x-webkit-airplay="" webkit-playsinline=""
+                                   x5-video-player-type="h5" src="__UPLOAD_FILE__/{$popvideo.annex}"></video>
+                        </div>
+                        <div class="can_video">
+                            <video loop muted playsinline="" x-webkit-airplay="" webkit-playsinline=""
+                                   x5-video-player-type="h5" src="__UPLOAD_FILE__/{$popvideo.annex}"></video>
+                        </div>
+                        <div class="can_video">
+                            <video loop muted playsinline="" x-webkit-airplay="" webkit-playsinline=""
+                                   x5-video-player-type="h5" src="__UPLOAD_FILE__/{$popvideo.annex}"></video>
+                        </div>
+                        <div class="can_video">
+                            <video loop muted playsinline="" x-webkit-airplay="" webkit-playsinline=""
+                                   x5-video-player-type="h5" src="__UPLOAD_FILE__/{$popvideo.annex}"></video>
+                        </div>
+                    </div>
+                    <div class="banner_sha">
+                        <img src="__IMG__/banner_sha.png" alt="">
+                        <div class="video_line"></div>
+                    </div>
+                    <div class="ind_ban_text_box">
+                        <div class="ban_title_en">
+                            <div class=" glow in tlt"></div>
+                        </div>
+                        <div class="ban_title">
+                            <div class=" glow in tlt">Compound Semiconductor</div>
+                        </div>
+                        <div class="ban_info">
+
+                            <div class=" glow in tlt">R&amp;D,manufacturing and service provider.</div>
+                        </div>
+                        <div class="ban_num_box" style="display:none;">
+                            <div class="ban_num scroll-animate" data-delay="1.5" data-effect="fadeInUpSmall">01
+                            </div>
+                            <div class="ban_num_info">
+
+                                <div class=" glow in tlt"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="circleProgress_wrapper ban_vid_btn">
+                        <div class="btn_vid_icon"><i class="newiconfont">&#xe6a5;</i></div>
+                    </div>
+                </div>
+            </div>
+            <!--banner-->
+            {volist name="banner" id="vo"}
+            <div class="swiper-slide">
+                <div class="ind_video_case">
+                    <div class="ind_ban_vid_box">
+                        <div class="ban_img"
+                             style="background-image: url(__UPLOAD_PATH__/{$vo.photo})"></div>
+                    </div>
+
+                    <div class="ind_video_box">
+
+                        <div class="can_video">
+                            <div class="ban_img"
+                                 style="background-image: url(__UPLOAD_PATH__/{$vo.photo})">
+                            </div>
+                        </div>
+                        <div class="can_video">
+                            <div class="ban_img"
+                                 style="background-image: url(__UPLOAD_PATH__/{$vo.photo})">
+                            </div>
+                        </div>
+                        <div class="can_video">
+                            <div class="ban_img"
+                                 style="background-image: url(__UPLOAD_PATH__/{$vo.photo})">
+                            </div>
+                        </div>
+                        <div class="can_video">
+                            <div class="ban_img"
+                                 style="background-image: url(__UPLOAD_PATH__/{$vo.photo})">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner_sha"><img src="__IMG__/banner_sha.png" alt=""></div>
+                    <div class="ind_ban_text_box">
+                        <div class="ban_title_en">
+                            <div class=" glow in tlt"></div>
+                        </div>
+
+                        <div class="ban_title">
+                            <div class=" glow in tlt">Compound Semiconductor</div>
+                        </div>
+                        <div class="ban_info">
+
+                            <div class=" glow in tlt">R&amp;D,manufacturing and service provider.</div>
+                        </div>
+                        <div class="ban_num_box" style="display: none">
+                            <div class="ban_num scroll-animate" data-delay="1.5" data-effect="fadeInUpSmall">02
+                            </div>
+                            <div class="ban_num_info">
+                                <div class=" glow in tlt"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination  scroll-animate" data-delay="1" data-effect="fadeInUpSmall"
+             style="display: none"></div>
+    </div>
+</div>
+<div class="ind_video_box ">
+    <div class="can_video">
+    </div>
+    <div class="can_video">
+    </div>
+    <div class="can_video">
+    </div>
+    <div class="can_video">
+    </div>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>

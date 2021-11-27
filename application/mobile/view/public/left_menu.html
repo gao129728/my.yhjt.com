@@ -1,0 +1,8 @@
+
+<div id="searchNav" class="searchNav">
+    <div class="swiper-wrapper">
+        {volist name='sub_menu' id='vo'}
+        <div class="swiper-slide {if $vo.isCurrent eq 1}active{/if}"><a href="{$vo.url}">{$vo.name}</a></div>
+        {/volist}
+    </div>
+</div>

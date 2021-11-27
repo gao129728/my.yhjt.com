@@ -1,0 +1,22 @@
+<!--honor-->
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        {include file="public/sub_menu" /}
+        <div class="box honor-box">
+            <div class="big-tit">{$navCate.en_name}</div>
+            <ul class="honor acea-row row-between-wrapper">
+                {volist name="lists" id="vo"}
+                <li>
+                    <a href="{:getDetailUrl($vo.id,$vo.website)}"  title=" ">
+                        <div class="pic-box">
+                            <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                        </div>
+                        <div class="pic-title">{$vo.title}</div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>

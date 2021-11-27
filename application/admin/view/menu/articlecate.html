@@ -1,0 +1,185 @@
+{include file="public/header" /}
+<style>
+
+    .legend{
+        background: #f0f0f0 none repeat scroll 0 0;
+        border-bottom: 0 none;
+        color: #444444;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 0 30px;
+        padding: 8px 15px;
+        width: auto;
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>文章栏目配置</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel-options">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">PC栏目设置</a></li>
+                            <li><a data-toggle="tab" href="#tab-2" aria-expanded="false">手机栏目设置</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <form action="{:url('save')}" method="post" class="form-horizontal" id="config">
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <legend class="legend">PC栏目基本设置</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">分类英文名称是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[en_name]' value="1" {if condition="$config['en_name'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[en_name]' value="0" {if condition="$config['en_name'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label">栏目目录是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[catedir]' value="1" {if condition="$config['catedir'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[catedir]' value="0" {if condition="$config['catedir'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">链接是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[website]' value="1" {if condition="$config['website'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[website]' value="0" {if condition="$config['website'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label">栏目banner是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[photo]' value="1" {if condition="$config['photo'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[photo]' value="0" {if condition="$config['photo'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">缩略图是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[pic]' value="1" {if condition="$config['pic'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[pic]' value="0" {if condition="$config['pic'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label">内容排版是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[info_state]' value="1" {if condition="$config['info_state'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[info_state]' value="0" {if condition="$config['info_state'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <legend class="legend">PC栏目高级设置</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">新窗口打开是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[target]' value="1" {if condition="$config['target'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[target]' value="0" {if condition="$config['target'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label">导航栏显示是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[nav]' value="1" {if condition="$config['nav'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[nav]' value="0" {if condition="$config['nav'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <legend class="legend">PC栏目其它设置</legend>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="color:#f00">其它栏目是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[other]' value="1" {if condition="$config['other'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[other]' value="0" {if condition="$config['other'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 若开启其它栏目功能，这个必须开启</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">多图管理是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[pic_list]' value="1" {if condition="$config['pic_list'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[pic_list]' value="0" {if condition="$config['pic_list'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <legend class="legend">手机栏目基本设置</legend>
+                                    <div class="form-group">
+
+                                        <label class="col-sm-2 control-label">手机栏目banner是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[wap_photo]' value="1" {if condition="$config['wap_photo'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[wap_photo]' value="0" {if condition="$config['wap_photo'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label">手机栏目链接是否开启：</label>
+                                        <div class=" col-sm-2">
+                                            <div class="radio i-checks" style="margin:0;">
+                                                <input type="radio" name='config[wap_website]' value="1" {if condition="$config['wap_website'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                                <input type="radio" name='config[wap_website]' value="0" {if condition="$config['wap_website'] eq 0 "}checked{/if}/>关闭
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2 button-group">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-danger" href="javascript:history.back();"><i class="fa fa-close"></i> 返回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#config').ajaxForm({
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

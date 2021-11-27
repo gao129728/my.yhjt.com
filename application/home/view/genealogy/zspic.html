@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head' /}
+<body>
+{include file='public/header' /}
+
+<div class="w1200 infos clearfix">
+	<div class=" zupu clearfix">
+		<div class="index_left zupu clearfix">
+			<div class="Title Border">
+				<div class="index_tit">族人清单 <!--<a href="">更多 ></a>--></div>
+				<div class="Content">
+					<div class="search">
+						<input type="text" name="" id="keys" value="{$keys}" placeholder="请输入关键词"/>
+						<a href="javascript:;" id="sev"><img src="__IMG__/image/search.png"/></a>
+					</div>
+					<script>
+						$("#sev").click(function(){
+							var keys=$('#keys').val();
+							if(keys==""){
+							    alert('请输入关键词');
+							    return false;
+							}
+							location.href='{:url("home/genealogy/zspic")}?gid={$gid}&keys='+keys;
+
+						});
+					</script>
+					<table>
+						<thead>
+						<tr>
+							<th>世代</th>
+							<th>全名</th>
+							<th>性别</th>
+							<th>本族</th>
+						</tr>
+						</thead>
+						<tbody>
+						{volist name='list' id='vo'}
+						<tr>
+							<td>第{$vo.dai}代</td>
+							<td>{if $vo.pic}<img style="max-width:24px" src="__UPLOAD_PATH__/{$vo.pic}"/>{else /}<img src="__IMG__/image/12.png"/> {/if}{$vo.name}</td>
+							<td>男</td>
+							<td>{if $id eq $vo.id}<a href="{:url('home/genealogy/index',['id'=>$vo.id,'gid'=>$gid])}"><img src="__IMG__/image/person.png"/></a>{else /}<a href="{$vo.url}"><img src="__IMG__/image/guanxi.png"/></a>{/if}</td>
+						</tr>
+						{/volist}
+						</tbody>
+					</table>
+					<div class="t_pages">
+						{$list->render()}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="index_right zupu_right">
+			<div class="News Border">
+				<div class="info_title">
+					族人档案
+					<!--<div class="location">
+						您现在的位置：<a href="">留言系统</a> &gt; <span>在线反馈</span>
+					</div>-->
+				</div>
+				<div class="Record infopad clearfix">
+					<div class="Show">
+						显示辈数：
+						<select name="level" id="level" onchange="changes();">
+							<option >请选择</option>
+
+							<option {if $level eq 1}selected{/if} value="1">1</option>
+							<option {if $level eq 2}selected{/if} value="2">2</option>
+							<option {if $level eq 3}selected{/if} value="3">3</option>
+							<option {if $level eq 4}selected{/if} value="4">4</option>
+							<option {if $level eq 5}selected{/if}  value="5">5</option>
+						</select>
+						<!--<a href="">刷新</a>-->
+						<a target="_block" href="{:url('iframe',['gid'=>$gid,'id'=>$id,'level'=>$level])}">单窗显示</a>
+					</div>
+					<script>
+						function changes(){
+							var level=$("#level").val();
+							if(level=='请选择'){
+							    alert('请选择');
+							    return false;
+							}
+
+							location.href='{:url("home/genealogy/zspic")}?gid={$gid}&id={$id}&level='+level;
+
+						}
+					</script>
+					<div class="zupulist">
+						<iframe src="{:url('iframe',['gid'=>$gid,'id'=>$id,'level'=>$level])}" width="" height=""></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="footer w1200">
+	<div class="a_lists">
+		<a href="">费氏首页</a> 丨
+		<a href="">费氏族谱</a> 丨
+		<a href="">关于费氏</a> 丨
+		<a href="">文献研究</a> 丨
+		<a href="">功德善举</a> 丨
+		<a href="">新闻公告</a> 丨
+		<a href="">留言系统</a> 丨
+		<a href="">先人憩园</a> 丨
+		<a href="">费氏资源</a>
+	</div>
+	<p>&copy; 2018 费氏家谱 版权所有 皖ICP备000000号</p>
+</div>
+</body>
+</html>

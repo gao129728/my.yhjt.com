@@ -1,0 +1,9 @@
+<div class="left-nav fl">
+    <div class="tit">Member Center</div>
+    <ul>
+        <li {if $menucur eq 1}class="active"{/if}><a href="{:url('home/member/myorder')}">My order</a></li>
+        <li {if $menucur eq 2}class="active"{/if}><a href="{:url('home/member/shopping')}">Shopping cart</a></li>
+        <li {if $menucur eq 3}class="active"{/if}><a href="{:url('home/member/collection')}">My collection</a></li>
+        <li {if $menucur eq 4}class="active"{/if}><a href="{:url('home/member/address')}">My address</a></li>
+    </ul>
+</div>

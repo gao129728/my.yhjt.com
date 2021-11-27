@@ -1,0 +1,5 @@
+<ul class="tile-nav acea-row row-between-wrapper">
+    {volist name="sub_menu" id="vo"}
+    <li {if $vo.isCurrent eq 1}class="on"{else/}class=""{/if}><a href="{$vo.url}">{$vo.name}</a></li>
+    {/volist}
+</ul>

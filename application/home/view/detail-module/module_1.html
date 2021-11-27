@@ -1,0 +1,207 @@
+<!--product detail-->
+<div class="container w1200">
+    {include file="public/left_menu" /}
+    <div class="con_title"> <b>{$navCate.en_name}</b> </div>
+    <div class="product clearfix">
+        <div class="side_pro row clearfix">
+            <ul>
+                {volist name="sub_menu" id="vo"}
+                <li class="dir156 yiji {if $vo.isCurrent eq 1}cur{/if}"><a href="{$vo.url}">{$vo.name}</a>
+                    <span class="spams">{if $subCur eq $vo.id}-{else/}+{/if}</span>
+                    <ul class="xiala">
+                        {volist name="vo.child" id="td"}
+                        <a href="{:getCateUrl($td.id,'')}" class="drt165">{$td.name}</a>
+                        {/volist}
+                    </ul>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="con pro_cont">
+            <ul class="clearfix">
+                <li class="pro_l">
+                    <img src="__UPLOAD_PATH__/{$info.photo}">
+                </li>
+                <li class="pro_r">
+                    <div class="pror_title">
+                        <b>{$info.title}</b>
+                        <a href="javascript:history.go(-1)">Back</a>
+                    </div>
+                    <div class="pror_b">
+                        {$info.intro}
+                        <div class="quantity"><b>Quantity:</b>
+                            <div class="input-box">
+                                <button id="reduce" onclick="change_num({$info.id}, 0);">-</button>
+                                <input type="text" value="1" id="number" onblur="change_num({$info.id}, 2);">
+                                <button id="add" onclick="change_num({$info.id}, 1)">+</button>
+                            </div>
+                            <div style="display: none" id="goods_price">{$info.price}</div>
+                            <b>Price:</b><span id="goods_total_price">${if $info.price}{$info.price}{else/}0.00{/if}</span>
+                        </div>
+                    </div>
+                    <div class="inquiry_link" id="to_top">
+                        <div class="btn add"><span class="iconfont icon-gouwuche"></span>
+                            <a style="color: #fff" href="javascript:add_to_cart({$info.id})">Add to cart</a>
+                        </div>
+                        <div class="btn"><span class="iconfont icon-piliangxiadan"></span>
+                            <a style="color: #255583" href="javascript:buy_now({$info.id})">Buy now</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="share-box">
+                <div><span class="iconfont icon-fenxiang"></span>share</div>
+                <div class="collection" onclick="collect({$info.id})"><span class="iconfont {if $info.is_collect eq 1}icon-shoucang1{else /}icon-shoucang{/if}"></span>Collection</div>
+            </div>
+            <div class="pro_show">
+                <div class="pro_show_t clearfix">
+                    <span class="on">Product details</span>
+                    <span>Product consulting</span>
+                </div>
+                <div class="procontent">
+                    <ul>
+                        {$info.content}
+                        {volist name="info.piclist" id="vo"}
+                        <p>
+                            <img src="__UPLOAD_PATH__/{$vo.pic}" alt="">
+                        </p>
+                        {/volist}
+                    </ul>
+                    <ul class="content">
+                        <script type="text/javascript">
+                            $(function () {
+                                //初始化form表单
+                                AjaxInitForm('#order_form', '#btnSubmit', 1);
+                            });
+                        </script>
+                        <form action="/home/form/consult" method="post" id="consult">
+                            <input type="hidden" id="product" name="product" value="{$info.title}">
+                            <input type="hidden" name="isMessage" name="isMessage" value="0">
+                            <p>
+                                <span>Name: </span>
+                                </span><input type="text" id="name" name="name"> <b>*</b>
+                            </p>
+                            <p><span>E-Mail: </span><input type="text" id="email" name="email"> <b>*</b></p>
+                            <p><span>Subject: </span><input type="text" id="topic" name="topic"> <b>*</b></p>
+                            <!--<p><span>Fax: </span><input type="text" id="fax" name="fax"> <b>*</b></p>-->
+                            <p><span>Message: </span>
+                                <textarea id="content" name="content" cols="30" rows="10"></textarea>
+                                <strong>Enter between 1 to 3000 characters.</strong>
+                            </p>
+                    <!--        <p><span>Verification code: </span><input type="text" name="code" id="code">-->
+                    <!-- <img id="captcha" src="./captcha.html" onclick="this.src='./captcha.html?id='+Math.random()+''" alt="captcha">-->
+                    <!--            <img src="/home/form/code_img.html" class="codeImg" onclick="this.src='/home/form/code_img.html?time='+Math.random();" alt=""/>-->
+                    <!--        </p>-->
+                            <input type="submit" name="Submit" value="Inquire" class="insubmit">
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+<!--    收藏-->
+    function collect(id){
+        if(isNaN(id)){
+            layer.msg("参数错误", {icon: 5,time:2000,shade: 0.5}, function(index){
+                layer.close(index);
+            });
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url:"/home/member/addcollection",
+            data:"id=" + id,
+            dataType:"json",
+            success:function(result){
+                if(result && result.code==1){
+                    layer.msg(result.msg, {icon: 6,time:1000,shade: 0.5}, function(index){
+                        layer.close(index);
+                    });
+                    // window.location = "/home/member/shopping";
+                } else {
+                    layer.msg(result.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                        layer.close(index);
+                    });
+                }
+            }
+        });
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        $('#consult').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+
+        }
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+
+<script>
+    $(function () {
+        $('.side_pro li span').each(function () {
+            var $html = $.trim($(this).parent(".yiji").find('.xiala').text());
+            if ($html == '') {
+                $(this).hide();
+            }
+        })
+        $(".side_pro li span").click(function () {
+            console.log($(this));
+            var _this = $(this).parent(".yiji").find('.xiala');
+            var _siblings = $(this).parent(".yiji").siblings('li').find('.xiala');
+            var $html = $.trim($(this).parent(".yiji").find('.xiala').text());
+
+            if ($html !== '') {
+                if ($(this).parent(".yiji").find('.xiala').is(':hidden')) {
+                    $(".yiji").find('.spams').text('+');
+                    $(this).parent(".yiji").find('.spams').text('-');
+                } else {
+                    $(this).parent(".yiji").find('.spams').text('+');
+                }
+                _this.slideToggle(500);
+                _siblings.slideUp(500);
+            }
+        });
+    });
+
+    $(function () {
+        $('.procontent ul').eq(0).show();
+        $('.pro_show_t span').click(function () {
+            var index = $(this).index();
+            $(this).addClass('on').siblings().removeClass('on');
+            $('.procontent ul').eq(index).show().siblings().hide();
+        })
+    })
+
+   $('.collection').click(function () {
+        if ($(this).find('span').hasClass('icon-shoucang')) {
+            $(this).find('span').removeClass('icon-shoucang').addClass('icon-shoucang1')
+        } else {
+            $(this).find('span').removeClass('icon-shoucang1').addClass('icon-shoucang')
+        }
+    })
+</script>

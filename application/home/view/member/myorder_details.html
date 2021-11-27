@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body ng-app="myapp" ng-controller="myCtrl">
+<script src="__JS__/angular.min.js"></script>
+<script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>
+{include file="member/header" /}
+<div class="big-box ">
+  <div class="w1200 clearfix">
+    {include file="member/left" /}
+    <div class="right-box fr">
+      <div class="tit">Order details</div>
+      <div class="order_details">
+        <a href="javascript:history.go(-1)">Back</a>
+      </div>
+      <table>
+        <thead>
+        <th>Order number</th>
+        <th>Price</th>
+        <th>State</th>
+        <th>Creation date</th>
+        <th>Address</th>
+        <th>Quantity</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{$info.order_num}</td>
+            <td>${$info.total}</td>
+            <td>
+              {if $info.status == 1}
+              Completed
+              {else/}
+              Uncompleted
+              {/if}
+            </td>
+            <td>{$info.create_time|date="Y-m-d",###}</td>
+            <td>{$info.address_detail.address}</td>
+            <td>{$info.count|count}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!--<div class="con pro_cont">
+        <ul class="clearfix">
+          <li class="pro_l">
+            <img src="./static/images/product.jpg">
+          </li>
+          <li class="pro_r">
+            <div class="pror_title">
+              <b>Waterproof Dry Bag</b>
+              <a href="javascript:history.go(-1)">Back</a>
+            </div>
+            <div class="order-details">
+              <p><span>Order number：</span> {$info.order_num}</p>
+              <p><span>Price： </span> ${$info.total}</p>
+              <p><span>State： </span>{$info.status}</p>
+              <p><span>Creation date： </span>{$info.create_time|date="Y-m-d",###}</p>
+              <p><span>Address： </span>{$info.address_detail.address}</p>
+              <p><span>Quantity：</span>{$info.count|count}</p>
+            </div>
+          </li>
+        </ul>
+      </div>-->
+    </div>
+  </div>
+</div>
+{include file="public/footer" /}
+<script>
+
+</script>
+</body>
+
+
+</html>

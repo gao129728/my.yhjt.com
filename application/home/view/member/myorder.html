@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body ng-app="myapp" ng-controller="myCtrl">
+<script src="__JS__/angular.min.js"></script>
+<script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>
+{include file="member/header" /}
+<div class="big-box ">
+    <div class="w1200 clearfix">
+        {include file="member/left" /}
+        <div class="right-box fr">
+            <div class="tit">My order</div>
+            <div class="search-order">
+                <span>Order status:</span>
+                <select name="status" id="status" onchange="doSubmit()">
+                    <option  value="0">All</option>
+                    <option {if $status eq 1}selected{/if} value="1">Completed</option>
+                    <option {if $status eq 2}selected{/if} value="2">Uncompleted</option>
+                </select>
+            </div>
+            <table class="order" ng-show="show">
+                <thead>
+                <th>Order number</th>
+                <th>Trade name</th>
+                <th>Price</th>
+                <th>State</th>
+                <th>Creation date</th>
+                <th>Operation</th>
+                </thead>
+                <tbody>
+                <!--ng-repeat渲染数据到界面-->
+                {volist name='list' id='item'}
+                <tr>
+                    <td>{$item.order_num}</td>
+                    <td>
+                        {volist name="$item.pinfo" id="vos"}
+                        <div class="pro">
+                            <div class="name">{$vos.title}</div>
+                            <div>x{$vos.cart_num}</div>
+                        </div>
+                        {/volist}
+                    </td>
+                    <td>${$item.total}</td>
+                    <td>
+                        {if $item.status == 1}
+                        Completed
+                        {else/}
+                        Uncompleted
+                        {/if}
+                    </td>
+                    <td>{$item.create_time|date="Y-m-d",###}</td>
+                    <td>
+                        {if $item.status ==0}
+                        <button class="delete" onclick="del_order({$item.id});">Delete</button>
+                        {else/}
+                        <button class="delete" style="color: #c3c7c5">Delete</button>
+                        {/if}
+                        <span>|</span>
+                        <a href="{:url('/home/member/myorder_details',['id'=>$item.id])}"><button >View</button></a>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+            <div class="page-box">
+                {$list->render()}
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+
+<script>
+    function doSubmit(){
+        var status=$('#status').val();
+        location.href='?status='+status;
+
+    };
+
+    function del_order(id) {
+        layer.confirm('Delete this order?', {icon: 3, title:'Caution',btn : [ 'OK', 'Cancel' ]}, function(index){
+            $.getJSON('{:url("/home/member/del_orders")}', {'id': id}, function (res) {
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    }
+
+</script>
+
+</body>
+
+
+</html>

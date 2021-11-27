@@ -1,0 +1,51 @@
+{if $module.titleStyle eq 3/}
+    {volist name="module['cate_article_list']" id="tab_cate_name"}
+    <div class="question-list-panel">
+        <div class="bd">
+            <ul>
+                {volist name="tab_cate_name['art_list']" id="question"}
+                <li class="clearfix {if $module.moduleParam[3] eq 0 and $i == $module.moduleParam[0]}noMg{/if}">
+                    <div class="tit">
+                        <span>问</span>
+                        <h4><a href="{$question.url}" title="{$question.title}" target="_blank">{$question.title|leftstr=$module.moduleParam[1]}</a></h4>
+                    </div>
+                    <div class="answer">
+                        <span>答</span>
+                        <div class="i">{$question.content|leftstr_html=$module.moduleParam[2]}</div>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    {/volist}
+{else/}
+<div class="question-list-panel">
+    <div class="bd">
+        <ul>
+            {volist name="module['art_list']" id="question"}
+            <li class="clearfix {if $module.moduleParam[3] eq 0 and $i == $module.moduleParam[0]}noMg{/if}">
+                <div class="tit">
+                    <span>问</span>
+                    <h4><a href="{$question.url}" title="{$question.title}" target="_blank">{$question.title|leftstr=$module.moduleParam[1]}</a></h4>
+                </div>
+                <div class="answer">
+                    <span>答</span>
+                    <div class="i">{$question.content|leftstr_html=$module.moduleParam[2]}</div>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+{/if}
+<script type="text/javascript">
+    {if $module.moduleParam[3]}
+    $("#index-module-{$sl}{$ml} .question-list-panel .bd").height($("#index-module-{$sl}{$ml} .question-list-panel li").outerHeight(true)*{$module.moduleParam[5]}-20);
+    {if $module.moduleParam[4] eq 0}
+    $("#index-module-{$sl}{$ml} .question-list-panel .bd").slide({mainCell:"ul", autoPlay:true, autoPage:true, effect:"topLoop", vis:{$module['moduleParam'][5]}, trigger:"click"});
+    {else/}
+    $("#index-module-{$sl}{$ml} .question-list-panel .bd").slide({mainCell:"ul", autoPlay:true, effect:"topMarquee", vis:{$module['moduleParam'][5]}, trigger:"click", interTime:30});
+    {/if}
+    {/if}
+</script>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head' /}
+<body>
+{include file='public/header' /}
+
+<div class="w1200 infos clearfix">
+	<div class="index_left zupu">
+		<div class="Title Border">
+			<div class="index_tit">族人清单 <!--<a href="">更多 ></a>--></div>
+			<div class="Content">
+				<div class="search">
+					<input type="text" name="" id="keys" value="{$keys}" placeholder="请输入关键词"/>
+					<a href="javascript:;" id="sev"><img src="__IMG__/image/search.png"/></a>
+				</div>
+				<script>
+                    $("#sev").click(function(){
+                        var keys=$('#keys').val();
+                        if(keys==""){
+                            alert('请输入关键词');
+                            return false;
+                        }
+                        location.href='{:url("home/genealogy/zspic")}?gid={$gid}&keys='+keys;
+
+                    });
+				</script>
+				<table>
+					<thead>
+						<tr>
+							<th>世代</th>
+							<th>全名</th>
+							<th>性别</th>
+							<th>本族</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name='list' id='vo'}
+						<tr>
+							<td>第{$vo.dai}代</td>
+							<td>{if $vo.pic}<img style="max-width:24px" src="__UPLOAD_PATH__/{$vo.pic}"/>{else /}<img src="__IMG__/image/12.png"/> {/if}{$vo.name}</td>
+							<td>男</td>
+							<td>{if $id eq $vo.id}<a href="{:url('home/genealogy/zspic',['id'=>$vo.id,'gid'=>$gid])}"><img src="__IMG__/image/guanxi.png"/></a>{else /}<a href="{$vo.url}"><img src="__IMG__/image/person.png"/></a> {/if}</td>
+						</tr>
+						{/volist}
+					</tbody>
+				</table>
+				<div class="t_pages">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="index_right zupu_right1">
+		<div class="News Border">
+			<div class="info_title">
+				族人档案 
+				<!--<div class="location">
+					您现在的位置：<a href="">留言系统</a> &gt; <span>在线反馈</span>
+				</div>-->
+			</div>
+			<div class="Recordinfo infopad clearfix">
+				<h2>保密程度：<span>{if $info.is_lock eq 1}完全公开{else /}保密{/if}</span></h2>
+				<table>
+					<tr>
+						<td class="tt">族人代码</td>
+						<td colspan="3">{$info.g_no}</td>
+						<td class="tt">个人照片</td>
+					</tr>
+					<tr>
+						<td class="tt">族人全名</td>
+						<td>{$info.name}</td>
+						<td class="tt">世代</td>
+						<td>第{$info.dai}代</td>
+						<td rowspan="5">{if $info.pic}<img src="__UPLOAD_PATH__/{$info.pic}"/>{else/}<img src="__IMG__/image/test.jpg"/>{/if}</td>
+					</tr>
+					<tr>
+						<td class="tt">曾用名</td>
+						<td>{$info.c_name}</td>
+						<td class="tt">字辈</td>
+						<td>{$info.zibei}</td>
+					</tr>
+					<tr>
+						<td class="tt">字号称谓</td>
+						<td>{$info.zihao}</td>
+						<td class="tt">排行</td>
+						<td>{$info.senior}</td>
+					</tr>
+					<tr>
+						<td class="tt">性别</td>
+						<td>
+							{switch name='info.sex'}
+								{case value='0'}
+								未知
+								{/case}
+								{case value='1'}
+								男
+								{/case}
+								{case value='2'}
+								女
+								{/case}
+							{/switch}
+
+						</td>
+						<td class="tt">本姓族人</td>
+						<td>{if $info.is_zr eq 1}√{else /}x{/if}</td>
+					</tr>
+					<tr>
+						<td class="tt">出生日期</td>
+						<td>{if $info.birth}{$info.birth|date='Y-m-d',###}{/if}</td>
+						<td class="tt">农历日期</td>
+						<td>{if $info.nl_time}{$info.nl_time|date='Y-m-d',###}{/if}</td>
+					</tr>
+					<tr>
+						<td class="tt">父亲</td>
+						<td>{if $info.fname}{$info.fname}{/if}</td>
+						<td class="tt">母亲</td>
+						<td colspan="2">{if $info.mname}{$info.mname}{/if}</td>
+					</tr>
+					<tr>
+						<td class="tt">身份证号</td>
+						<td>{$info.idcard}</td>
+						<td class="tt">出生地点</td>
+						<td colspan="2">{$info.birth_address}</td>
+					</tr>
+					<tr>
+						<td class="tt">个人简历</td>
+						<td colspan="4">{$info.content}</td>
+					</tr>
+				</table>
+				<ul class="zupu_mess">
+					<li>生态状态    <span>{if $info.is_live eq 1}存活{else /}离世{/if}</span></li>
+					<li>墓园地址    <span>{$info.fm_address}</span></li>
+					<li>离世日期    <span>{if $info.death}{$info.death|date='Y-m-d',###} {/if}</span></li>
+				</ul>
+				<div class="relation">
+					<h3>族人关系</h3>
+					<ul>
+						{if $gx.fname }
+						<li>· 父亲-{$gx.fname} <a href="{$gx.fname_url}"><img src="__IMG__/image/search.png"/></a></li>
+						{/if}
+						{if $gx.mname }
+						<li>· 母亲-{$gx.mname} <a href="{$gx.mname_url}"><img src="__IMG__/image/search.png"/></a></li>
+						{/if}
+						{if $gx.zn}
+						{volist name='$gx.zn' id='vo'}
+						<li>· 子女-{$vo.g_no}-{$vo.name} <a href="{$vo.url}"><img src="__IMG__/image/search.png"/></a></li>
+						{/volist}
+						{/if}
+
+					</ul>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+
+
+{include file='public/footer' /}
+</body>
+</html>

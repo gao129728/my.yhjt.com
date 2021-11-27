@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+<body style="background-color:#EEEEEE;">
+{include file="public/header" /}
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        {include file="member/left" /}
+
+        <div class="acea-row row-middle">
+            <div style="padding-right:10px">Order status: </div>
+            <select name="status" id="status" onchange="doSubmit()">
+                <option value="0">All</option>
+                <option {if $status eq 1}selected{/if} value="1">Completed</option>
+                <option {if $status eq 2}selected{/if} value="2">Uncompleted</option>
+            </select>
+        </div>
+    </div>
+    <ul class="order-list">
+        {volist name='list' id='item' empty="$empty_order"}
+        <li class="acea-row">
+            <div class="top acea-row row-between-wrapper">
+                <div class="number"> <span>Order number：</span> {$item.order_num} </div>
+                <div class="status">
+                    {if $item.status == 1}
+                    Completed
+                    {else/}
+                    Uncompleted
+                    {/if}
+                </div>
+            </div>
+            {volist name="$item.pinfo" id="vos"}
+            <div class="center-box acea-row" onclick="location.href = '/mobile/category/detail/id/{$vos.id}'">
+                <div class="pic-box">
+                    <img src="__UPLOAD_PATH__/{$vos.photo}" alt="">
+                </div>
+                <div class="cont-box">
+                    <div class="tit-line acea-row row-between-wrapper">
+                        <div class="name">{$vos.title}</div>
+                        <div class="price">${$vos.cart_num*$vos.price} </div>
+                    </div>
+                    <div class="num">x{$vos.cart_num}</div>
+                </div>
+            </div>
+            {/volist}
+            <div class="time-line acea-row row-right">
+                <div class="time">Order Time：{$item.create_time|date="Y-m-d",###}</div>
+                <div class="total-price">${$item.total}</div>
+            </div>
+            <div class="btn-box acea-row row-right">
+                <div class="inp-btn delete"><a onclick="del_order({$item.id});">Delete</a> </div>
+                <div class="inp-btn"><a href="{:url('/mobile/member/myorder_details',['id'=>$item.id])}">View</a> </div>
+            </div>
+        </li>
+        {/volist}
+    </ul>
+    <div class="order-page">
+        <div class="page-box">
+            {$list->render()}
+        </div>
+    </div>
+    <div class="footer">
+        {include file="public/footer" /}
+    </div>
+</div>
+<input type="hidden" id="type" value="{$type}">
+
+<script>
+    function doSubmit(){
+        var status=$('#status').val();
+        location.href='?status='+status;
+
+    };
+
+    function del_order(id) {
+        layer.confirm('Delete this order?', {icon: 3, title:'Caution',btn : [ 'OK', 'Cancel' ]}, function(index){
+            $.getJSON('{:url("/mobile/member/del_orders")}', {'id': id}, function (res) {
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    }
+
+</script>
+<script>
+    function doSubmit(){
+        var status=$('#status').val();
+        location.href='?status='+status;
+
+    };
+
+    function del_order(id) {
+        layer.confirm('Delete this order?', {icon: 3, title:'Caution',btn : [ 'OK', 'Cancel' ]}, function(index){
+            $.getJSON('{:url("/mobile/member/del_orders")}', {'id': id}, function (res) {
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    }
+
+</script>
+
+</body>
+
+</html>

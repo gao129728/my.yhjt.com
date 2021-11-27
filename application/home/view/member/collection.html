@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+
+<body ng-app="myapp" ng-controller="myCtrl">
+
+{include file="member/header" /}
+
+<div class="big-box ">
+  <div class="w1200 clearfix">
+    {include file="member/left" /}
+    <div class="right-box fr">
+      <div class="tit">My collection</div>
+      <table class="collection">
+        <thead>
+        <th>Trade name</th>
+        <th>Price</th>
+        <th>operation</th>
+        </thead>
+        {if $collectionlist !==''}
+        <tbody>
+        {volist name="collectionlist" id="vo"}
+        <tr>
+          <td>
+            <a href="{:getDetailUrl($vo.info.id,$vo.info.website)}">
+              <img src="__UPLOAD_PATH__/{$vo.info.photo}" alt=""><span> {$vo.info.title}</span>
+            </a>
+          </td>
+          <td>${$vo.info.price}</td>
+          <td>
+            <button onclick="delete_collect({$vo.info.id})" class="delete">Delete</button>
+          </td>
+        </tr>
+        {/volist}
+        </tbody>
+        {else /}
+        <tbody>
+        <tr>
+          <td></td>
+          <td>Collection is empty,<br>
+            <a style="text-decoration-line: underline;color: #c3c7c5" href="{:getCateUrl(80,'')}">View products!</a>
+          </td>
+          <td></td>
+        </tr>
+        </tbody>
+        {/if}
+      </table>
+      <div class="page-box">
+        {$collectionlist->render()}
+      </div>
+    </div>
+  </div>
+</div>
+{include file="public/footer" /}
+
+<script>
+  function delete_collect(id) {
+    layer.confirm('Delete this collection?', {icon: 3, title:'Caution',btn : [ 'OK', 'Cancel' ]}, function(index){
+      $.getJSON('{:url("/home/member/del_collect")}', {'id': id}, function (res) {
+        if (res.code == 1) {
+          layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+            location.reload();
+          });
+        } else {
+          layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+        }
+      });
+      layer.close(index);
+    })
+  }
+</script>
+
+
+</body>
+
+
+</html>

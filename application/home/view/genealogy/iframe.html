@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>子孙图</title>
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/jquery.orgchart.css">
+<link rel="stylesheet" href="__CSS__/style1.css">
+<link rel="stylesheet" href="__CSS__/style2.css">
+</head>
+<body>
+<div class="zupu_tit">
+	<div class="border">
+		{$info.name}【子孙图】
+	</div>
+</div>
+<div id="chart-container"></div>
+<script type="text/javascript" src="__JS__/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.orgchart.js"></script>
+<script>
+
+
+        $.ajax({
+            type:'post',
+			data:'ids={$id}&level={$level}&gid={$gid}',
+            url:'{:url("home/genealogy/zspic")}',
+            dataType:'json',
+            success:function(data){
+
+                var datas = JSON.parse(data);
+
+                $('#chart-container').orgchart({
+                    'nodeTitle': 'dai',
+                    'data' : datas,
+                    'depth': 5,
+                    'nodeContent': 'title'
+                });
+
+
+            }
+
+
+        });
+
+
+
+</script>
+
+<script type="text/javascript"  src="https://idm-su.baidu.com/su.js"></script>
+</body>
+</html>

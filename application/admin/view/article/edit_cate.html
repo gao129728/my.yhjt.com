@@ -1,0 +1,478 @@
+{include file="public/header" /}
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style.css" />
+<style>
+    .multi-img li {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        height: auto;
+        margin-bottom: 10px;
+        overflow: hidden;
+        padding: 7px 10px 10px;
+        position: relative;
+        transition: none 0s ease 0s ;
+        width: 100%;
+        float:left;
+    }
+    .multi-img .handle {
+        color: #999;
+        margin-bottom: 7px;
+    }
+    .multi-img .upload-list .img {
+        border-radius: 5px;
+        height: 78px;
+        position: relative;
+        vertical-align: middle;
+        width: 120px;
+        z-index: 1;
+    }
+    .multi-img .upload-list .control-label {
+        font-weight: 100;
+        padding: 7px 0 0;
+    }
+    .multi-img .status-label, .multi-img .status-move {
+        display: block;
+    }
+    .multi-img .status-label, .multi-img .status-move {
+        background: #13ce66 none repeat scroll 0 0;
+        box-shadow: 0 1px 1px #ccc;
+        height: 26px;
+        position: absolute;
+        right: -17px;
+        text-align: center;
+        top: -7px;
+        transform: rotate(45deg);
+        width: 46px;
+    }
+    .multi-img .status-move {
+        background: #666 none repeat scroll 0 0;
+        cursor: pointer;
+        display: none;
+    }
+    .multi-img .status-label i, .multi-img .status-move i {
+        color: #fff;
+        font-size: 14px;
+        font-weight: normal;
+        margin-top: 9px;
+        transform: rotate(-45deg) scale(0.8);
+    }
+    .multi-img li:hover .status-move {
+        display: block;
+    }
+    .multi-img li:hover .status-label {
+        display: none;
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑分类</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel-options">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">基本设置</a></li>
+                            <li><a data-toggle="tab" href="#tab-2" aria-expanded="false">高级设置</a></li>
+                            {if $cate_config.other eq 1}<li><a data-toggle="tab" href="#tab-3" aria-expanded="false">栏目其它设置</a></li>{/if}
+                            {if  $cate_config.wap_photo eq 1 || $cate_config.web_website eq 1}<li><a data-toggle="tab" href="#tab-4" aria-expanded="false">手机栏目设置</a></li>{/if}
+                        </ul>
+                    </div>
+                    <form class="form-horizontal" name="edit_cate" id="edit_cate" method="post" action="{:url('edit_cate')}">
+                        <input type="hidden" name="id" value="{$cate.id}">
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">父级所属父级：</label>
+                                    <div class="input-group col-sm-4">
+                                        <select name="parent_id" class="form-control">
+                                            <option value="0" {if $cate.parent_id eq 0}selected{/if}>-- 默认顶级 --</option>
+                                            {foreach name="cate_tree" item="v"}
+                                            {if $v.lvl lt $Think.config.max_cate_class}
+                                            <option value="{$v.id}" {if $cate.parent_id eq $v.id}selected{/if} style="margin-left:55px;">{$v.lefthtml}{$v.name}</option>
+                                            {/if}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="name" type="text" class="form-control" name="name" value="{$cate.name}">
+                                    </div>
+                                </div>
+                                {if $cate_config.en_name eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类英文名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="en_name" type="text" class="form-control" name="en_name" value="{$cate.en_name}">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>&nbsp;若无,请忽视</span>
+                                    </div>
+                                </div>
+                                {/if}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">排&nbsp;&nbsp;序：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="orderby" type="text" class="form-control" name="orderby" value="{$cate.orderby}">
+                                    </div>
+                                </div>
+                                {if $cate_config.catedir eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">栏目目录：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="catedir" type="text" class="form-control" name="catedir" value="{$cate.catedir}" >
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>&nbsp;若无,请忽视</span>
+                                    </div>
+                                </div>
+                                {/if}
+                                {if $cate_config.website eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">链接：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="url" type="text" class="form-control" name="website" value="{$cate.website}">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>&nbsp;若无,请忽视</span>
+                                    </div>
+                                </div>
+                                {/if}
+                                {if $cate_config.photo eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">栏目Banner：</label>
+                                    <div class="input-group col-sm-4">
+                                        <div class="uploadImg-box">
+                                            <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                            <div class="up-img {if $cate.photo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                            {if $cate.photo neq ''}
+                                            <input type="checkbox" name="delPhoto" class="input-del" value="1" />
+                                            <div class="imgView"><img src="__UPLOAD_PATH__/{$cate.photo}"/></div>
+                                            {/if}
+                                            <div class="uploadCover">
+                                                <div class="ulinfo clearfix">
+                                                    <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                    <span class="up-del"><i class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/if}
+
+                                {if $cate_config.pic eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">缩略图：</label>
+                                    <div class="input-group col-sm-4">
+                                        <div class="uploadImg-box">
+                                            <input type="file" name="pic" id="pic" class="imgFile" onchange="previewImage(this)"/>
+                                            <div class="up-img {if $cate.pic neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                            {if $cate.pic neq ''}
+                                            <input type="checkbox" name="delpic" class="input-del" value="1" />
+                                            <div class="imgView"><img src="__UPLOAD_PATH__/{$cate.pic}"/></div>
+                                            {/if}
+                                            <div class="uploadCover">
+                                                <div class="ulinfo clearfix">
+                                                    <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                    <span class="up-del"><i class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/if}
+                                {if $cate_config.info_state eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">内容排版：</label>
+                                    <div class=" col-sm-8">
+                                        <div class="radio i-checks">
+                                            <input type="radio" name='info_state' value="1" {if $cate.info_state eq 1}checked{/if}/>关于我们&nbsp;&nbsp;
+                                            <input type="radio" name='info_state' value="2" {if $cate.info_state eq 2}checked{/if}/>产品中心&nbsp;
+                                            <input type="radio" name='info_state' value="3" {if $cate.info_state eq 3}checked{/if}/>服务支持&nbsp;
+                                            <input type="radio" name='info_state' value="4" {if $cate.info_state eq 4}checked{/if}/>新闻资讯&nbsp
+                                            <input type="radio" name='info_state' value="5" {if $cate.info_state eq 5}checked{/if}/>联系我们&nbsp;
+                                            <input type="radio" name='info_state' value="6" {if $cate.info_state eq 6}checked{/if}/>产业荣誉&nbsp;
+                                            <!--<input type="radio" name='info_state' value="7" {if $cate.info_state eq 7}checked{/if}/>技术平台详情页&nbsp;-->
+                                        </div>
+                                    </div>
+                                </div>
+                                {/if}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">文章属性：</label>
+                                    <div class=" col-sm-8">
+                                        <div class="radio i-checks">
+                                            <input type="checkbox" name='is_bigpic' {if $cate.is_bigpic eq 1}checked{/if}  value="1" />大图&nbsp;
+                                            <input type="checkbox" name='is_annex'   {if $cate.is_annex eq 1}checked{/if} value="1" />附件&nbsp;
+                                            <input type="checkbox" name='is_piclist' {if $cate.is_piclist eq 1}checked{/if} value="1" />多图&nbsp;
+                                            <input type="checkbox" name='is_intro'   {if $cate.is_intro eq 1}checked{/if} value="1" />简介&nbsp;
+                                            {volist name='fields' id='vo'}
+                                            <input type="checkbox" name='fields[]' {in name="$vo.id" value="$cate.fields"}checked{/in} value="{$vo.id}"  />{$vo.name}&nbsp;
+                                            {/volist}
+                                        </div>
+                                    </div>
+                                </div>
+                                {if $classifications}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">筛选属性：</label>
+                                    <div class=" col-sm-8">
+                                        <div class="radio i-checks">
+                                            {volist name='classifications' id='vo'}
+                                            <input type="checkbox" name='classification_id[]' {in name="$vo.id" value="$cate.classification_ids"}checked{/in} value="{$vo.id}"  />{$vo.name}&nbsp;
+                                            {/volist}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/if}
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                                    <div class="col-sm-6">
+                                        <div class="radio i-checks">
+                                            <input type="radio" name='status' value="1" {if condition="$cate['status'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                            <input type="radio" name='status' value="0" {if condition="$cate['status'] eq 0 "}checked{/if}/>关闭
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                {if $cate_config.target eq 1}
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">新窗口打开：</label>
+                                    <div class="col-sm-6 input-group">
+                                        <input type="checkbox" name="is_Target" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cate.is_Target eq 1}checked{/if}/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                {/if}
+                                {if $cate_config.nav eq 1}
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">导航栏显示：</label>
+                                    <div class="col-sm-6 input-group">
+                                        <input type="checkbox" name="is_nav" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $cate.is_nav eq 1}checked{/if}/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                {/if}
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页标题：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="seo_title" type="text" class="form-control" name="seo_title" value="{$cate.seo_title}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页关键字：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="keyword" type="text" class="form-control" name="keyword" value="{$cate.keyword}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">网页描述：</label>
+                                    <div class="input-group col-sm-4">
+                                        <textarea type="text" rows="3" name="description" id="description" class="form-control">{$cate.description}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            {if $cate_config.other eq 1}
+                            <div id="tab-3" class="tab-pane">
+                                {if $cate_config.pic_list eq 1}
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">多图：</label>
+                                    <div class="input-group col-sm-7">
+                                        <ul class="multi-img clearfix" id="multi-img-sortable">
+                                            {volist name="imageList" id="vo" key='k'}
+                                            <li>
+                                                <input type="hidden" name="img_id[{$k}]" value="{$vo.id}" class="img_id">
+                                                <input type="hidden" name="img_src[{$k}]" value="{$vo.pic}" class="img_src">
+                                                <div class="handle"><i class="fa fa-arrows"></i></div>
+                                                <div class="upload-list">
+                                                    <div class="pull-left"><img src="__UPLOAD_PATH__/{$vo.pic}" class="img"/></div>
+                                                    <div class="pull-left col-sm-8">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">标题</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" name="img_name[{$k}]" value="{$vo.title}" placeholder="请输入标题" class="form-control">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label">链接</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" name="img_url[{$k}]" value="{$vo.url}" placeholder="请输入链接地址" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <label class="status-label"><i class="fa fa-check"></i></label>
+                                                <label class="status-move"><i class="fa fa-remove"></i></label>
+                                            </li>
+                                            {/volist}
+                                        </ul>
+                                        <div id="wrapper">
+                                            <div id="container" style="width:100%;height:230px">
+                                                <div id="uploader">
+                                                    <div class="queueList">
+                                                        <div id="dndArea" class="placeholder">
+                                                            <div id="filePicker"></div>
+                                                            <p class="tips">或将照片拖到这里，单次最多可选16张</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="statusBar" style="display:none;">
+                                                        <div class="progress">
+                                                            <span class="text">0%</span>
+                                                            <span class="percentage"></span>
+                                                        </div><div class="info"></div>
+                                                        <div class="btns">
+                                                            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div><div class="delAll">清空</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/if}
+                            </div>
+                            {/if}
+                            {if  $cate_config.wap_photo eq 1 || $cate_config.web_website eq 1}
+                            <div id="tab-4" class="tab-pane">
+                                {if $cate_config.wap_photo eq 1 }
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机栏目Banner：</label>
+                                    <div class="input-group col-sm-4">
+                                        <div class="uploadImg-box">
+                                            <input type="file" name="wap_photo" id="wap_photo" class="imgFile" onchange="previewImage(this)"/>
+                                            <div class="up-img {if $cate.wap_photo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                            {if $cate.wap_photo neq ''}
+                                            <input type="checkbox" name="delwap_photo" class="input-del" value="1" />
+                                            <div class="imgView"><img src="__UPLOAD_PATH__/{$cate.wap_photo}"/></div>
+                                            {/if}
+                                            <div class="uploadCover">
+                                                <div class="ulinfo clearfix">
+                                                    <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                                    <span class="up-del"><i class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/if}
+                                {if $cate_config.wap_website eq 1}
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">手机链接：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="wap_website" type="text" class="form-control" name="wap_website" value="{$cate.wap_website}">
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>&nbsp;若无,请忽视</span>
+                                    </div>
+                                </div>
+                                {/if}
+                            </div>
+                            {/if}
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.back();"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+{if $cate_config.pic_list eq 1}
+<script type="text/javascript" src="/static/admin/webUploader/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/admin/webUploader/upload_img.js"></script>
+<script type="text/javascript" src="/static/admin/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $("#multi-img-sortable").sortable();
+    $("#multi-img-sortable").disableSelection();
+    $('#multi-img-sortable').on('click','.status-move', function(){
+        var _this = $(this);
+        layer.confirm('确认删除此图片吗?', {icon: 3, title:'提示'}, function(index){
+            var img_id = _this.siblings('.img_id').val();
+            var img_src = _this.siblings('.img_src').val();
+            $.getJSON("{:url('article/del_banner_imgs')}", {'img_id':img_id,'img_src':img_src}, function(res){
+                if(res.code == 1){
+                    _this.parent().remove();
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                }
+            });
+            layer.close(index);
+        });
+    });
+    $('#filePicker').on('click','.webuploader-pick', function(){
+        $(this).next().find('label').click();
+    });
+
+</script>
+{/if}
+<script type="text/javascript">
+    $(function(){
+        $('#edit_cate').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            if( '' == $.trim($('#name').val())){
+                layer.msg('请输入分类名称',{icon:2,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if ($.trim($('#orderby').val()) == '' || $.trim($('#orderby').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('article/index_cate')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

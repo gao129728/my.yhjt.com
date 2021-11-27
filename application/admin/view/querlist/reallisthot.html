@@ -1,0 +1,85 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <!--<div class="ibox-title-goback">-->
+                    <!--<a href="javascript:history.back();"><i class="fa fa-reply"></i> 返回</a>-->
+                    <!--</div>-->
+                    <h5>百度网站关键词查询</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <form class="form-horizontal" name="add_vcate" id="add_cate" method="post" action="{:url('gethot')}">
+                        <div class="tab-content">
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站链接：</label>
+                                <div class="input-group col-sm-4">
+                                    <input id="link" type="text" class="form-control" name="link" value="https://www.baidu.com/s" >
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">页数：</label>
+                                <div class="input-group col-sm-4">
+                                    <input id="page" type="text" class="form-control" name="page" value="0" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">规则1：</label>
+                                <div class=" col-sm-2">
+                                    <input type="text" class="form-control" name="title" placeholder="标题" value=".main .list li a">
+                                </div>
+                                <label class="col-sm-1 control-label">规则2：</label>
+                                <div class=" col-sm-2">
+                                    <input type="text" class="form-control" name="photo" placeholder="图片">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 确定</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    var INDEX;
+    $(function(){
+        $('#add_cate').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            INDEX=layer.load(2);
+        }
+
+        function complete(data){
+            layer.close(INDEX);
+            if(data.code>0){
+
+            }else{
+                layer.msg('获取失败，没有查询到', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>
+</body>
+</html>

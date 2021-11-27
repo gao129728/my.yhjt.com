@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body style="background-color: #EEEEEE;" ng-app="myapp" ng-controller="myCtrl">
+<script src="__JS__/angular.min.js"></script>
+<script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>
+
+{include file="public/header" /}
+
+<div class="wap">
+    <div class="top-line"></div>
+    <div class="inner-box">
+        {include file="member/left" /}
+    </div>
+    <div class="car-box">
+        <div class="big-tit">View shopping cart</div>
+        <ul>
+            {volist name="cartlist" id="item" empty="$empty_shopcart"}
+            <li>
+                <div class="acea-row">
+                    <!-- <div class="checkbox"><input type="checkbox" ng-model="item.done" ng-click="checkS()"></div> -->
+                    <div class="checkbox">
+                        <input class="remmber" type="checkbox" name="ids[]" id="aaa" value="{$item.id}">
+                    </div>
+                    <div class="pic-box">
+                        <img onclick="location.href = '{:getDetailUrl($item.pinfo.id,$item.pinfo.website)}'" src="__UPLOAD_PATH__/{$item.pinfo.photo}" alt="">
+                    </div>
+                    <div class="cont-box">
+                        <div class="name">{$item.pinfo.title}</div>
+                        <div class="acea-row row-between-wrapper">
+                            <div class="price">${if $item.pinfo.price}{$item.pinfo.price}{else/}0.00{/if}</div>
+                            <div class="num-box">
+                                <button onclick="change_num_cart({$item.product_id},0);">-</button>
+                                <input type="text" id="goods_num_{$item.product_id}" value="{$item.cart_num}"
+                                       onblur="change_num_cart({$item.product_id}, 2);">
+                                <button onclick="change_num_cart({$item.product_id},1);" class="add">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-box acea-row row-right">
+                    <button onclick="del_cart_goods({$item.product_id});" class="inp-btn">Delete</button>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    <div class="footer tabbar">
+        {include file="public/footer" /}
+    </div>
+</div>
+<div class="order-bottom acea-row row-between-wrapper">
+    <div class="checkbox">
+        <button onclick="all_select()">Select All</button>
+        <!--    <button class="select_btn" onclick="inverse_select()">Invert Selection</button>-->
+        <!--    <button class="select_btn" onclick="cancel_select()">Deselection</button>-->
+        <button onclick="batch_delete()">Batch Delete</button>
+    </div>
+    <div class="acea-row">
+        <div>
+            <div class="num"><span id="t_num">{$t_num}</span> items</div>
+            <div class="price">Total prices <span id="t_price">${$total}</span></div>
+        </div>
+        <button class="inp-btn" onclick="location.href='/mobile/member/confirm'">Order confirm</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //全选
+    function all_select() {
+        $('input[name="ids[]"]').iCheck('check');
+    }
+
+    //反选
+    function inverse_select() {
+        $('input[name="ids[]"]').iCheck('toggle');
+    }
+
+    //取消
+    function cancel_select() {
+        $('input[name="ids[]"]').iCheck('uncheck');
+    }
+
+    //批量删除
+    function batch_delete() {
+        var ids = '';
+        var flag = false;
+        $('input[name="ids[]"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids += ',' + $(this).val();
+                flag = true;
+            }
+        });
+        if (!flag) {
+            layer.msg('Please select items', {icon: 7, time: 1500, shade: 0.1}, function (index) {
+                layer.close(index);
+            });
+            return false;
+        }
+        layer.confirm('Delete the selected?', {icon: 3, title: 'Caution', btn: ['OK', 'Cancel']}, function (index) {
+            ids = ids.substring(1);
+            $.getJSON('{:url("/mobile/member/all_delete")}', {'ids': ids}, function (res) {
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    };
+
+</script>
+
+
+</body>
+
+</html>

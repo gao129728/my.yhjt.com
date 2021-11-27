@@ -1,0 +1,39 @@
+{if $module.titleStyle eq 3/}
+    {volist name="module['cate_article_list']" id="tab_cate_name"}
+    <div class="pic-txt-panel clearfix">
+        {if $tab_cate_name.art_list}
+        {if $module.moduleParam[4]}
+        <p class="pic {if $module.moduleParam[8]=='left'}fl{elseif $module.moduleParam[8]=='right'/}fr{/if}"><a href="{$tab_cate_name.art_list.url}" title="{$tab_cate_name.art_list.title}" target="_blank"><img src="__UPLOAD_PATH__/{$tab_cate_name.art_list.photo}" width="{$module.moduleParam[5]}" height="{$module.moduleParam[6]}" {if $module.moduleParam[7]}class="imgBd"{/if} alt="{$tab_cate_name.art_list.title}"></a></p>
+        {/if}
+        <div class="txt">
+            {if $module.moduleParam[0]}
+            <h4>{$tab_cate_name.art_list.title|leftstr=$module.moduleParam[1]}</h4>
+            <p class="line"></p>
+            {/if}
+            <div class="info">{$tab_cate_name.art_list.content|leftstr_html=$module.moduleParam[2]}</div>
+        </div>
+        {if $module.moduleParam[0]}
+        <p class="detail"><a href="{$tab_cate_name.art_list.url}" target="_blank">查看更多</a></p>
+        {/if}
+        {/if}
+    </div>
+    {/volist}
+{else/}
+<div class="pic-txt-panel clearfix">
+    {if $module.art_list}
+        {if $module.moduleParam[4]}
+        <p class="pic {if $module.moduleParam[8]=='left'}fl{elseif $module.moduleParam[8]=='right'/}fr{/if}"><a href="{$module.art_list.url}" title="{$module.art_list.title}" target="_blank"><img src="__UPLOAD_PATH__/{$module.art_list.photo}" width="{$module.moduleParam[5]}" height="{$module.moduleParam[6]}" {if $module.moduleParam[7]}class="imgBd"{/if} alt="{$module.art_list.title}"></a></p>
+        {/if}
+        <div class="txt">
+            {if $module.moduleParam[0]}
+            <h4>{$module.art_list.title|leftstr=$module.moduleParam[1]}</h4>
+            <p class="line"></p>
+            {/if}
+            <div class="info">{$module.art_list.content|leftstr_html=$module.moduleParam[2]}</div>
+        </div>
+        {if $module.moduleParam[0]}
+        <p class="detail"><a href="{$module.art_list.url}" target="_blank">查看更多</a></p>
+        {/if}
+    {/if}
+</div>
+{/if}

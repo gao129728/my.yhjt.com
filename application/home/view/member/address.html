@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body>
+{include file="member/header" /}
+<div class="big-box ">
+  <div class="w1200 clearfix">
+    {include file="member/left" /}
+    <div class="right-box fr">
+      <div class="tit">My address</div>
+      <ul class="address-box">
+        {volist name="addressList" id="vo"}
+        <li class="address-item {if $vo.is_default === 1}cur{/if}" >
+          <div class="name" onclick="setdefault({$vo.id})">{$vo.name}</div>
+          <ul class="information" onclick="setdefault({$vo.id})">
+            <li><span>E-mail：</span>{$vo.email}</li>
+            <li><span>Telephone：</span>{$vo.phone}</li>
+            <li><span>Postcode：</span>{$vo.postcode}</li>
+            <li><span>Address：</span>{$vo.address}</li>
+          </ul>
+          <div class="btn-box">
+            <a class="btn" data-is_default="{$vo.is_default}" data-address="{$vo.address}" data-phone_kind="{$vo.phone_kind}" data-postcode="{$vo.postcode}" data-email="{$vo.email}" data-name="{$vo.name}" data-sex="{$vo.sex}" data-phone="{$vo.phone}" data-id="{$vo.id}" onclick="editaddress(this)">Edit</a>
+            <a href="javascript:;" onclick="delAddress({$vo.id})" class="btn">Delete</a>
+          </div>
+        </li>
+        {/volist}
+        <li class="add-address">
+          <div class="iconfont icon-zengjia"></div>
+          <div class="tips">Add address</div>
+          <p>Fill in your mailing information in advance</p>
+          <p>It can save you pay</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{include file="public/footer" /}
+<!-- 弹出框 -->
+<div id="dialogBg"></div>
+<div id="dialog1" class="animated">
+  <img onclick="location.reload()" src="__IMG__/dialogClose.png" alt="" class="dialogClose">
+  <div class="dialogTop"> New address </div>
+  <div class="editInfos">
+    <form action="/home/member/add_address" method="post" id="add_adrress">
+        <div class="fsc">
+        <div class="form-group gender">
+          <label for="sex">Gender</label>
+          <select name="sex" id="sex" class="">
+            <option value="">select</option>
+            <option value="man">man</option>
+            <option value="woman">woman</option>
+          </select>
+        </div>
+        <div class="form-group name">
+          <label for="name">Name</label>
+          <input class="form-control" autofocus="autofocus" value="" type="text" name="name" id="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Add</label>
+        <input class="form-control" autofocus="autofocus" value="" type="text" name="address" id="address">
+      </div>
+      <div class="form-group">
+        <label for="emails">E-mail</label>
+        <input class="form-control" autofocus="autofocus" value="" type="text" name="email" id="emails">
+      </div>
+      <div class="form-group">
+        <label for="postcode">Postcode</label>
+        <input class="form-control" autofocus="autofocus" value="" type="text" name="postcode" id="postcode">
+      </div>
+      <div class="checkbox-line">
+        <input type="checkbox" name="is_default" id="is_default" value="1"><label for="is_default">This is my default address</label>
+      </div>
+      <div class="form-group telephone">
+        <label for="phone">Telephone</label>
+        <div class="fsc">
+          <select name="phone_kind" id="phone_kind" class="">
+            <option value="">select</option>
+            <option value="personal">personal</option>
+            <option value="company">company</option>
+          </select>
+          <input class="form-control" autofocus="autofocus" value="" type="text" name="phone" id="phone">
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" name="commit" value="Preservation" class="btn" tabindex="3" data-disable-with="···">
+      </div>
+    </form>
+  </div>
+</div>
+<input type="hidden" id="type" value="{$type}">
+
+<script type="text/javascript">
+  function delAddress(id) {
+    // var INDEX=layer.load(3);
+    layer.confirm('Delete the address?', {icon: 3, title: 'Caution',btn:['OK','Cancel']}, function (index) {
+      $.ajax({
+        url:'{:url("home/member/del_address")}',
+        type:'post',
+        dataType:'json',
+        data:'id='+id,
+        success:function(datas){
+          if(datas.code == 1){
+            window.location.reload();
+          }
+        }
+      })
+    })
+  };
+
+  function setdefault(id){
+    var type=$('#type').val();
+    $.ajax({
+      url:'{:url("home/member/set_default")}',
+      type:'post',
+      dataType:'json',
+      data:'id='+id,
+      success:function(){
+        if(type==1){
+          location.href="/home/member/confirm";
+        }else{
+          window.location.reload();
+        }
+      }
+    })
+  }
+</script>
+<script type="text/javascript">
+  $(function(){
+    $('#add_adrress').ajaxForm({
+      beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+      success: complete, // 这是提交后的方法
+      dataType: 'json'
+    });
+    function checkForm(){
+
+    }
+    function complete(data){
+      if(data.code == 1){
+        layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+          window.location.reload();
+        });
+      }else{
+        layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+        });
+        return false;
+      }
+    }
+  });
+</script>
+<script type="text/javascript">
+  var w, h, className;
+  function getSrceenWH() {
+    w = $(window).width();
+    h = $(window).height();
+    $('#dialogBg').width(w).height(h);
+  }
+  window.onresize = function () {
+    getSrceenWH();
+  }
+  $(window).resize();
+  $(function () {
+    getSrceenWH();
+    //  弹出框
+    $('.add-address').click(function () {
+      className = $(this).attr('class');
+      $('#dialogBg').fadeIn(300);
+      $('#dialog1 ').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+      $('body').addClass('noroll')
+    });
+    $('.claseDialogBtn').click(function () {
+      $('#dialogBg').fadeOut(300, function () {
+        $('#dialog1').addClass('bounceOutUp').fadeOut();
+      });
+      $('body').removeClass('noroll')
+    });
+    $('.dialogClose').click(function () {
+      $('#dialogBg').fadeOut(300, function () {
+        $('#dialog1').addClass('bounceOutUp').fadeOut();
+      });
+      $('body').removeClass('noroll')
+    });
+  });
+
+  function editaddress(aa){
+
+    var that=$(aa);
+    console.log(that.data());
+    var info=that.data();
+
+    $('#id').prop('value',info.id);
+    $('#name').prop('value',info.name);
+    $('#address').prop('value',info.address);
+    $('#emails').prop('value',info.email);
+    $('#postcode').prop('value',info.postcode);
+    $('#phone_kind').prop('value',info.phone_kind);
+    $('#sex').prop('value',info.sex);
+    $('#phone').prop('value',info.phone);
+    if(info.is_default==1){
+      $('#is_default').prop('checked',true);
+    }else{
+      $('#is_default').prop('checked',false);
+    }
+
+    $('#dialogBg').fadeIn(300);
+    $('#dialog1 ').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+    $('body').addClass('noroll')
+
+  }
+
+</script>
+</body>
+
+
+</html>

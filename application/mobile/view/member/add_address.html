@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+<body>
+{include file="public/header" /}
+<div class="wap">
+  <div class="top-line"> </div>
+  <div class="inner-box">
+    {include file="member/left" /}
+    <div class="box">
+      <div class="big-tit">New address</div>
+      <div class="add-address">
+        <form action="/mobile/member/add_address" method="post" id="add_adrress">
+        <div class="fsc">
+            <div class="form-group gender">
+              <label for="sex">Gender</label>
+              <select name="Gender" id="sex" class="">
+                <option value="">select</option>
+                <option value="man">man</option>
+                <option value="woman">woman</option>
+              </select>
+            </div>
+            <div class="form-group name">
+              <label for="name">Name</label>
+              <input class="form-control" autofocus="autofocus" value="" type="text" name="name" id="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Add</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="address" id="address">
+          </div>
+          <div class="form-group">
+            <label for="emails">E-mail</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="email" id="emails">
+          </div>
+          <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="postcode" id="postcode">
+          </div>
+          <div class="checkbox-line">
+            <input type="checkbox" name="is_default" id="is_default" value="1"><label for="is_default">This is my default address</label>
+          </div>
+          <div class="form-group telephone">
+            <label for="phone">Telephone</label>
+            <div class="fsc">
+              <select name="phone_kind" id="phone_kind" class="">
+                <option value="">select</option>
+                <option value="personal">personal</option>
+                <option value="company">company</option>
+              </select>
+              <input class="form-control" autofocus="autofocus" value="" type="text" name="phone" id="phone">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="submit" name="commit" value="Preservation" class="inp-btn" tabindex="3" data-disable-with="···">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    {include file="public/footer" /}
+  </div>
+</div>
+<input type="hidden" id="type" value="{$type}">
+
+<script type="text/javascript">
+  $(function(){
+    $('#add_adrress').ajaxForm({
+      beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+      success: complete, // 这是提交后的方法
+      dataType: 'json'
+    });
+    function checkForm(){
+
+    }
+
+    function complete(data){
+      var type=$('#type').val();
+      if(data.code == 1){
+        layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+          if(type == 1){
+            location.href="/mobile/member/address?type=1";
+          }else{
+            location.href = '/mobile/member/address';
+          }
+        });
+      }else{
+        layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+        });
+        return false;
+      }
+    }
+  });
+
+
+</script>
+</body>
+
+</html>

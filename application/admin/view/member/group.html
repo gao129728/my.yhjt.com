@@ -1,0 +1,80 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>会员组列表</h5>
+        </div>
+        <div class="ibox-content">
+            <!--搜索框开始-->           
+            <div class="row">
+                <div class="col-sm-12">   
+                    <div  class="col-sm-2 ibox-tit" style="width: 100px">
+                        <div class="input-group" >
+                            <a href="{:url('add_group')}"><button class="btn btn-outline btn-primary" type="button">添加会员组</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--搜索框结束-->
+            <div class="hr-line-dashed"></div>
+            <div class="example-wrap">
+                <div class="example">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="long-tr">
+                                <th>ID</th>
+                                <th>会员组名称</th>
+                                <th>状态</th>
+                                <th width="15%">创建时间</th>
+                                <th width="15%">更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-content">
+                            {foreach name="group" item="vo"}
+                                <tr class="long-td">
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.group_name}</td>
+                                    <td><input type="checkbox" name="status" data-id="{$vo.id}" data-table="member_group" class="lcs_check lcs_switch lcs_sm" {if $vo.status eq 1}checked{/if}/></td>
+                                    <td>{$vo.create_time}</td>
+                                    <td>{$vo.update_time}</td>
+                                    <td>
+                                        <a href="{:url('edit_group',['id'=>$vo.id])}" class="btn btn-primary btn-outline btn-xs">
+                                            <i class="fa fa-paste"></i> 编辑</a>&nbsp;&nbsp;
+                                        <a href="javascript:;" onclick="del_group({$vo.id})" class="btn btn-danger btn-outline btn-xs">
+                                            <i class="fa fa-trash-o"></i> 删除</a> 
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+
+{include file="public/footer" /}
+
+<script type="text/javascript">
+    //删除会员组
+    function del_group(id){
+        layer.confirm('确认删除此会员组?', {icon: 3, title:'提示'}, function(index){
+            $.getJSON('./del_group', {'id' : id}, function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg,{icon:1,time:1500,shade: 0.1},function(){
+                        window.location.href="{:url('member/group')}";
+                    });
+                }else{
+                    layer.msg(res.msg,{icon:0,time:1500,shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    }
+</script>
+</body>
+</html>

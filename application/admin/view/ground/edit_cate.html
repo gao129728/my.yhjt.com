@@ -1,0 +1,188 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<link rel="stylesheet" type="text/css" href="/static/admin/webupload/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/webupload/style.css">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑场地分类</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="edit_cate" id="edit_cate" method="post" action="{:url('edit_cate')}">
+                    <input type="hidden" name="id" value="{$cate.id}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">分类名称：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="name" type="text" class="form-control" name="name" value="{$cate.name}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排&nbsp;&nbsp;序：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="orderby" type="text" class="form-control" name="orderby" value="{$cate.orderby}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">缩略图：</label>
+                            <div class="input-group col-sm-4">
+                                <div class="preview-img">
+                                    <div class="preview">
+                                        <div class="imgView"><img height="100px" onerror="this.src='__IMG__/no_img.jpg'" src="__UPLOAD_PATH__/{$cate.photo}"/></div>
+                                        <span class="fileBtn" onclick="triggerFile(this)">选择图片</span>
+                                        {if $cate.photo neq ''}
+                                        <input class="ids i-checks" type="checkbox" name="delPhoto" value="1"> 删除
+                                        {/if}
+                                    </div>
+                                    <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">场地价格：</label>
+                            <div class="input-group col-sm-5">
+                                <table class="table table-bordered table-hover" style="margin:0;">
+                                    <thead>
+                                    <tr class="long-tr">
+                                        <th>时间段</th>
+                                        <th width="18%">平时价</th>
+                                        <th width="18%">周末价</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="list-attribute">
+                                    {volist name="lists" id="vo"}
+                                    <tr class="long-td">
+                                        <td>
+                                            {$vo.start_time} — {$vo.end_time}
+                                            <input type="hidden" name="price_id[]" value="{$vo.price_id}">
+                                            <input type="hidden" name="time_id[]" value="{$vo.id}">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="price[]" value="{$vo.price}"></td>
+                                        <td><input type="text" class="form-control" name="week_price[]" value="{$vo.week_price}"></td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='status' value="1" {if condition="$cate['status'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                    <input type="radio" name='status' value="0" {if condition="$cate['status'] eq 0 "}checked{/if}/>关闭
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#edit_cate').ajaxForm({
+            beforeSubmit: checkForm, 
+            success: complete, 
+            dataType: 'json'
+        });
+        
+        function checkForm(){
+            if( '' == $.trim($('#name').val())){
+                layer.msg('请输入分类名称',{icon:2,time:1500,shade: 0.1}, function(index){
+                layer.close(index);
+                });
+                return false;
+            }
+
+            if ($.trim($('#orderby').val()) == '' || $.trim($('#orderby').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if($('#photo').val() != ''){
+                var ext = $('#photo').val().substr($('#photo').val().length - 3).toLowerCase();
+                if (ext != "gif" && ext != "jpg" && ext != "png")
+                {
+                    layer.msg('图片必须是GIF、JPG或PNG格式！', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    return false;
+                }
+            }
+
+            var result = true;
+
+            $("input[name='price[]']").each(function(){
+                if($.trim($(this).val()) == ''){
+                    layer.msg('价格不能为空', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    result = false;
+                    return false;
+                }
+            });
+            if(!result){
+                return false;
+            }
+
+            $("input[name='week_price[]']").each(function(){
+                if($.trim($(this).val()) == ''){
+                    layer.msg('价格不能为空', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    result = false;
+                    return false;
+                }
+            });
+            if(!result){
+                return false;
+            }
+        }
+
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('ground/index_cate')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;   
+            }
+        }
+     
+    });
+
+</script>
+</body>
+</html>

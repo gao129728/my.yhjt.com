@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+<body>
+
+{include file="public/header_index" /}
+
+<!--banner-->
+<div class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {volist name="banner" id="vo"}
+            <div class="swiper-slide">
+                <a href=""><img src="__UPLOAD_PATH__/{$vo.photo}" class="PcBan" /></a>
+            </div>
+            {/volist}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<!--product-->
+<div class="part part1">
+    <div class="title">Our products</div>
+    <div class="line"></div>
+    <div class="pro_box  w1200">
+        <ul class="clearfix">
+            {volist name="topiclists" id="top" length='4'}
+            <li class="fl">
+                <div class="show_box">
+                    <div class="pic_box">
+                        <img src="__UPLOAD_PATH__/{$top.photo}" alt="">
+                    </div>
+                    <div class="tit">{$top.title}</div>
+                </div>
+                <div class="hide_box">
+                    <div class="cont_box">
+                        <div class="tit">{$top.title}</div>
+                        <div class="cont">
+                            {$top.content}
+                        </div>
+                        <a href="{:getCateUrl($top.cate_id,'')}" class="more">View More</a>
+                    </div>
+                    <div class="back"></div>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+<!--aboutus-->
+<div class="part part2">
+    <div class="title">ABOUT US</div>
+    <div class="line"></div>
+    <div class="cont">
+        {$aboutus.content}
+    </div>
+    <div class="video_box">
+        <video id="video"muted controls poster="__UPLOAD_PATH__/{$aboutus.photo}">
+            <source src="__UPLOAD_FILE__/{$aboutus.annex}" type="video/mp4">
+        </video>
+    </div>
+</div>
+<!--news-->
+<div class="part part3">
+    <div class="title">News information</div>
+    <div class="line"></div>
+    <ul class="news-list w1200">
+        {volist name="news" id="vo"}
+        <li class="clearfix">
+            <a href="{:getDetailUrl($vo.id,$vo.website)}" class="clearfix">
+                <div class="pic-box">
+                    <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                </div>
+                <div class="time">
+                    <div class="num">{$vo.create_time|date="d",###}</div>
+                    <div>{$vo.create_time|date="M",###}</div>
+                </div>
+                <div class="cont-box">
+                    <div class="title">{$vo.title}</div>
+                    <div class="cont">
+                        {$vo.content}
+                    </div>
+                </div>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+</div>
+{include file="public/footer" /}
+<script>
+    window.addEventListener("scroll", function (e) {
+        let total = $('body, html').scrollTop();
+        if (total > 760) {
+            $(".nav-box").css("background-color", "rgba(0,0,0,.5)");
+        } else {
+            $(".nav-box").css("background-color", "transparent");
+        }
+    });
+    
+    
+
+</script>
+</body>
+
+</html>

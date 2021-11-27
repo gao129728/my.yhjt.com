@@ -1,0 +1,32 @@
+<!--在线客服-->
+{if $online_config.status eq 1}
+<script src="__JS__/onlineqq.js" type="text/javascript"></script>
+<div class="kefu_online">
+    {if $online_list}
+    <ul class="kefu_ul">
+        {volist name="online_list" id="online"}
+        <li><a href="http://wpa.qq.com/msgrd?v=3&uin={$online.number}&site=qq&menu=yes" target="_blank"><img src="/static/admin/images/qqicon/{$online.show_icon}.gif"/><span>{$online.name}</span></a></li>
+        {/volist}
+    </ul>
+    {/if}
+    {if $online_config.qrcode neq ''}<div class="code"><img src="__UPLOAD_PATH__/{$online_config.qrcode}"></div>
+    {/if}
+    {if $online_config.content neq ''}<div class="content">{$online_config.content}</div>{/if}
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.kefu_online').OnlineQQ({
+            'title':'{$online_config.title}',
+            'width':{$online_config.width},
+            'position':'{$online_config.position}',
+            'topSpace':{$online_config.topSpace},
+            'isOpen':{$online_config.is_open},
+            'isClosed':{$online_config.show_btn},
+            'color':'{$online_config.color}',
+            'bgcolor':'{$online_config.bgcolor}',
+            'titcolor':'{$online_config.titcolor}',
+            'titbgcolor':'{$online_config.titbgcolor}'
+        });
+    })
+</script>
+{/if}

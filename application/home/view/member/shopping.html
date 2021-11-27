@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+
+
+
+<body ng-app="myapp" ng-controller="myCtrl">
+<script src="__JS__/angular.min.js"></script>
+<script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="__JS__/shopping.js"></script>
+{include file="member/header" /}
+<div class="big-box ">
+    <div class="w1200 clearfix">
+        {include file="member/left" /}
+        <div class="right-box fr">
+            <div class="tit">Shopping cart</div>
+            <div class="right-nav ">
+                <a class="active">View shopping cart</a>
+                <a>Order settlement</a>
+            </div>
+            <table class="cart">
+                <thead>
+                <th>Choice</th>
+                <th>Trade name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Operation</th>
+                </thead>
+                {if $cartlist}
+                <tbody>
+                {volist name="cartlist" id="item"}
+                <tr id="tr">
+                    <td><input class="ids i-checks" type="checkbox" name="ids[]" id="aaa" value="{$item.id}"></td>
+                    <td>
+                        <a href="{:getDetailUrl($item.pinfo.id,$item.pinfo.website)}">
+                            <img src="__UPLOAD_PATH__/{$item.pinfo.photo}" alt=""><span>{$item.pinfo.title}</span>
+                        </a>
+                    </td>
+                    <td id="goods_price">${if $item.pinfo.price}{$item.pinfo.price}{else/}0.00{/if}</td>
+                    <td>
+                        <button onclick="change_num_cart({$item.product_id},0);">-</button>
+                        <input type="text" id="goods_num_{$item.product_id}" value="{$item.cart_num}"
+                               onblur="change_num_cart({$item.product_id}, 2);">
+                        <button onclick="change_num_cart({$item.product_id},1);">+</button>
+                    </td>
+                    <td class="subtotal">${$item.total}</td>
+                    <td>
+                        <button onclick="del_cart_goods({$item.product_id});" class="delete">Delete</button>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="check">
+                            <button class="select_btn" onclick="all_select()">Select All</button>
+<!--                            <button class="select_btn" onclick="inverse_select()">Invert Selection</button>-->
+<!--                            <button class="select_btn" onclick="cancel_select()">Deselection</button>-->
+                            <button class="delete_btn" onclick="batch_delete()">Batch Delete</button>
+                        </div>
+<!--                        <div class="check"><input type="checkbox"> Select all <span>Delete</span></div>-->
+                        <div class="num"><span id="t_num">{$t_num}</span> items</div>
+                        <div class="prices"><b>Total prices:</b><span id="t_price">${$total}</span></div>
+                        <div class="btn-box">
+                            <a class="btn" href="{:getCateUrl(80,'')}">Continue shopping</a>
+                            <a class="btn blue" href="{:url('home/member/confirm')}">Order confirm</a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+                {else /}
+                <tbody>
+                <tr>
+                    <td colspan="6" style="font-size: 14px;color: #ced2d0">Cart is empty,<br><a
+                            style="text-decoration-line: underline;color: #c3c7c5" href="{:getCateUrl(80,'')}">Go
+                        shopping right away!</a></td>
+                </tr>
+                </tbody>
+                {/if}
+            </table>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+</body>
+<script type="text/javascript">
+    //全选
+    function all_select() {
+        $('input[name="ids[]"]').iCheck('check');
+    }
+
+    //反选
+    function inverse_select() {
+        $('input[name="ids[]"]').iCheck('toggle');
+    }
+
+    //取消
+    function cancel_select() {
+        $('input[name="ids[]"]').iCheck('uncheck');
+    }
+
+    //批量删除
+    function batch_delete() {
+        var ids = '';
+        var flag = false;
+        $('input[name="ids[]"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids += ',' + $(this).val();
+                flag = true;
+            }
+        });
+        if (!flag) {
+            layer.msg('Please select items', {icon: 7, time: 1500, shade: 0.1}, function (index) {
+                layer.close(index);
+            });
+            return false;
+        }
+        layer.confirm('Delete the selected?', {icon: 3, title: 'Caution',btn:['OK','Cancel']}, function (index) {
+            ids = ids.substring(1);
+            $.getJSON('{:url("/home/member/all_delete")}', {'ids': ids}, function (res) {
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    };
+
+</script>
+
+<!--
+<script>
+    $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    $('.lcs_check').lc_switch();
+</script>
+-->
+
+</html>

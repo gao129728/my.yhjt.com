@@ -1,0 +1,60 @@
+<div class="">
+    <div class="sign_in_box fec">
+        {if $isLogin == false}
+        <div class="register_box fsc">
+            <div class="register fcc"><span class="iconfont icon-moban"></span>
+                <a {if $navCur eq 'index'}style="color: #fff"{else/}style="color: #000"{/if} href="/home/member/register"> Register</a>
+            </div>
+            <div class="line"></div>
+            <div class="sign_in">
+                <a {if $navCur eq 'index'}style="color: #fff"{else/}style="color: #000"{/if} href="/home/member/login">Sign in</a>
+            </div>
+        </div>
+        {else /}
+        <!-- 登录后 -->
+        <div class="register_box fsc">
+            <div class="register fcc"><span class="iconfont icon-moban"></span>
+                <a {if $navCur eq 'index'}style="color: #fff"{else/}style="color: #000"{/if} href="{:url('home/member/myorder')}">{$member.email}</a>
+            </div>
+            <div class="line"></div>
+            <div class="sign_in">
+                <a {if $navCur eq 'index'}style="color: #fff"{else/}style="color: #000"{/if} href="/home/member/loginOut">Login Out</a>
+            </div>
+        </div>
+        {/if}
+        <div class="lag_box fcc">
+            <div class="down_box fcc">English<span class="iconfont icon-CaretDown"></span></div>
+            <ul class="lag_list">
+                <li><a href="http://yhjt.fr.cfsite4.ahcfkj.com">Français</a></li>
+                <li><a href="http://yhjt.ita.cfsite4.ahcfkj.com">Italiano</a></li>
+                <li><a href="http://yhjt.pt.cfsite4.ahcfkj.com">Português</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="nav fec">
+        <ul class="fec">
+            <li><a href="/">Home</a></li>
+            {volist name="nav_cate" id="vo" length='4' key="k"}
+            <li><a href="{$vo.url}">{$vo.name}</a></li>
+            {/volist}
+            <li class="last"><a href="javascript:;">Contact</a></li>
+        </ul>
+        <div class="search_box">
+            <div class="iconfont icon-sousuo- search_icon" ></div>
+            <div class="search">
+                <form method="get" action="{:url('home/search/index')}"
+                      onsubmit="if(this.keys.value == '' || this.keys.value == 'Search...'){alert('Keyword cannot be empty!'); this.keys.focus(); return false; }">
+                    <input name="keys" placeholder="Search..." class="inp inptet">
+                    <button type="submit" href="" id="search_btn" class="search_btn">
+                        <img src="__IMG__/search2.png" alt="">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialogBg"></div>
+<div id="dialog">
+     <a href="{:getCateUrl(83,'')}"><img src="__IMG__/dialogClose.png" alt="" class="dialogClose1"></a>
+    {$config.web_sales}
+ </div>

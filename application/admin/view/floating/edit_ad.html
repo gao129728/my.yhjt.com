@@ -1,0 +1,276 @@
+{include file="public/header" /}
+<style>
+.file-item{float: left; position: relative; width: 110px;height: 110px; margin: 0 20px 20px 0; padding: 4px;}
+.file-item .info{overflow: hidden;}
+.uploader-list{width: 100%; overflow: hidden;}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="ibox-title-goback">
+                        <a href="javascript:history.back();"><i class="fa fa-reply"></i> 返回</a>
+                    </div>
+                    <!--<h5>编辑广告</h5>-->
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" name="edit" id="edit" method="post" action="edit_ad" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="{$ad.id}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="title" type="text" class="form-control" value="{$ad.title}" name="title" placeholder="请输入广告标题">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">排序：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="orderby" type="text" value="{$ad.orderby}" class="form-control input_wd1" name="orderby" >
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">链接地址：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="link_url" type="text" class="form-control" value="{$ad.link_url}" name="link_url" placeholder="请输入广告链接地址">
+                            </div>
+                        </div>
+                       <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">广告图片：</label>
+                            <div class="input-group col-sm-4">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="photo" id="photo" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $ad.photo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $ad.photo neq ''}
+                                    <input type="checkbox" name="delPhoto" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$ad.photo}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">图片尺寸：</label>
+                            <div class="input-group col-sm-10">
+                                <span class="control-label" style="float:left;">宽度</span>
+                                <div class="col-sm-1 input_wd3">
+                                    <input type="text" class="form-control" name="width" id="width" value="{$ad.width}">
+                                    <span class="tp-unit">px</span>
+                                </div>
+                                <span class="control-label" style="float:left; padding-left:60px;">高度</span>
+                                <div class="col-sm-1 input_wd3">
+                                    <input type="text" class="form-control" name="height" id="height" value="{$ad.height}">
+                                    <span class="tp-unit">px</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">广告日期：</label>
+                            <div class="input-group col-sm-4" style="width:446px;">
+                                <input type="text" class="form-control input_wd2 select-date" name="start_date" id="start_date" value="{$ad.start_date? $ad.start_date:''}" readonly="readonly" style="background:url(__IMG__/WdatePicker.jpg) no-repeat 97% center">
+                                <span style="float:left; line-height:30px; padding:0 10px; color:#999;">—</span>
+                                <input type="text" class="form-control input_wd2 select-date" name="end_date" id="end_date" value="{$ad.end_date? $ad.end_date:''}" readonly="readonly" style="background:url(__IMG__/WdatePicker.jpg) no-repeat 97% center">
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="日期不填则永久有效"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">显示方式：</label>
+                            <div class="col-sm-6 input-group">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='ad_position' value="0" {if $ad.ad_position eq 0}checked{/if}/>首页显示&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='ad_position' value="1" {if $ad.ad_position eq 1}checked{/if}/>全部页面显示
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">显示关闭按钮：</label>
+                            <div class="col-sm-6 input-group">
+                                <input type="checkbox" name="closed" value="1" class="lcs_check" lcs-text="是|否" autocomplete="off" {if $ad.closed eq 1}checked{/if}/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">广告类型：</label>
+                            <div class="col-sm-6 input-group">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='mode' value="popup" {if $ad.mode eq 'popup'}checked{/if}/>弹窗广告&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='mode' value="float" {if $ad.mode eq 'float'}checked{/if}/>全屏漂浮广告&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='mode' value="hangL" {if $ad.mode eq 'hangL'}checked{/if}/>左侧浮动广告&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='mode' value="hangR" {if $ad.mode eq 'hangR'}checked{/if}/>右侧浮动广告&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='mode' value="pullScreen" {if $ad.mode eq 'pullScreen'}checked{/if}/>拉屏广告
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-left-aside {if $ad.mode eq 'popup' or $ad.mode eq 'pullScreen'}hidden-box{/if}">
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">顶部距离：</label>
+                                <div class="col-sm-1 input_wd3" style="padding-left:0;">
+                                    <input id="asidetop" type="text" value="{$ad.asidetop}" class="form-control" name="asidetop" >
+                                    <span class="tp-unit">px</span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">侧边距离：</label>
+                                <div class="col-sm-1 input_wd3" style="padding-left:0;">
+                                    <input id="asideleft" type="text" value="{$ad.asideleft}" class="form-control" name="asideleft" >
+                                    <span class="tp-unit">px</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pull-screen-time {if $ad.mode neq 'pullScreen'}hidden-box{/if}">
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">拉屏时间：</label>
+                                <div class="col-sm-1 input_wd3" style="padding-left:0;">
+                                    <input id="screen_time" type="text" value="{$ad.screen_time}" class="form-control" name="screen_time">
+                                    <span class="tp-unit">秒</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6 input-group">
+                                <input type="checkbox" name="status" value="1" class="lcs_check" lcs-text="开启|关闭" autocomplete="off" {if $ad.status eq 1}checked{/if}/>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.back();"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        lay('.select-date').each(function(){
+            laydate.render({
+                elem: this,
+                trigger: 'click'
+            });
+        });
+    });
+    $('input[name="mode"]').on('ifChecked', function(event){
+        var val = $(this).val();
+        if(val == 'float' || val == 'hangL' || val == 'hangR'){
+            $('.top-left-aside').show();
+        }else{
+            $('.top-left-aside').hide();
+        }
+        if(val == 'pullScreen'){
+            $('.pull-screen-time').show();
+        }else {
+            $('.pull-screen-time').hide();
+        }
+
+    });
+    $(function(){
+        $('#edit').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+            if( '' == $.trim($('#title').val())){
+                layer.msg('标题不能为空', {icon: 5}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if ($.trim($('#orderby').val()) == '' || $.trim($('#orderby').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if($('.uploadImg-box .imgView').length < 1){
+                layer.msg('请上传广告图片', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if($('#photo').val() != ''){
+                var ext = $('#photo').val().substr($('#photo').val().length - 3).toLowerCase();
+                if (ext != "gif" && ext != "jpg" && ext != "png")
+                {
+                    layer.msg('图片必须是GIF、JPG或PNG格式！', {icon: 5,time:1500,shade: 0.1}, function(index){
+                        layer.close(index);
+                    });
+                    return false;
+                }
+            }
+            if(!isPositiveNum($('#width').val()) || !isPositiveNum($('#height').val())){
+                layer.msg('请输入正确的图片尺寸', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if($('#start_date').val() == '' && $('#end_date').val() != ''){
+                layer.msg('请输入开始日期', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if($('#start_date').val() != '' && $('#end_date').val() == ''){
+                layer.msg('请输入结束日期', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if(!isPositiveNum($('#asidetop').val()) || !isPositiveNum($('#asideleft').val())){
+                layer.msg('请输入正确的顶部或侧边距离', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+            if(!isPositiveNum($('#screen_time').val())){
+                layer.msg('请输入正确的拉屏时间', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.href="{:url('floating/index')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

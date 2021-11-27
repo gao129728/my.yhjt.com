@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<title>404</title>
+<meta name="keywords" content="404" />
+<meta name="description" content="404" />
+<img src="/static/home/images/404.png" width="818" height="595" style="display: block;margin: 0 auto;">
+<div class="" style="font-size: 36px;margin: 0 auto;text-align: center;color: #323232;">
+    您查找的页面不存在，还有
+    <span id="dd" style="color:darkorange;font-weight: bold;">3</span>
+    秒，页面将自动跳转首页...
+</div>
+<!--倒计时-->
+<script type="text/javascript">
+function run(){
+    var s = document.getElementById("dd");
+    if(s.innerHTML == 0){
+        window.location.href='/';
+        return false;
+    }
+    s.innerHTML = s.innerHTML * 1 - 1;
+}
+window.setInterval("run();", 1000);
+</script>

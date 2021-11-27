@@ -1,0 +1,46 @@
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        <div class="proxl">
+           {$subCur_name}
+        </div>
+        <div class="procla">
+            <div class="proclatop C">
+                <a href="#" class="back"></a>Category
+            </div>
+            <ul class="sideup">
+                {volist name="sub_menu" id="vo"}
+                <li>
+                    <i class="tun"></i>
+                    <a href="{$vo.url}" title="{$vo.name}">{$vo.name}</a>
+                    <ul class="sidedown">
+                        {volist name="vo.child" id="td"}
+                        <li>
+                            <a href="{:getCateUrl($td.id,'')}">{$td.name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="box pro-list">
+            <div class="big-tit">{$third_name}</div>
+            <ul class="acea-row row-between-wrapper">
+                {volist name="lists" id="vo"}
+                <li>
+                    <a href="{:getDetailUrl($vo.id,$vo.website)}"  title="{$vo.title}">
+                        <div class="pic-box">
+                            <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                        </div>
+                        <div class="pic-title">{$vo.title}</div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+            <div class="page-box">
+                {$lists->render()}
+            </div>
+        </div>
+    </div>
+</div>

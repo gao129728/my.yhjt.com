@@ -1,0 +1,59 @@
+{if $module.titleStyle eq 3/}
+    {volist name="module['cate_article_list']" id="tab_cate_name"}
+    <div class="pic-list-panel clearfix">
+        {if $module.moduleParam[10] and $module.moduleParam[12] }
+        <a class="aprev"><i class="iconfont icon-left"></i></a>
+        <a class="anext"><i class="iconfont icon-right"></i></a>
+        {/if}
+        <ul>
+            {volist name="tab_cate_name['art_list']" id="listPic"}
+            <li style="width:{$module.moduleParam[4]? $module.moduleParam[2]+2:$module.moduleParam[2]}px;" {if $module.moduleParam[10] or ($module.moduleParam[10]==0 and $i % $module.moduleParam[1] > 0)}class="MgRt"{/if}>
+                <p class="pic"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}"><img src="__UPLOAD_PATH__/{$listPic.photo}" width="{$module.moduleParam[2]}" height="{$module.moduleParam[3]}" {if $module.moduleParam[4]}class="imgBd"{/if} alt="{$listPic.title}"></a></p>
+                {if $module.moduleParam[5]}
+                <p class="tit"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}">{$listPic.title|leftstr=$module.moduleParam[6]}</a></p>
+                {/if}
+                {if $module.moduleParam[7]}
+                <div class="intro">{$listPic.content|leftstr_html=$module.moduleParam[8]}</div>
+                {/if}
+                {if $module.moduleParam[9]}
+                <p class="detail"><a href="{$listPic.url}" target="_blank">查看详情</a></p>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    {/volist}
+{else/}
+<div class="pic-list-panel clearfix">
+    {if $module.moduleParam[10] and $module.moduleParam[12] }
+    <a class="aprev"><i class="iconfont icon-left"></i></a>
+        <a class="anext"><i class="iconfont icon-right"></i></a>
+    {/if}
+    <ul>
+        {volist name="module['art_list']" id="listPic"}
+        <li style="width:{$module.moduleParam[4]? $module.moduleParam[2]+2:$module.moduleParam[2]}px;" {if $module.moduleParam[10] or ($module.moduleParam[10]==0 and $i % $module.moduleParam[1] > 0)}class="MgRt"{/if}>
+            <p class="pic"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}"><img src="__UPLOAD_PATH__/{$listPic.photo}" width="{$module.moduleParam[2]}" height="{$module.moduleParam[3]}" {if $module.moduleParam[4]}class="imgBd"{/if} alt="{$listPic.title}"></a></p>
+            {if $module.moduleParam[5]}
+            <p class="tit"><a href="{$listPic.url}" target="_blank" title="{$listPic.title}">{$listPic.title|leftstr=$module.moduleParam[6]}</a></p>
+            {/if}
+            {if $module.moduleParam[7]}
+            <div class="intro">{$listPic.content|leftstr_html=$module.moduleParam[8]}</div>
+            {/if}
+            {if $module.moduleParam[9]}
+            <p class="detail"><a href="{$listPic.url}" target="_blank">查看详情</a></p>
+            {/if}
+        </li>
+        {/volist}
+    </ul>
+</div>
+{/if}
+<script type="text/javascript">
+    setPicSpace("#index-module-{$sl}{$ml} .pic-list-panel",{$module.moduleParam[4]? $module.moduleParam[2]+2:$module.moduleParam[2]},{$module['moduleParam'][1]});  //设置图片间距
+    {if $module.moduleParam[10]}
+        {if $module.moduleParam[11] eq 0}
+            $("#index-module-{$sl}{$ml} .pic-list-panel").slide({mainCell:"ul", autoPlay:true, autoPage:true, effect:"leftLoop", vis:{$module['moduleParam'][1]}, trigger:"click", prevCell:".aprev",nextCell:".anext"});
+        {else/}
+            $("#index-module-{$sl}{$ml} .pic-list-panel").slide({mainCell:"ul", autoPlay:true, effect:"leftMarquee", vis:{$module['moduleParam'][1]}, trigger:"click", interTime:30, prevCell:".aprev",nextCell:".anext"});
+        {/if}
+    {/if}
+</script>

@@ -1,0 +1,246 @@
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        <div class="proxl">
+            {$subCur_name}
+        </div>
+        <div class="procla">
+            <div class="proclatop C">
+                <a href="#" class="back"></a>Category
+            </div>
+            <ul class="sideup">
+                {volist name="sub_menu" id="vo"}
+                <li>
+                    <i class="tun"></i>
+                    <a href="{$vo.url}" title="{$vo.name}">{$vo.name}</a>
+                    <ul class="sidedown">
+                        {volist name="vo.child" id="td"}
+                        <li>
+                            <a href="{:getCateUrl($td.id,'')}">{$td.name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="box pro-details">
+            <div class="big-tit">{$info.title}</div>
+            <div class="details">
+                <img src="__UPLOAD_PATH__/{$info.photo}" alt="">
+                <div class="pror_b">
+                    {$info.intro}
+                </div>
+                <div class="share-box">
+                    <div><span class="iconfont icon-fenxiang"></span>share</div>
+                    <div class="collection" onclick="collect({$info.id})"><span class="iconfont {if $info.is_collect eq 1}icon-shoucang1{else /}icon-shoucang{/if}"></span>Collection</div>
+                </div>
+                <div class="num-box">
+                        Quantity:
+                        <button style="" onclick="change_num({$info.id}, 0);">-</button>
+                        <input style="" type="text" value="1" id="number" onblur="change_num({$info.id}, 2);">
+                        <button class="button" onclick="change_num({$info.id}, 1)">+</button>
+                        Subtotal:
+                        <div style="display: none" id="goods_price">{$info.price}</div>
+                        <span id="goods_total_price">${if $info.price}{$info.price}{else/}0.00{/if}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pro_show">
+        <div class="pro_show_t clearfix">
+            <span class="on">Product details</span>
+            <span>Product consulting</span>
+        </div>
+        <div class="procontent">
+            <ul class="details-cont">
+                {$info.content}
+                {volist name="info.piclist" id="vo"}
+                <p>
+                    <img src="__UPLOAD_PATH__/{$vo.pic}" alt="">
+                </p>
+                {/volist}
+            </ul>
+            <ul class="content">
+                <form action="/mobile/form/consult" method="post" id="consult">
+                    <input type="hidden" id="product" name="product" value="{$info.title}">
+                    <input type="hidden" name="isMessage" name="isMessage" value="0">
+                    <!--<div class="middle line acea-row">
+                        <div class="tit">Name: </div>
+                        <div>
+                            <p> <i>First name </i><input type="text" id="firstname" name="firstname"></p>
+                            <p><i>Last name </i><input type="text" id="lastname" name="lastname"><b>*</b></p>
+                        </div>
+                    </div>-->
+                    <div class="line acea-row">
+                        <div class="tit">Name: </div><input type="text" id="name" name="name"> <b>*</b>
+                    </div>
+                    <div class="line acea-row">
+                        <div class="tit">E-mail: </div><input type="text" id="email" name="email"> <b>*</b>
+                    </div>
+                   <!-- <div class="line acea-row">
+                        <div class="tit">Tel: </div><input type="text" id="phone" name="phone"> <b>*</b>
+                    </div>
+                    <div class="line acea-row">
+                        <div class="tit">Fax: </div><input type="text" id="fax" name="fax"> <b>*</b>
+                    </div>-->
+                    <div class="line acea-row">
+                        <div class="tit">Subject: </div><input type="text" id="topic" name="topic"> <b>*</b>
+                    </div>
+                    <div class="line acea-row">
+                        <div class="tit">Evaluate: </div>
+                        <div class="textarea">
+                            <textarea id="content" name="content" cols="30" rows="10"></textarea>
+                            <strong>Enter between 1 to 3000 characters. </strong>
+                        </div>
+                    </div>
+                   <!-- <div class="code line acea-row">
+                        <div class="tit">Verification code: </div><input type="text" id="code" name="code">
+                        <img id="captcha" src="/mobile/form/code_img.html" class="codeImg" onclick="this.src='/mobile/form/code_img.html?time='+Math.random();"  alt="captcha">
+                    </div>-->
+                    <input type="submit" name="Submit" value="Submit" class="insubmit">
+                </form>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="details-btn acea-row">
+    <div onclick="add_to_cart({$info.id})" class="inp-btn cart"><span class="iconfont icon-gouwuche"></span>Add to cart</div>
+    <div onclick="buy_now({$info.id})" class="inp-btn"><span class="iconfont icon-piliangxiadan"></span>Buy now</div>
+</div>
+<script type="text/javascript">
+    <!--    收藏-->
+    function collect(id){
+        if(isNaN(id)){
+            layer.msg("参数错误", {icon: 5,time:2000,shade: 0.5}, function(index){
+                layer.close(index);
+            });
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url:"/mobile/member/addcollection",
+            data:"id=" + id,
+            dataType:"json",
+            success:function(result){
+                if(result && result.code==1){
+                    layer.msg(result.msg, {icon: 6,time:1000,shade: 0.5}, function(index){
+                        layer.close(index);
+                    });
+                    // window.location = "/mobile/member/shopping";
+                } else {
+                    layer.msg(result.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                        layer.close(index);
+                        window.location = "/mobile/member/login";
+                    });
+                }
+            }
+        });
+    }
+
+
+</script>
+<script type="text/javascript">
+    $(function(){
+        $('#consult').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+
+        }
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+
+    function add_to_cart(id){
+        if(isNaN(id)){
+            layer.msg("参数错误", {icon: 5,time:2000,shade: 0.5}, function(index){
+                layer.close(index);
+            });
+            return false;
+        }
+        var num =$('#number').val();
+        $.ajax({
+            type: "POST",
+            url:"/mobile/member/addshopping",
+            data:"method=add&id=" + id+'&num='+num,
+            dataType:"json",
+            success:function(result){
+                if(result && result.code==1){
+                    layer.msg(result.msg, {icon: 6,time:1000,shade: 0.5}, function(index){
+                        layer.close(index);
+                    });
+                    // window.location = "/mobile/member/shopping";
+                } else {
+                    layer.msg(result.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                        layer.close(index);
+                        window.location = "/mobile/member/login";
+
+                    });
+                }
+            }
+        });
+    }
+
+
+    //立即购买
+    function buy_now(id){
+        if(isNaN(id)){
+            layer.msg("参数错误", {icon: 5,time:2000,shade: 0.5}, function(index){
+                layer.close(index);
+            });
+            return false;
+        }
+        var num =$('#number').val();
+        $.ajax({
+            type: "POST",
+            url:"/mobile/member/addshopping",
+            data:"method=add&id=" + id+'&num='+num,
+            dataType:"json",
+            success:function(result){
+                if(result && result.code==1){
+                    window.location = "/mobile/member/shopping";
+                } else {
+                    layer.msg(result.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                        layer.close(index);
+                        window.location = "/mobile/member/login";
+
+                    });
+                }
+            }
+        });
+    }
+</script>
+<script>
+    // 产品详情导航切换
+    $('.procontent ul').eq(0).show();
+    $('.pro_show_t span').click(function () {
+        var index = $(this).index();
+        $(this).addClass('on').siblings().removeClass('on');
+        $('.procontent ul').eq(index).show().siblings().hide();
+    })
+
+
+    $('.collection').click(function () {
+        if ($(this).find('span').hasClass('icon-shoucang')) {
+            $(this).find('span').removeClass('icon-shoucang').addClass('icon-shoucang1')
+        } else {
+            $(this).find('span').removeClass('icon-shoucang1').addClass('icon-shoucang')
+        }
+    })
+</script>

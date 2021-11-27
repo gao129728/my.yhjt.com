@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+
+<body style="background-color: #EEEEEE;">
+{include file="public/header" /}
+<div class="wap">
+  <div class="top-line"> </div>
+  <div class="inner-box">
+    {include file="member/left" /}
+  </div>
+  <div class="collection ">
+    <div class="big-tit">My Collection</div>
+    <ul class="order-list">
+      {volist name="collectionlist" id="vo" empty="$empty_collect"}
+      <li class="acea-row">
+        <div class="pic-box" onclick="location.href = '{:getDetailUrl($vo.info.id,$vo.info.website)}'">
+          <img src="__UPLOAD_PATH__/{$vo.info.photo}" alt="">
+        </div>
+        <div class="cont-box">
+          <div class="name">{$vo.info.title}</div>
+          <div class="price">${$vo.info.price}</div>
+          <div class="inp-btn delete" onclick="delete_collect({$vo.info.id})"><a> delete</a> </div>
+        </div>
+      </li>
+      {/volist}
+    </ul>
+  </div>
+  <div class="footer">
+    {include file="public/footer" /}
+  </div>
+</div>
+<script>
+  function delete_collect(id) {
+    layer.confirm('Delete this collection?', {icon: 3, title:'Caution',btn : [ 'OK', 'Cancel' ]}, function(index){
+      $.getJSON('{:url("/mobile/member/del_collect")}', {'id': id}, function (res) {
+        if (res.code == 1) {
+          layer.msg(res.msg, {icon: 1, time: 1500, shade: 0.1}, function () {
+            location.reload();
+          });
+        } else {
+          layer.msg(res.msg, {icon: 0, time: 1500, shade: 0.1});
+             layer.close(index);
+        }
+      });
+    })
+  }
+</script>
+</body>
+
+</html>

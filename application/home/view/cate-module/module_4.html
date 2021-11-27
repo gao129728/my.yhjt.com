@@ -1,0 +1,31 @@
+<!--news-->
+<div class="container w1200">
+    {include file="public/left_menu" /}
+      <div class="con_title"><b>{$navCate.name}</b> </div>
+    <!--{include file="public/sub_menu" /}-->
+    <!--新闻列表-->
+    <ul class="news-list">
+        {volist name="lists" id="vo"}
+        <li>
+            <a href="{:getDetailUrl($vo.id,$vo.website)}" class="clearfix">
+                <div class="pic-box">
+                    <img src="__UPLOAD_PATH__/{$vo.photo}" alt="">
+                </div>
+                <div class="time">
+                    <div class="num">{$vo.create_time|date="d",###}</div>
+                    <div>{$vo.create_time|date="M",###}</div>
+                </div>
+                <div class="cont-box">
+                    <div class="title">{$vo.title}</div>
+                    <div class="cont">
+                        {$vo.content}
+                    </div>
+                </div>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+    <div class="page-box">
+        {$lists->render()}
+    </div>
+</div>

@@ -1,0 +1,115 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查看详情</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t view-form" name="edit" id="edit" method="post" action="view_message">
+                        <input type="hidden" name="id" value="{$message.id}">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr class="long-tr"  >
+                                <th colspan="3" style="text-align: left">订单基本信息</th>
+
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td><b>订单号：</b>{$info.order_num}</td>
+                                <td colspan="2"><b>下单时间：</b>{$info.create_time|date='Y-m-d H:i:s',###}</td>
+                            </tr>
+
+                            <tr>
+                                <td><b>状态：</b>{if $info.status eq 0}未支付{elseif $info.status eq 1}已支付{/if}</td>
+                                <td colspan="2"><b>订单金额：</b>${$info.total}</td>
+                            </tr>
+                            <thead>
+                            <tr class="long-tr"  >
+                                <th colspan="3" style="text-align: left">商品基本信息</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td align="center"><b>商品名称</b></td>
+                                <td align="center"><b>数量</b></td>
+                                <td align="center"><b>总价</b></td>
+                            </tr>
+                           {volist name='info.cart_info' id='vo'}
+                            <tr>
+                                <td align="center">{$vo.pinfo.title}</td>
+                                <td align="center">×{$vo.cart_num}</td>
+                                <td align="center">${$vo.cart_num*$vo.price}</td>
+                            </tr>
+                            {/volist}
+
+
+                            <thead>
+                            <tr class="long-tr"  >
+                                <th colspan="3" style="text-align: left">收货信息</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td><b>收 货 人：</b>{$info.address_detail.name}</td>
+                                <td colspan="2"><b>手机号码：</b>{$info.address_detail.phone}</td>
+                            </tr>
+                            <tr>
+                                <td><b>邮编：</b>{$info.address_detail.postcode}</td>
+                                <td colspan="2"><b>邮箱：</b>{$info.address_detail.email}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>收货地址：</b>{$info.address_detail.address}</td>
+                            </tr>
+                        </table>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+<!--                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;-->
+                                <a class="btn btn-danger" href="{$backUrl}"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#edit').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+
+            if ($.trim($('#sortnum').val()) == '' || $.trim($('#sortnum').val()).match(/\D/))
+            {
+                layer.msg('请输入合法的序号', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.href="{$backUrl}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

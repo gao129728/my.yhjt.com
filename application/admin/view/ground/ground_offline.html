@@ -1,0 +1,254 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<script type="text/javascript" src="/static/admin/js/My97DatePicker/WdatePicker.js"></script>
+<style>
+    .input-span{float:left; line-height: 34px; width: 100px; text-align: right;}
+    .col-sm-2{padding:0; margin-right:10px;}
+    .ibox-title h5{float:left;}
+    .ibox-title .btn{float:right; margin-top:-5px;}
+    .table-responsive .selected{ background:#029FF0;}
+    .nav.nav-tabs li a, .nav.nav-tabs li a:hover, .nav.nav-tabs li.active a{padding:7px 20px 7px 25px !important;}
+    .table-responsive .hasOrder{background:#68d44a;}
+</style>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>线下预订列表</h5>
+            <a href="{:url('ground/index_cate')}" class="btn btn-primary btn-sm"><i class="fa fa-undo"></i> 返回</a>
+        </div>
+        <div class="ibox-content">
+            <!--搜索框开始-->           
+            <div class="row">
+                <div class="col-sm-12">   
+                    <div  class="col-sm-2" style="width:140px;">
+                        <div class="input-group" >
+                            <a href="javascript:seatModel();"><button class="btn btn-outline btn-primary" type="button">添加线下预订</button></a>
+                        </div>
+                    </div>
+                    <form name="admin_list_sea" class="form-search" method="get" action="{:url('ground_offline')}">
+                        <input type="hidden" name="id" value="{$cate_id}" id="cate_id">
+                        <div class="col-sm-10">
+                            <span class="input-span">时间：</span>
+                            <div class="col-sm-2">
+                                <input id="start_date" type="text" class="form-control" name="start_date" value="{$start_date}" readonly="readonly" onFocus="WdatePicker({startDate:'<?=date("Y-m-d")?>',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" style="background:url(__IMG__/WdatePicker.jpg) no-repeat 97% center">
+                            </div>
+                            <span style="float:left; line-height: 34px; padding-right:10px;">—</span>
+                            <div class="col-sm-2">
+                                <input id="end_date" type="text" class="form-control" name="end_date" value="{$end_date}" readonly="readonly" onFocus="WdatePicker({startDate:'<?=date("Y-m-d")?>',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})" style="background:url(__IMG__/WdatePicker.jpg) no-repeat 97% center">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-btn"> 
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button> 
+                                </span>
+                            </div>
+                        </div>
+                    </form>                         
+                </div>
+            </div>
+            <!--搜索框结束-->
+            <div class="hr-line-dashed"></div>
+            <div class="example-wrap">
+                <div class="example">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="long-tr">
+                                <th width="4%">序号</th>
+                                <th width="15%">场地名称</th>
+                                <th width="10%">所属分类</th>
+                                <th width="10%">时间段</th>
+                                <th width="10%">日期</th>
+                                <th width="10%">操作</th>
+                            </tr>
+                        </thead>
+                        <script id="list-template" type="text/html">
+                            {{# for(var i=0;i<d.length;i++){  }}
+                                <tr class="long-td">
+                                    <td>{{d[i].id}}</td>
+                                    <td>{{d[i].title}}</td>
+                                    <td>{{d[i].name}}</td>
+                                    <td>{{d[i].time}}</td>
+                                    <td>{{d[i].orderTime}}</td>
+                                    <td>
+                                        <a href="javascript:;" onclick="del_seat({{d[i].id}})" class="btn btn-danger btn-xs btn-outline">
+                                            <i class="fa fa-trash-o"></i> 删除</a>
+                                    </td>
+                                </tr>
+                            {{# } }}
+                        </script>
+                        <tbody id="list-content"></tbody>
+                    </table>
+                    <div id="AjaxPage" style="text-align:right;"></div>
+                    <div style="text-align: right;">
+                        共{$count}条数据，<span id="allpage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 加载动画 -->
+<div class="spiner-example">
+    <div class="sk-spinner sk-spinner-three-bounce">
+        <div class="sk-bounce1"></div>
+        <div class="sk-bounce2"></div>
+        <div class="sk-bounce3"></div>
+    </div>
+</div>
+
+<!-- 预订详情展示部分 -->
+<div class="seatModel">
+    <div class="modal-body" style="padding:5px 30px;">
+        <ul class="nav nav-tabs">
+            {volist name="date_list" id="vo"}
+            <li role="presentation" {if $key eq 0}class="active"{/if} data-date="{$vo.date}" data-date="{$vo.date}"><a href="#">{$vo.week}<br/>{$vo.date_name}</a></li>
+            {/volist}
+        </ul>
+        <div class="table-responsive">
+            <table class="table table-bordered order_table" >
+                <thead>
+                    <tr>
+                        <th width="40%"></th>
+                        {volist name="ground_list" id="vo"}
+                        <th>{$vo.title}</th>
+                        {/volist}
+                    </tr>
+                </thead>
+                <tbody id="seat_list">
+                    {volist name="ground_time" id="vo"}
+                    <tr>
+                        <th scope="row">{$vo.start_time}-{$vo.end_time}</th>
+                        {volist name="vo['seat']" id="seat"}
+                        <td {if $seat.state eq 3}class="hasOrder"{elseif $seat.state eq 2/}class="warning"{elseif $seat.state eq 1/}class="selected"{/if} data-id="{$seat.id}" data-date="{$seat.date}" data-time="{$vo.id}"></td>
+                        {/volist}
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-group" style="text-align: center;">
+        <button class="btn btn-danger" id="coupons_btn_1" type="button">&nbsp;<i class="fa fa-undo" onclick=""></i> 返回&nbsp;</button>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    function seatModel(){
+        //页面层
+        layer.open({
+            type: 1,
+            title:'训练场',
+            skin: 'layui-layer-demo', //加上边框
+            area: ['830px', '80%'], //宽高
+            closeBtn: 0,
+            content: $('.seatModel')
+        });
+    }
+
+    $('.seatModel .nav-tabs li').click(function(){
+        $(this).addClass('active').siblings().removeClass('active');
+        var param = {
+            cate_id : {$cate_id},
+            date : $(this).attr('data-date')
+        };
+        $.post("{:url('getSeatList')}", param, function(result) {
+            if(result && result.code){
+                var data = result.data;
+                var htmlStr = '';
+                for(var i = 0;i < data.length;i++){
+                    htmlStr += '<tr>';
+                    htmlStr += '<th scope="row">'+data[i].start_time+'-'+data[i].end_time+'</th>';
+                    for(var j = 0;j<data[i].seat.length;j++) {
+                        if(data[i].seat[j].state == 3){
+                            td_class = 'hasOrder';
+                        }else if(data[i].seat[j].state == 2){
+                            td_class = 'warning';
+                        }else if(data[i].seat[j].state == 1){
+                            td_class = 'selected';
+                        }else{
+                            td_class = '';
+                        }
+                        htmlStr += '<td class="'+ td_class +'" data-id="'+ data[i].seat[j].id +'" data-date="'+ data[i].seat[j].date +'" data-time="'+ data[i].id +'"></td>';
+                    }
+                    htmlStr += '</tr>';
+                }
+
+                $('#seat_list').html(htmlStr);
+            }
+        }, 'json');
+    });
+
+    $('#coupons_btn_1').click(function(){
+        location.reload();
+    });
+
+    $('#seat_list').on('click', "td", function(){
+        var _this = $(this);
+        if($(this).hasClass('warning') || $(this).hasClass('selected')){
+            var data = {
+                cate_id : {$cate_id},
+                groundId : $(this).attr('data-id'),
+                date : $(this).attr('data-date'),
+                time : $(this).attr('data-time')
+            };
+            $.post("{:url('handleSeat')}", data, function(result) {
+                if(result && result.code){
+                    if(result.type == 'cancel'){
+                        _this.addClass('warning').removeClass('selected');
+                    }else{
+                        _this.addClass('selected').removeClass('warning');
+                    }
+                    layer.msg(result.msg,{icon:1,time:1500,shade: 0.1});
+                }else{
+                    layer.msg(result.msg,{icon:5,time:1500,shade: 0.1});
+                }
+            }, 'json');
+        }
+    });
+
+    /**
+     * [Ajaxpage laypage分页]
+     * @param {[type]} curr [当前页]
+     */
+
+    Ajaxpage();
+    function Ajaxpage(curr){
+        var start_date=$('#start_date').val();
+        var end_date=$('#end_date').val();
+        var id=$('#cate_id').val();
+        $.getJSON('{:url("ground/ground_offline")}', {
+            page: curr || 1,id:id,start_date:start_date,end_date:end_date
+        }, function(data){      //data是后台返回过来的JSON数据
+			$(".spiner-example").css('display','none'); //数据加载完关闭动画
+            if(data==''){
+                $("#list-content").html('<td colspan="20" style="padding-top:10px;padding-bottom:10px;font-size:16px;text-align:center">暂无数据</td>');
+            }else{
+                var tpl = document.getElementById('list-template').innerHTML;
+                laytpl(tpl).render(data, function(html){
+                    document.getElementById('list-content').innerHTML = html;
+                });
+                laypage({
+                    cont: $('#AjaxPage'),//容器。值支持id名、原生dom对象，jquery对象,
+                    pages:'{$allpage}',//总页数
+                    skip: true,//是否开启跳页
+                    skin: '#1AB5B7',//分页组件颜色
+                    curr: curr || 1,
+                    groups: 3,//连续显示分页数
+                    jump: function(obj, first){
+                        if(!first){
+                            Ajaxpage(obj.curr)
+                        }
+                        $('#allpage').html('第'+ obj.curr +'页，共'+ obj.pages +'页');
+                    }
+                });
+            }
+        });
+    }
+
+function del_seat(id){
+    lunhui.confirm(id,'{:url("del_ground_offline")}');
+}
+</script>
+</body>
+</html>

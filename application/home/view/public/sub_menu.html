@@ -1,0 +1,8 @@
+<div class="con_title"><b>{$navCate.en_name}</b> </div>
+<div class="nav">
+    <ul class="fcc">
+        {volist name="sub_menu" id="vo"}
+        <li {if $subCur eq $vo.id}class="cur"{else/}class=""{/if}><a href="{$vo.url}" title="">{$vo.name}</a></li>
+        {/volist}
+    </ul>
+</div>

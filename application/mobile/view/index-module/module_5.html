@@ -1,0 +1,28 @@
+<div class="tab-pic-panel">
+    <dl class="fl">
+        {volist name="module['cate_article_list']" id="tab_cate_name"}
+        <dt><a href="{$tab_cate_name.url}" title="{$tab_cate_name.name}"><em>{$tab_cate_name.name}</em><span>＋</span></a></dt>
+        {/volist}
+    </dl>
+    <div class="fr pic-box">
+        {volist name="module['cate_article_list']" id="tab_cate_name"}
+        <ul class="clearfix">
+            {volist name="tab_cate_name['art_list']" id="itemPic"}
+            <li {if $i % $module.moduleParam[3] > 0}class="MgRt"{/if}>
+                <p class="pic">
+                	<a href="{$itemPic.url}" title="{$itemPic.title}" class="mask" target="_blank"><i class="iconfont icon-jiantouyou"></i></a>
+                	<a href="{$itemPic.url}" title="{$itemPic.title}" width="{$module.moduleParam[6]}" height="{$module.moduleParam[7]}" class="imgbox {if $module.moduleParam[8]}imgBd{/if} " ><img src="__UPLOAD_PATH__/{$itemPic.photo}" width="{$module.moduleParam[6]}" height="{$module.moduleParam[7]}" alt="{$itemPic.title}"></a>
+                </p>
+                {if $module.moduleParam[4]}
+                <p class="tit"><a href="{$itemPic.url}" title="{$itemPic.title}" target="_blank">{$itemPic.title|leftstr=$module.moduleParam[5]}</a></p>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+        {/volist}
+    </div>
+</div>
+<script type="text/javascript">
+    setPicSpace("#index-module-{$sl}{$ml} .tab-pic-panel .pic-box",{$module.moduleParam[8]? $module.moduleParam[6]+2:$module.moduleParam[6]},{$module['moduleParam'][3]});  //设置图片间距
+    $("#index-module-{$sl}{$ml} .tab-pic-panel").slide({mainCell:".pic-box",titCell:"dl dt",effect:"fold",autoPlay:{$module.moduleParam[9]? 'true':'false'},autoPage:false,interTime:2500});
+</script>

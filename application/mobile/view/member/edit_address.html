@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+<body>
+{include file="public/header" /}
+<div class="wap">
+  <div class="top-line"> </div>
+  <div class="inner-box">
+    {include file="member/left" /}
+    <div class="box">
+      <div class="big-tit">Edit address</div>
+      <div class="add-address">
+        <form action="/mobile/member/edit_address" method="post" id="edit_address">
+        <div class="fsc">
+            <div class="form-group gender">
+              <label for="sex">Gender</label>
+              <select name="sex" id="sex" class="">
+                <option value="">select</option>
+                <option value="man">man</option>
+                <option value="woman">woman</option>
+              </select>
+            </div>
+
+          <input class="form-control" autofocus="autofocus" value="" type="hidden" name="id" id="id">
+
+          <div class="form-group name">
+              <label for="name">Name</label>
+              <input class="form-control" autofocus="autofocus" value="" type="text" name="name" id="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Add</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="address" id="address">
+          </div>
+          <div class="form-group">
+            <label for="emails">E-mail</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="email" id="emails">
+          </div>
+          <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input class="form-control" autofocus="autofocus" value="" type="text" name="postcode" id="postcode">
+          </div>
+          <div class="checkbox-line">
+            <input type="checkbox" name="is_default" id="is_default" value="1"><label for="is_default">This is my default address</label>
+          </div>
+          <div class="form-group telephone">
+            <label for="phone">Telephone</label>
+            <div class="fsc">
+              <select name="phone_kind" id="phone_kind" class="">
+                <option value="">select</option>
+                <option value="personal">personal</option>
+                <option value="company">company</option>
+              </select>
+              <input class="form-control" autofocus="autofocus" value="" type="text" name="phone" id="phone">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="submit" name="commit" value="Preservation" class="inp-btn" tabindex="3" data-disable-with="···">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    {include file="public/footer" /}
+  </div>
+</div>
+<input type="hidden" id="type" value="{$type}">
+<script type="text/javascript">
+  $(function(){
+    var type=$('#type').val();
+
+    $('#edit_address').ajaxForm({
+      beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+      success: complete, // 这是提交后的方法
+      dataType: 'json'
+    });
+    function checkForm(){
+
+    }
+    function complete(data){
+      if(data.code == 1){
+        layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+          if(type==1){
+            window.location.href = '/mobile/member/address?type=1';
+          }else{
+            window.location.href = '/mobile/member/address';
+          }
+        });
+      }else{
+        layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+          layer.close(index);
+        });
+        return false;
+      }
+    }
+  });
+</script>
+<script type="text/javascript">
+  function getQueryString(key) {
+    var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+    var result = window.location.search.substr(1).match(reg);
+    return result?decodeURIComponent(result[2]):null;
+  }
+  // 这样调用：
+  var id = getQueryString("id");
+  var name = getQueryString("name");
+  var address = getQueryString("address");
+  var email = getQueryString("email");
+  var postcode = getQueryString("postcode");
+  var phone_kind = getQueryString("phone_kind");
+  var sex = getQueryString("sex");
+  var phone = getQueryString("phone");
+  var is_default = getQueryString("is_default");
+
+  $('#id').prop('value',id);
+  $('#name').prop('value',name);
+  $('#address').prop('value',address);
+  $('#emails').prop('value',email);
+  $('#postcode').prop('value',postcode);
+  $('#phone_kind').prop('value',phone_kind);
+  $('#sex').prop('value',sex);
+  $('#phone').prop('value',phone);
+  if(is_default==1){
+    $('#is_default').prop('checked',true);
+  }else{
+    $('#is_default').prop('checked',false);
+  }
+
+
+</script>
+</body>
+
+</html>

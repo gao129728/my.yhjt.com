@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{include file="public/head" /}
+
+<body>
+<div class="login">
+	<img src="__IMG__/logo-big.png" alt=""  class="logo">
+	<div class="login__subtitle">Already have an account?<a href="/home/member/login">Login</a></div>
+	<form action="/home/member/register" method="post" id="register">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input class="form-control" autofocus="autofocus" tabindex="1" value="" type="text" name="email"
+				   id="email">
+		</div>
+		<div class="form-group">
+			<label for="password"> Password <span>(min. 6 char)</span> </label>
+			<input class="form-control" autocomplete="off" tabindex="2" type="password" name="password"
+				   id="password">
+		</div>
+		<div class="form-group">
+			<label for="repassword">Confirm Password <span></span> </label>
+			<input class="form-control" autocomplete="off" tabindex="3" type="password" name="repassword"
+				   id="repassword">
+		</div>
+		<div class="form-group">
+			<input type="submit" name="commit" value="Register" class="btn" tabindex="3" data-disable-with="···">
+		</div>
+		<div class="tips">
+		    {$config.web_sales}
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('#register').ajaxForm({
+			beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+			success: complete, // 这是提交后的方法
+			dataType: 'json'
+		});
+
+		function checkForm(){
+
+		}
+		function complete(data){
+			if(data.code == 1){
+				layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+					layer.close(index);
+					window.location.href="login.html";
+					// window.location.reload();
+				});
+			}else{
+				layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+					layer.close(index);
+				});
+				return false;
+			}
+		}
+	});
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,153 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>上传设置</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="{:url('multiupload')}" method="get" class="form-horizontal" onSubmit="return checkForm(this);">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">选择栏目：</label>
+                            <div class="input-group col-sm-1">
+                                <select class="form-control input_wd2" name="cate_id" id='cate_id'>
+                                    <option value="">请选择栏目分类</option>
+                                    {volist name="cate" id="vo"}
+                                    <option value="{$vo.id}">{$vo.lefthtml}{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题：</label>
+                            <div class=" col-sm-3">
+                                <input style="margin-left:-15px" type="text" class="form-control" name="title" value="">
+
+                            </div>
+                            <div class="input-group col-sm-1">
+
+                                <span class="help-question"><a data-toggle="tooltip" data-placement="auto right" title="标题不填则使用图片文件名作为标题"><i class="fa fa-question-circle-o"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">上传类别：</label>
+                            <div class="input-group col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='upload_sort' value="0" checked/>内容&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='upload_sort' value="1" />缩略图
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">缩略图样式：</label>
+                            <div class="input-group col-sm-10">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='photo_style' value="0" checked/><span class="radioTxt">无</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='photo_style' value="1" />固定宽和高&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='photo_style' value="2" />固定宽度&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='photo_style' value="3" />固定高度&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='photo_style' value="4" />左上裁剪&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name='photo_style' value="5" />居中裁剪&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">缩略图尺寸：</label>
+                            <div class="input-group col-sm-10">
+                                <span class="control-label" style="float:left;">宽度</span>
+                                <div class="col-sm-1 input_wd3">
+                                    <input type="text" class="form-control" name="small_img_width" value="280">
+                                    <span class="tp-unit">px</span>
+                                </div>
+                                <span class="control-label" style="float:left; padding-left:60px;">高度</span>
+                                <div class="col-sm-1 input_wd3">
+                                    <input type="text" class="form-control" name="small_img_height" value="173">
+                                    <span class="tp-unit">px</span>
+                                </div>
+                                <div class="col-sm-1 input_wd3">
+                                    <span class="help-question" style="left:110%;"><a data-toggle="tooltip" data-placement="auto right" title="建议尺寸：280px*173px"><i class="fa fa-question-circle-o"></i></a></span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="note-content">
+                                <label class="note-title">备注：</label>
+                                <div class="note-box">
+                                    <div class="note-ico">
+                                        <span class="fa-stack fa-lg">
+                                           <i class="fa fa-circle-thin fa-stack-2x"></i>
+                                           <i class="fa fa-exclamation fa-stack-1x"></i>
+                                        </span>
+                                    </div>
+                                    <div class="note-text">
+                                        <p>1、上传类别为缩略图时，只上传缩略图。</p>
+                                        <p>2、缩略图压缩处理, 仅限jpg、png、gif。</p>
+                                        <p>3、如图片尺寸小于缩略图尺寸，以原图作为缩略图。</p>
+                                        <p>4、固定宽高压缩可能使图片变形。</p>
+                                        <p>5、固定宽度、高度其中一个，另一个值自动等比例设置，可能与给定的数值不一样。</p>
+                                        <p>6、裁剪的方式尺寸与设置相同，但可能无法显示全部图片内容。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-warning" type="submit" style="padding:6px 20px;"> 确定 </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $('input[name="upload_sort"]').on('ifChecked', function(event){
+        if($(this).val() == 1){
+            $('.radioTxt').text('原始图片宽高');
+        }else{
+            $('.radioTxt').text('无');
+        }
+    });
+
+    function checkForm(form){
+        if($('#cate_id').val() == '')
+        {
+            layer.msg('请选择栏目分类', {icon: 5,time:1500,shade: 0.1}, function(index){
+                layer.close(index);
+            });
+            return false;
+        }
+
+        if($('input[name="photo_style"]:checked').val() != 1)
+        {
+            if (!/^[1-9][0-9]*$/.exec(form.small_img_width.value))
+            {
+                alert("缩略图宽度填写错误。");
+                form.small_img_width.focus();
+                return false;
+            }
+            if (!/^[1-9][0-9]*$/.exec(form.small_img_height.value))
+            {
+                alert("缩略图高度填写错误。");
+                form.small_img_height.focus();
+                return false;
+            }
+        }
+
+        return true;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+<!--头部-->
+{include file="public/header" /}
+<!--主要内容-->
+<div class="MainCon inside-container">
+	<div class="breadcrumbs">
+		<div class="box-wrap">
+			您现在的位置：<a href="{:url('home/index/index')}">首页</a> > {$base_name}
+		</div>
+	</div>
+	<div class="box-wrap clearfix">
+		<div class="centerCon">
+			<div class="sitemap">
+				{volist name="cate_tree" id="cate"}
+				<div class="cate-item">
+					<h2><a href="{$cate.url}" title="{$cate.name}" {if $cate.isTarget eq 1}target="_blank"{/if}>{$cate.name}</a></h2>
+					{if $cate.child}
+					<ul>
+						{volist name="cate['child']" id="second"}
+						<li class="second-li">
+							<h3><a href="{$second.url}" title="{$second.name}" {if $second.isTarget eq 1}target="_blank"{/if}>{$second.name}</a></h3>
+							{if $second.child}
+							<ul class="clearfix">
+								{volist name="second['child']" id="third"}
+								<li class="third-li">
+									<h4><a href="{$third.url}" title="{$third.name}" {if $third.isTarget eq 1}target="_blank"{/if}>{$third.name}</a></h4>
+									{if $third.child}
+									<dl>
+										{volist name="third['child']" id="four"}
+										<dt><a href="{$four.url}" title="{$four.name}" {if $four.isTarget eq 1}target="_blank"{/if}>{$four.name}</a></dt>
+										{/volist}
+									</dl>
+									{/if}
+								</li>
+								{/volist}
+							</ul>
+							{/if}
+						</li>
+						{/volist}
+					</ul>
+					{/if}
+				</div>
+				{/volist}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--底部-->
+{include file="public/footer" /}
+{include file="public/onlineqq" /}
+
+</body>
+</html>

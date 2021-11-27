@@ -1,0 +1,86 @@
+<div class="wap">
+    <div class="top-line"> </div>
+    <div class="inner-box">
+        {include file="public/sub_menu" /}
+        <div class="box about-box">
+            <div class="big-tit">{$navCate.en_name}</div>
+            <div class="register-box">
+                <form action="/mobile/form/message" method="post" id="message">
+                    <input type="hidden" name="isMessage" name="isMessage" value="1">
+                    <div class="input-line">
+                        <label for="name" class="tit"><i>*</i>Name:</label>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div class="input-line">
+                        <label for="company" class="tit"><i>*</i>Company: </label>
+                        <input type="text" name="company" id="company">
+                    </div>
+                    <div class="input-line">
+                        <label for="address" class="tit">Add: </label>
+                        <input type="text" name="address" id="address">
+                    </div>
+                    <div class="input-line">
+                        <label for="phone" class="tit"><i>*</i>Tel: </label>
+                        <input type="text" name="phone" id="phone">
+                    </div>
+                    <div class="input-line">
+                        <label for="fax" class="tit">Fax: </label>
+                        <input type="text" name="fax" id="fax">
+                    </div>
+                    <div class="input-line">
+                        <label for="email" class="tit"><i>*</i>E-mail: </label>
+                        <input type="text" name="email" id="email">
+                    </div>
+                    <div class="input-line">
+                        <label for="topic" class="tit"><i>*</i>Topic: </label>
+                        <input type="text" name="topic" id="topic">
+                    </div>
+                    <div class="input-line">
+                        <label for="content" class="tit"><i>*</i>Message: </label>
+                        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="input-line">
+                        <label for="code" class="tit">Verification: </label>
+                        <input type="text" name="code" id="code" class="code-input">
+                        <img src="/mobile/form/code_img.html" class="codeImg" onclick="this.src='/home/form/code_img.html?time='+Math.random();" alt=""/>
+                    </div>
+                    <div class="input-line " style="padding-top: 10px;">
+                        <div class="tit"></div>
+                        <div class="btn-box">
+                            <button type="submit" class="input-btn submit">Submit</button>
+                            <button type="reset" class="input-btn">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#message')[0].reset();
+    $(function(){
+        $('#message').ajaxForm({
+            beforeSubmit: checkForm, // 此方法主要是提交前执行的方法，根据需要设置
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+
+        function checkForm(){
+
+        }
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    window.location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+    });
+</script>

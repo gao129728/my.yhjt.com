@@ -1,0 +1,282 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>网站配置</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="{:url('save')}" method="post" class="form-horizontal" id="config">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">网站Logo：</label>
+                            <div class="col-sm-2" style="padding:0;">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="web_site_logo" id="web_site_logo" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $config.web_site_logo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $config.web_site_logo neq ''}
+                                    <input type="checkbox" name="delLogo" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$config.web_site_logo}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 仅支持jpg、png、gif</span>
+                            </div>
+                            <label class="col-sm-1 control-label">ico：</label>
+                            <div class="col-sm-2" style="padding:0;">
+                                <div class="uploadImg-box" style="width:80px">
+                                    <input type="file" name="web_site_ico" id="web_site_ico" class="imgFile" onchange="previewImage(this,'ico')"/>
+                                    <div class="up-img {if $config.web_site_ico neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $config.web_site_ico neq ''}
+                                    <input type="checkbox" name="delIco" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$config.web_site_ico}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>仅支持ico，<a href="http://www.bitbug.net" target="_blank">推荐格式在线转换地址</a></span>
+                            </div>
+                            <label class="col-sm-1 control-label">二维码：</label>
+                            <div class="col-sm-2" style="padding:0;">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="web_site_qrcode" id="web_site_qrcode" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $config.web_site_qrcode neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $config.web_site_qrcode neq ''}
+                                    <input type="checkbox" name="delQrcode" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$config.web_site_qrcode}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 仅支持jpg、png、gif</span>
+                            </div>
+                        </div>
+                        {if $wap_state eq 1}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">手机网站Logo：</label>
+                            <div class="col-sm-2" style="padding:0;">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="web_site_waplogo" id="web_site_waplogo" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $config.web_site_waplogo neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $config.web_site_waplogo neq ''}
+                                    <input type="checkbox" name="delwapLogo" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$config.web_site_waplogo}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 仅支持jpg、png、gif</span>
+                            </div>
+                            <label class="col-sm-1 control-label">手机二维码：</label>
+                            <div class="col-sm-2" style="padding:0;">
+                                <div class="uploadImg-box">
+                                    <input type="file" name="web_site_wapqrcode" id="web_site_wapqrcode" class="imgFile" onchange="previewImage(this)"/>
+                                    <div class="up-img {if $config.web_site_wapqrcode neq ''}hidden-box{/if}"><i class="fa fa-cloud-upload"></i><p>点击上传图片</p></div>
+                                    {if $config.web_site_wapqrcode neq ''}
+                                    <input type="checkbox" name="delwapqrcode" class="input-del" value="1" />
+                                    <div class="imgView"><img src="__UPLOAD_PATH__/{$config.web_site_wapqrcode}"/></div>
+                                    {/if}
+                                    <div class="uploadCover">
+                                        <div class="ulinfo clearfix">
+                                            <span class="up-btn"><i class="fa fa-cloud-upload"></i></span>
+                                            <span class="up-del"><i class="fa fa-close"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 仅支持jpg、png、gif</span>
+                            </div>
+                        </div>
+                        {/if}
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">网站标题：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="text" class="form-control" id="web_site_title" name="config[web_site_title]" value="{$config.web_site_title}">
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 网站标题</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">网站描述：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea class="form-control" type="text" rows="3" name="config[web_site_description]">{$config.web_site_description}</textarea>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 网站搜索引擎描述</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">网站关键字：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea class="form-control" type="text" rows="3" name="config[web_site_keyword]">{$config.web_site_keyword}</textarea>
+                                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 网站搜索引擎关键字</span>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">服务热线：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="text" class="form-control" name="config[web_serviceLine]" value="{$config.web_serviceLine}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">电子邮箱：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="text" class="form-control" name="config[web_email]" value="{$config.web_email}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">客服QQ：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="text" class="form-control" name="config[web_qq]" value="{$config.web_qq}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">公司地址：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="text" class="form-control" name="config[web_site_address]" value="{$config.web_site_address}">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">联系我们：</label>
+                            <div class="input-group col-sm-6">
+                                <script src="/static/admin/ueditor/ueditor.config.js" type="text/javascript"></script>
+                                <script src="/static/admin/ueditor/ueditor.all.js" type="text/javascript"></script>
+                                <textarea name="config[web_contact]" id="myEditor3" style="width:100%">{$config.web_contact}</textarea>
+                                <script type="text/javascript">
+                                    var editor1 = UE.getEditor('myEditor3', {
+                                        toolbars: [
+                                            ['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','fontfamily','fontsize','lineheight','justifyleft','justifycenter','justifyright','justifyjustify', '|','link','unlink']
+                                        ],
+                                        autoHeightEnabled: true,
+                                        autoFloatEnabled: true,
+                                        initialFrameHeight:200,
+                                        wordCount:false //是否开启字数统计
+                                         ,maximumWords:100000
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                         <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">优惠信息：</label>
+                            <div class="input-group col-sm-6">
+                                <textarea name="config[web_sales]" id="myEditor4" style="width:100%">{$config.web_sales}</textarea>
+                                <script type="text/javascript">
+                                    var editor1 = UE.getEditor('myEditor4', {
+                                        toolbars: [
+                                            ['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','fontfamily','fontsize','lineheight','justifyleft','justifycenter','justifyright','justifyjustify', '|','link','unlink']
+                                        ],
+                                        autoHeightEnabled: true,
+                                        autoFloatEnabled: true,
+                                        initialFrameHeight:200,
+                                        wordCount:false //是否开启字数统计
+                                         ,maximumWords:100000
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">版权信息：</label>
+                            <div class="input-group col-sm-6">
+                                <textarea name="config[web_site_copy]" id="myEditor2" style="width:100%">{$config.web_site_copy}</textarea>
+                                <script type="text/javascript">
+                                    var editor1 = UE.getEditor('myEditor2', {
+                                        toolbars: [
+                                            ['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','fontfamily','fontsize','lineheight','justifyleft','justifycenter','justifyright','justifyjustify', '|','link','unlink']
+                                        ],
+                                        autoHeightEnabled: true,
+                                        autoFloatEnabled: true,
+
+                                        initialFrameHeight:200,
+                                        wordCount:false //是否开启字数统计
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">头部Javascript代码：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea class="form-control" type="text" rows="3" name="config[web_head_javascript]">{$config.web_head_javascript}</textarea>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">底部Javascript代码：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea class="form-control" type="text" rows="3" name="config[web_footer_javascript]">{$config.web_footer_javascript}</textarea>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2 button-group">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存信息</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+    $(function(){
+        $('#config').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete, // 这是提交后的方法
+            dataType: 'json'
+        });
+        function checkForm(){
+            if($('#web_site_title').val() == ''){
+                layer.msg('请输入网站标题！', {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+        function complete(data){
+            if(data.code == 1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                    location.reload();
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body>
+{include file="public/header" /}
+
+<div class="wap">
+  <div class="top-line"> </div>
+  <div class="inner-box">
+    {include file="member/left" /}
+
+    <div class="box address">
+      <div class="big-tit">My address</div>
+      <ul class="address-box">
+        {volist name="addressList" id="vo"}
+        <li class="address-item {if $vo.is_default === 1}cur{/if}" >
+          <div class="name" onclick="setdefault({$vo.id})">{$vo.name}</div>
+          <ul class="information" onclick="setdefault({$vo.id})">
+            <li><span>E-mail：</span>{$vo.email}</li>
+            <li><span>Telephone：</span>{$vo.phone}</li>
+            <li><span>Postcode：</span>{$vo.postcode}</li>
+            <li><span>Address：</span>{$vo.address}</li>
+          </ul>
+          <div class="btn-box">
+            <a class="inp-btn" id="newedit" href="/mobile/member/edit_address?id={$vo.id}&is_default={$vo.is_default}&address={$vo.address}&phone_kind={$vo.phone_kind}&postcode={$vo.postcode}&email={$vo.email}&name={$vo.name}&sex={$vo.sex}&phone={$vo.phone}&id={$vo.id}{if $type ==1}&type=1{/if}">edit</a>
+            <div class="inp-btn" onclick="delAddress({$vo.id})">delete</div>
+          </div>
+        </li>
+        {/volist}
+      </ul>
+      <div class="add-address acea-row row-center-wrapper" id="newfunction" onclick="newadd()"><span class="iconfont icon-zengjia"></span> Add address</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    {include file="public/footer" /}
+  </div>
+</div>
+<input type="hidden" id="type" value="{$type}">
+<script type="text/javascript">
+  function newadd(){
+  function getQueryString(key) {
+    var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+    var result = window.location.search.substr(1).match(reg);
+    return result?decodeURIComponent(result[2]):null;
+  }
+  var type = getQueryString("type");
+  if(type==1) {
+    $('#newfunction').onclick = new function () {
+      location.href = '/mobile/member/add_address?type=1'
+    }
+  }else{
+    $('#newfunction').onclick = new function () {
+      location.href = '/mobile/member/add_address'
+    }
+    }
+
+  }
+</script>
+<script type="text/javascript">
+  function delAddress(id) {
+      var type=$('#type').val();
+
+      // var INDEX=layer.load(3);
+    layer.confirm('Delete the address?', {icon: 3, title: 'Caution',btn:['OK','Cancel']}, function (index) {
+      $.ajax({
+        url:'{:url("mobile/member/del_address")}',
+        type:'post',
+        dataType:'json',
+        data:'id='+id,
+        success:function(datas){
+          if(datas.code == 1){
+              if(type ==1 ){
+                  location.href="/mobile/member/confirm";
+              }else{
+                  window.location.reload();
+              }
+          }
+        }
+      })
+    })
+  };
+
+  function setdefault(id){
+    var type=$('#type').val();
+    $.ajax({
+      url:'{:url("mobile/member/set_default")}',
+      type:'post',
+      dataType:'json',
+      data:'id='+id,
+      success:function(){
+        if(type==1){
+          location.href="/mobile/member/confirm";
+        }else{
+          layer.msg('Default address was modified', {icon: 6,time:1000,shade: 0.1}, function(index){
+            layer.close(index);
+            window.location.reload();
+          });
+        }
+      }
+    })
+  }
+
+</script>
+</body>
+
+</html>

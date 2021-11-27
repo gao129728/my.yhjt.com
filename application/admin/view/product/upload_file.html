@@ -1,0 +1,105 @@
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/webuploader.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/webUploader/css/style_file.css" />
+    <script type="text/javascript" src="/static/admin/js/jquery.min.js?v=2.1.4"></script>
+    <script type="text/javascript" src="/static/admin/webUploader/webuploader.min.js"></script>
+    <script type="text/javascript" src="/static/admin/webUploader/upload_file.js"></script>
+    <script type="text/javascript" src="/static/admin/js/layer/layer.js"></script>
+    <script type="text/javascript">
+        //设置需要传递的参数
+        var upload_data_arr = new Array("{$info.field}");
+    </script>
+    <style type="text/css">
+        .table{font-size: 13px;}
+    </style>
+</head>
+<body>
+<div class="ibox-content">
+    <table class="table">
+        <tbody>
+        <tr>
+            <td class="text-center" width="20%">文件名称</td>
+            <td class="file-name">{$info.file_path? $info.file_path : '无文件'}</td>
+        </tr>
+        <tr>
+            <td class="text-center">文件上传</td>
+            <td>
+                <div id="wrapper">
+                    <div id="container">
+                        <div id="uploader">
+                            <div class="queueList">
+                                <div id="dndArea" class="placeholder">
+                                    <div id="filePicker">{if $info.file_path}重新上传文件{else/}点击选择文件{/if}</div>
+                                    <p class="tips">文件大小不超过500MB</p>
+                                </div>
+                            </div>
+                            <div class="statusBar" style="display:none;">
+                                <div class="progress">
+                                    <span class="text">0%</span>
+                                    <span class="percentage"></span>
+                                </div><div class="info"></div>
+                                <div class="btns">
+                                    <div class="newsBtn">重新选择</div><div class="delFile" style="display:none;">取消上传</div><div class="uploadBtn">开始上传</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">说明</td>
+            <td class="editRightTd">
+                仅限rar,zip,7z,gz,mp4格式的文件。
+            </td>
+        </tr>
+        <tr class="del-file" {if $info.file_path eq ""}style="display:none;"{/if}>
+        <td class="text-center" colSpan="2">
+            <button type="button" class="btn" onclick="del_file('{$info.field}', '{$info.file_path}', {$info.id})">删除文件</button>
+        </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function del_file(field, file_path, id){
+        layer.confirm('确认删除此文件?', {icon: 3, title:'提示'}, function(index){
+            $.getJSON('{:url("del_upload_file")}', {'field':field, 'file_path':file_path, 'id':id}, function(res){
+                if(res.code == 1){
+                    $(".file-name").text('无文件');
+                    $(".del-file").hide(0);
+                    $('#'+field, window.parent.document).val('');
+                    layer.msg(res.msg,{icon:1,time:2000,shade: 0.1}, function(){
+                        parent.layer.closeAll();
+                        parent.location.reload();
+                    });
+                }else{
+                    layer.msg('删除失败',{icon:2,time:2000,shade: 0.1});
+                }
+            });
+            layer.close(index);
+        })
+    }
+
+    function handelFile(field, file_name){
+        $.getJSON('{:url("uploadannex")}', { 'annex':file_name, 'id':{$info.id}}, function(res){
+            if(res.code == 1){
+
+                parent.location.reload();
+                parent.layer.closeAll();
+            }else{
+                layer.msg('删除失败',{icon:2,time:2000,shade: 0.1});
+            }
+        });
+
+
+        var fileObj = $('#'+field, window.parent.document);
+        fileObj.val(file_name);
+    }
+</script>
+</body>
+</html>
+
+

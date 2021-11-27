@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body>
+<script src="__JS__/angular.min.js"></script>
+<script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>
+{include file="member/header" /}
+<div class="big-box ">
+    <div class="w1200">
+        <div class="right-box place_order">
+            <div class="right-nav ">
+                <a>View shopping cart</a>
+                <a class="active">Order settlement</a>
+            </div>
+            <div class="order-box">
+                <div class="line">Receiving address</div>
+                <div class="line red">Please make sure you fill in the correct shipping address. After the order is
+                    submitted, the
+                    shipping address cannot be modified.</div>
+                {if $address}
+                <div class="line">{$address.name}</div>
+                <ul class="information">
+                    <li><span>E-mail：</span>{$address.email}</li>
+                    <li><span>Telephone：</span>{$address.phone}</li>
+                    <li><span>Postcode：</span>{$address.postcode}</li>
+                    <li><span>Address：</span>{$address.address}</li>
+                </ul>
+                <div class="other_addresses"><a href="javascript:;" onclick="setdefault()">Use other addresses</a></div>
+                {else/}
+                <div class="other_addresses"><a href="javascript:;" onclick="setdefault()">Add addresses</a></div>
+                {/if}
+
+            </div>
+            <table class="order" ng-show="show">
+                <thead>
+                <th>Trade name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                </thead>
+                <tbody>
+                <!--ng-repeat渲染数据到界面-->
+                {volist name="cartList.cartlist" id="item"}
+                <tr>
+                    <td>
+                        <p><img style="width: 80px;" src="__UPLOAD_PATH__/{$item.pinfo.photo}" alt=""></p>
+                        <p style="font-weight: 700;color: #333;padding-top: 3px">{$item.pinfo.title}</p>
+                    </td>
+                    <td>${if $item.pinfo.price}{$item.pinfo.price}{else/}0.00{/if}</td>
+                    <td>×{$item.cart_num}</td>
+                    <td>${$item.total}</td>
+                </tr>
+                {/volist}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="num"><span>{$cartList.t_num}</span> items</div>
+                        <div class="prices"><b>Total prices:</b><span>${$cartList.total}</span></div>
+                        <div class="btn-box">
+                            <button class="btn blue" onclick="submit()">Place order</button>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+
+<script type="text/javascript">
+    function setdefault(){
+        window.location.href = "/home/member/address?type=1";
+    }
+</script>
+<script type="text/javascript">
+    function submit(){
+        $.ajax({
+            type: "POST",
+            url:"/home/member/create_order",
+            dataType:"json",
+            success:function(result){
+                if(result && result.code==1){
+                    layer.msg(result.msg, {icon: 6,time:2000,shade: 0.5}, function(index){
+                        window.location.href = "/home/member/shopping";
+                    });
+                } else {
+                    layer.msg(result.msg, {icon: 5,time:2000,shade: 0.5}, function(index){
+                        layer.close(index);
+                    });
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+
+
+</html>

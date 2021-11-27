@@ -1,0 +1,49 @@
+{if $module.titleStyle eq 3/}
+    {volist name="module['cate_article_list']" id="tab_cate_name"}
+    <div class="news-list-panel">
+        <div class="bd">
+            <ul>
+                {volist name="tab_cate_name['art_list']" id="newsList"}
+                <li class="clearfix {if $module.moduleParam[9] eq 0 and $i == $module.moduleParam[0]}noMg{/if}">
+                    {if $module.moduleParam[5]}
+                    <p class="pic"><a href="{$newsList.url}" target="_blank" title="{$newsList.title}"><img src="__UPLOAD_PATH__/{$newsList.photo}" width="{$module.moduleParam[7]}" height="{$module.moduleParam[8]}" {if $module.moduleParam[6]}class="imgBd"{/if} alt="{$newsList.title}"></a></p>
+                    {/if}
+                    <h4>{if $module.moduleParam[2]}<span>{$newsList.create_time|date="Y-m-d",###}</span>{/if}<a href="{$newsList.url}" title="{$newsList.title}" target="_blank">{$newsList.title|leftstr=$module.moduleParam[1]}</a></h4>
+                    {if $module.moduleParam[3]}
+                    <div class="i">{$newsList.content|leftstr_html=$module.moduleParam[4]}</div>
+                    {/if}
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    {/volist}
+{else/}
+<div class="news-list-panel">
+    <div class="bd">
+        <ul>
+            {volist name="module['art_list']" id="newsList"}
+            <li class="clearfix {if $module.moduleParam[9] eq 0 and $i == $module.moduleParam[0]}noMg{/if}">
+                {if $module.moduleParam[5]}
+                <p class="pic"><a href="{$newsList.url}" target="_blank" title="{$newsList.title}"><img src="__UPLOAD_PATH__/{$newsList.photo}" width="{$module.moduleParam[7]}" height="{$module.moduleParam[8]}" {if $module.moduleParam[6]}class="imgBd"{/if} alt="{$newsList.title}"></a></p>
+                {/if}
+                <h4>{if $module.moduleParam[2]}<span>{$newsList.create_time|date="Y-m-d",###}</span>{/if}<a href="{$newsList.url}" title="{$newsList.title}" target="_blank">{$newsList.title|leftstr=$module.moduleParam[1]}</a></h4>
+                {if $module.moduleParam[3]}
+                <div class="i">{$newsList.content|leftstr_html=$module.moduleParam[4]}</div>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+{/if}
+<script type="text/javascript">
+    {if $module.moduleParam[9]}
+        $("#index-module-{$sl}{$ml} .news-list-panel .bd").height($("#index-module-{$sl}{$ml} .news-list-panel li").outerHeight(true)*{$module.moduleParam[11]}-5);
+        {if $module.moduleParam[10] eq 0}
+        $("#index-module-{$sl}{$ml} .news-list-panel .bd").slide({mainCell:"ul", autoPlay:true, autoPage:true, effect:"topLoop", vis:{$module['moduleParam'][11]}, trigger:"click"});
+        {else/}
+        $("#index-module-{$sl}{$ml} .news-list-panel .bd").slide({mainCell:"ul", autoPlay:true, effect:"topMarquee", vis:{$module['moduleParam'][11]}, trigger:"click", interTime:30});
+        {/if}
+    {/if}
+</script>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file="public/head" /}
+<body style="background-color: #F5F7F9;">
+{include file="public/header_index" /}
+<div class="wap">
+    <div class="bannerBox">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {volist name="banner" id="vo"}
+                <div class="swiper-slide">
+                    <a href=""><img src="__UPLOAD_PATH__/{$vo.photo}" class="PcBan" /></a>
+                </div>
+                {/volist}
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="part part1">
+        <div class="big-title">Our products</div>
+        <div class="line"></div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {volist name="topiclists" id="top" length='4'}
+                <div class="swiper-slide">
+                    <div class="pic_box" onclick="location.href = '{:getCateUrl($top.cate_id,$top.website)}'">
+                        <img src="__UPLOAD_PATH__/{$top.photo}" alt="">
+                    </div>
+                    <div class="tit">{$top.title}</div>
+                </div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <div class="part part2">
+        <div class="big-title">ABOUT US</div>
+        <div class="line"></div>
+        <div class="cont">
+            {$aboutus.content}
+        </div>
+        <div class="video_box">
+            <video id="video"  muted controls poster="__UPLOAD_PATH__/{$aboutus.photo}">
+                <source src="__UPLOAD_FILE__/{$aboutus.annex}" type="video/mp4">
+            </video>
+        </div>
+        <div class="more" onclick="location.href = '{:getCateUrl(86,'')}'">Details <img src="__IMG__/more_jt.png" alt="" srcset=""></div>
+    </div>
+    <div class="part part3">
+        <div class="big-title">News information</div>
+        <div class="line"></div>
+        <ul>
+            {volist name="news" id="vo"}
+            <li>
+                <a href="{:getDetailUrl($vo.id,$vo.website)}">
+                    <div class="title line1">{$vo.title}</div>
+                    <div class="cont line2">
+                        {$vo.content}
+                    </div>
+                </a>
+            </li>
+            {/volist}
+        </ul>
+        <div class="more" onclick="location.href = '{:getCateUrl(84,'')}'">Details <img src="__IMG__/more_jt.png" alt="" srcset=""></div>
+    </div>
+    <div class="footer tabbar">
+        {include file="public/footer" /}
+    </div>
+
+</div>
+<div class="bottom-box">
+    <ul class="acea-row">
+        <li class="on">
+            <a href="/mobile/index/index" class="btn1">
+                <div class="pic"></div>
+                <div>Home</div>
+            </a>
+        </li>
+        <li class="">
+            <a href="tel:{$config.web_serviceLine}" class="btn2">
+                <div class="pic"></div>
+                <div>Tells</div>
+            </a>
+        </li>
+        <li class="">
+            {if $isLogin == false}
+            <a href="/mobile/member/login" class="btn3">
+                <div class="pic"></div>
+                <div>Member</div>
+            </a>
+            {else /}
+            <a href="/mobile/member/myorder" class="btn3">
+                <div class="pic"></div>
+                <div>Member</div>
+            </a>
+            {/if}
+        </li>
+    </ul>
+</div>
+</body>
+
+</html>

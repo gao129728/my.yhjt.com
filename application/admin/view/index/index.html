@@ -1,0 +1,169 @@
+{include file="public/header"/}
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <div>尊敬的会员<span id="weather"></span></div>
+    </div>
+
+    <!-- 上方tab -->
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-item-number clearfix">
+                    <a href="{:url('member/index')}" class="clearfix">
+                        <div class="pull-left"><i class="fa fa-user"></i></div>
+                        <div class="pull-right">
+                            <h2>{$all_member_cnt}</h2>
+                            <small>会员</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-item-number clearfix">
+                    <a href="{:url('article/index')}" class="clearfix">
+                        <div class="pull-left leftBg-1"><i class="fa fa-file-text"></i></div>
+                        <div class="pull-right">
+                            <h2>{$all_article_cnt}</h2>
+                            <small>文章</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-item-number clearfix">
+                    <a href="{:url('message/index')}" class="clearfix">
+                        <div class="pull-left leftBg-2"><i class="fa fa-comments"></i></div>
+                        <div class="pull-right">
+                            <h2>{$all_message_cnt}</h2>
+                            <small>留言</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-item-number clearfix">
+                    <a href="{:url('counter/index')}" class="clearfix">
+                        <div class="pull-left leftBg-3"><i class="fa fa-eye"></i></div>
+                        <div class="pull-right">
+                            <h2>{$all_counter_cnt}</h2>
+                            <small>访问量</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox-counter ibox">
+                <div class="counter-tit">
+                    <p>最近12天访问统计</p>
+                    <h4>访问统计</h4>
+                </div>
+                <div class="counter-chart">
+                    <canvas id="lineChart" height="50"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 中间折线 -->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <i class="fa fa-cogs"></i> 系统信息
+                </div>
+                <div class="panel-body">
+                    <p><i class="fa fa-sitemap"></i> 系统类型：{$info.web_system}
+                    </p>
+                    <p><i class="fa fa-windows"></i> 服务环境：{$info.web_server}
+                    </p>
+                    <p><i class="fa fa-warning"></i> 上传附件限制：{$info.onload}
+                    </p>
+                    <p><i class="fa fa-credit-card"></i> PHP 版本：{$info.phpversion}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-cogs"></i> 站点信息
+                </div>
+                <div class="panel-body">
+                    <p><i class="fa fa-desktop"></i> 网站名称：{$website.web_name}</p>
+                    <p><i class="fa fa-support"></i> 网站域名：<a href="{$website.web_domain}" target="_blank">{$website.web_domain}</a></p>
+                    <p><i class="fa fa-user-circle"></i> 登录用户：{$username}</p>
+                    <p><i class="fa fa-clock-o"></i> 登录时间：{$login_time|date="Y-m-d H:i:s",###}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public/footer" /}
+<script src="__JS__/jquery.leoweather.min.js"></script>
+<script src="__JS__/plugins/chartJs/Chart.min.js"></script>
+<script type="text/javascript">
+    $('#weather').leoweather({format:'，{时段}好！<span id="colock">现在时间是：<strong>{年}年{月}月{日}日 星期{周} {时}:{分}:{秒}</strong></span>'});
+</script>
+<script>
+    $(function(){
+        var chart_date={$chart_date};
+        var  labels = [
+            {volist name="chart_date" id="vo"}
+        {$i == 1? '':','}"{$vo.date}"
+        {/volist}
+        ];
+        var  data = [
+            {volist name="chart_date" id="vo"}
+        {$i == 1? '':','}"{$vo.val}"
+        {/volist}
+        ];
+        var lineData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Example dataset",
+                    fillColor: "rgba(26,179,148,0.5)",
+                    strokeColor: "rgba(26,179,148,0.7)",
+                    pointColor: "rgba(26,179,148,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(26,179,148,1)",
+                    data: data
+                }
+            ]
+        };
+
+        var lineOptions = {
+            scaleShowGridLines: true,
+            scaleGridLineColor: "rgba(0,0,0,.05)",
+            scaleGridLineWidth: 1,
+            bezierCurve: true,
+            bezierCurveTension: 0.4,
+            pointDot: true,
+            pointDotRadius: 4,
+            pointDotStrokeWidth: 1,
+            pointHitDetectionRadius: 20,
+            datasetStroke: true,
+            datasetStrokeWidth: 2,
+            datasetFill: true,
+            responsive: true
+        };
+
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+    });
+</script>
+</body>
+</html>

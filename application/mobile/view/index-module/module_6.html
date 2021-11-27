@@ -1,0 +1,44 @@
+{if $module.titleStyle eq 3/}
+    {volist name="module['cate_article_list']" id="tab_cate_name"}
+    <div class="focus-panel">
+        {if $module.moduleParam[7]}
+        <a class="aprev"><i class="iconfont icon-xiangzuojiantou"></i></a>
+        <a class="anext"><i class="iconfont icon-xiangyoujiantou"></i></a>
+        {/if}
+        <div class="bd" style="width:{$module.moduleParam[1]}px; height:{$module.moduleParam[2]}px; left:50%; margin-left:-{$module.moduleParam[1]/2}px;">
+            <ul>
+                {volist name="tab_cate_name['art_list']" id="focusPic"}
+                <li><a href="{$focusPic.website? $focusPic.website:'javascript:;'}" {if $focusPic.website neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$focusPic.photo}" width="{$module.moduleParam[1]}" height="{$module.moduleParam[2]}" alt="{$focusPic.title}"></a></li>
+                {/volist}
+            </ul>
+        </div>
+        {if $module.moduleParam[7]}
+        <div class="hd">
+            <ul></ul>
+        </div>
+        {/if}
+    </div>
+    {/volist}
+{else/}
+<div class="focus-panel">
+    {if $module.moduleParam[7]}
+    <a class="aprev"><i class="iconfont icon-xiangzuojiantou"></i></a>
+    <a class="anext"><i class="iconfont icon-xiangyoujiantou"></i></a>
+    {/if}
+    <div class="bd" style="width:{$module.moduleParam[1]}px; height:{$module.moduleParam[2]}px; left:50%; margin-left:-{$module.moduleParam[1]/2}px;">
+        <ul>
+            {volist name="module['art_list']" id="focusPic"}
+            <li><a href="{$focusPic.website? $focusPic.website:'javascript:;'}" {if $focusPic.website neq ''}target="_blank"{/if}><img src="__UPLOAD_PATH__/{$focusPic.photo}" width="{$module.moduleParam[1]}" height="{$module.moduleParam[2]}" alt="{$focusPic.title}"></a></li>
+            {/volist}
+        </ul>
+    </div>
+    {if $module.moduleParam[7]}
+    <div class="hd">
+        <ul></ul>
+    </div>
+    {/if}
+</div>
+{/if}
+<script type="text/javascript">
+    $("#index-module-{$sl}{$ml} .focus-panel").slide({titCell:".hd ul", mainCell:".bd ul", autoPlay:{$module.moduleParam[3]? 'true':'false'}, autoPage:true, effect:"{$module.moduleParam[4]}",delayTime:{$module.moduleParam[5]}, interTime:{$module.moduleParam[6]},prevCell:".aprev",nextCell:".anext"});
+</script>
