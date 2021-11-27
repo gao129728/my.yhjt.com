@@ -27,7 +27,7 @@ $(function () {
     $('.down_box').click(function () {
         $(".lag_list").slideToggle();
     })
-    var search_flag = false;
+    var search_flag = true;
     $('.search_box .search_icon').click(function () {
         if (search_flag) {
             $(".search_box .search").show();

@@ -6,14 +6,9 @@
             </div>
             <div class="csc-textpic">
                 <ul class="clearfix">
-                    <li><a href="" target="_blank" rel="nofollow" class="icon-facebook"></a></li>
-                    <li><a href="https://twitter.com/MelingBiomedic1" target="_blank" rel="nofollow"
-                           class="icon-twitter"></a></li>
-                    <!-- <li><a href="" target="_blank" rel="nofollow" class="icon-gplus"></a></li> -->
-                    <li><a href="https://www.linkedin.com/feed/" target="_blank" rel="nofollow"
-                           class="icon-linkedin"></a></li>
-                    <!-- <li><a href="https://www.youtube.com/channel/UCZOzvGpQF3ubP_8k-5T7Ouw" target="_blank"
-                            rel="nofollow" class="icon-youtube"></a></li> -->
+                    {volist name="link" id="vo"}
+                    <li><a href="{$vo.url}" target="_blank" rel="nofollow" class="{$vo.font_family}"></a></li>
+                    {/volist}
                 </ul>
             </div>
         </div>

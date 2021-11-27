@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/index/index.html";i:1637827622;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header_index.html";i:1636419676;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637630971;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/index/index.html";i:1637827622;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header_index.html";i:1636419676;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637995280;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,14 +164,7 @@
             </div>
             <div class="csc-textpic">
                 <ul class="clearfix">
-                    <li><a href="" target="_blank" rel="nofollow" class="icon-facebook"></a></li>
-                    <li><a href="https://twitter.com/MelingBiomedic1" target="_blank" rel="nofollow"
-                           class="icon-twitter"></a></li>
-                    <!-- <li><a href="" target="_blank" rel="nofollow" class="icon-gplus"></a></li> -->
-                    <li><a href="https://www.linkedin.com/feed/" target="_blank" rel="nofollow"
-                           class="icon-linkedin"></a></li>
-                    <!-- <li><a href="https://www.youtube.com/channel/UCZOzvGpQF3ubP_8k-5T7Ouw" target="_blank"
-                            rel="nofollow" class="icon-youtube"></a></li> -->
+                    
                 </ul>
             </div>
         </div>

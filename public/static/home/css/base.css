@@ -8,7 +8,7 @@ table{border-collapse: collapse;  border-spacing: 0;}
 fieldset, img {border: 0;  max-width: 100%; vertical-align: middle;}
 address, caption, cite, code, dfn, em, th,
 var{font-style: normal;  font-weight: normal;}
-ol, ul ,li{list-style: none;padding: ;}
+ol, ul ,li{list-style: none;}
 caption, th {text-align: left;}
 h1, h2, h3, h4, h5, h6 {font-weight: normal;}
 q:before, q:after {content: '';}

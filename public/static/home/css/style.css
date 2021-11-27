@@ -22,7 +22,7 @@
 .nav-box .nav ul li{padding-right: 35px;}
 .nav-box .nav ul li a{font-size: 14px;font-weight: bold;color: #333;}
 .nav-box.index .nav ul li a{color: #fff;}
-.search_box{position: relative;}
+.search_box{position: relative;cursor: pointer}
 .search_box .search{position: absolute; width: 306px; right: 0; top: 40px; z-index: 99;display: none;}
 .search_box .search input{width: 306px; height: 39px; border-radius: 40px; background: #FBFBFB; box-shadow: 0 0 5px rgb(0 0 0 / 10%); border: none; border: 1px solid #E6E6E6; text-indent: 25px;}
 .search_box .search .search_btn{position: absolute; right: 15px; top: -1px; display: block; line-height: 40px;}
