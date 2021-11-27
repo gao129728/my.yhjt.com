@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:85:"E:\php_project\my.yhjt.com\public/../application/admin/view/article/edit_article.html";i:1637905954;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/header.html";i:1544408304;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/footer.html";i:1527911724;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:85:"E:\php_project\my.yhjt.com\public/../application/admin/view/article/edit_article.html";i:1638001171;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/header.html";i:1544408304;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/footer.html";i:1527911724;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,12 +169,21 @@
                                 <!--</div>-->
                                 <!--<div class="hr-line-dashed"></div>-->
                                 <input name="cate_id" value="<?php echo $article['cate_id']; ?>" type="hidden" id="cate_id">
+                                <?php if(($article['cate_id'] == 95||$article['cate_id'] == 103||$article['cate_id'] == 97||$article['cate_id'] == 100)): ?>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">产品名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="title" type="text" class="form-control" name="title" value="<?php echo $article['title']; ?>">
+                                    </div>
+                                </div>
+                                <?php else: ?>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">标题：</label>
                                     <div class="input-group col-sm-4">
                                         <input id="title" type="text" class="form-control" name="title" value="<?php echo $article['title']; ?>">
                                     </div>
                                 </div>
+                                <?php endif; ?>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">序号：</label>

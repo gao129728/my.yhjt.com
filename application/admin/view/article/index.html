@@ -12,7 +12,13 @@
                 <div class="col-sm-12">   
                     <div  class="col-sm-2 ibox-tit" style="width: 100px;">
                         <div class="input-group" >
-                            <a href="javascript:;"><button onclick="add_article()" class="btn btn-outline btn-primary" type="button">添加文章</button></a>
+                            <a href="javascript:;"><button onclick="add_article()" class="btn btn-outline btn-primary" type="button">
+                                {if ($cate_id eq 95||$cate_id eq 103||$cate_id eq 97||$cate_id eq 100)}
+                                添加产品
+                                {else /}
+                                添加文章
+                                {/if}
+                            </button></a>
                         </div>
                     </div>
                     <form name="admin_list_sea" id="admin_list_sea" class="form-search" method="get" action="{:url('index')}">

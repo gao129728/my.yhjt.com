@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/article/index.html";i:1610071946;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/header.html";i:1544408304;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/footer.html";i:1527911724;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/article/index.html";i:1638000883;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/header.html";i:1544408304;s:78:"E:\php_project\my.yhjt.com\public/../application/admin/view/public/footer.html";i:1527911724;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +68,13 @@
                 <div class="col-sm-12">   
                     <div  class="col-sm-2 ibox-tit" style="width: 100px;">
                         <div class="input-group" >
-                            <a href="javascript:;"><button onclick="add_article()" class="btn btn-outline btn-primary" type="button">添加文章</button></a>
+                            <a href="javascript:;"><button onclick="add_article()" class="btn btn-outline btn-primary" type="button">
+                                <?php if(($cate_id == 95||$cate_id == 103||$cate_id == 97||$cate_id == 100)): ?>
+                                添加产品
+                                <?php else: ?>
+                                添加文章
+                                <?php endif; ?>
+                            </button></a>
                         </div>
                     </div>
                     <form name="admin_list_sea" id="admin_list_sea" class="form-search" method="get" action="<?php echo url('index'); ?>">

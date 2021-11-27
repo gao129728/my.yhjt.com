@@ -99,12 +99,21 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <input name="cate_id" value="{$cate_id}" type="hidden" id="cate_id">
+                                {if ($cate_id eq 95||$cate_id eq 103||$cate_id eq 97||$cate_id eq 100)}
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">产品名称：</label>
+                                    <div class="input-group col-sm-4">
+                                        <input id="title" type="text" class="form-control" name="title" placeholder="输入产品名称">
+                                    </div>
+                                </div>
+                                {else /}
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">标题：</label>
                                     <div class="input-group col-sm-4">
                                         <input id="title" type="text" class="form-control" name="title" placeholder="输入文章标题">
                                     </div>
                                 </div>
+                                {/if}
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">序号：</label>
