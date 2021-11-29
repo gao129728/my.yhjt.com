@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:8:{s:79:"E:\php_project\my.yhjt.com\public/../application/home/view/category/detail.html";i:1635911410;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header.html";i:1637549535;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:86:"E:\php_project\my.yhjt.com\public/../application/home/view/detail-module/module_0.html";i:1637548039;s:80:"E:\php_project\my.yhjt.com\public/../application/home/view/public/left_menu.html";i:1637547992;s:86:"E:\php_project\my.yhjt.com\public/../application/home/view/detail-module/module_1.html";i:1637562242;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637630971;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:8:{s:79:"E:\php_project\my.yhjt.com\public/../application/home/view/category/detail.html";i:1635911410;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header.html";i:1637549535;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:86:"E:\php_project\my.yhjt.com\public/../application/home/view/detail-module/module_0.html";i:1637548039;s:80:"E:\php_project\my.yhjt.com\public/../application/home/view/public/left_menu.html";i:1637547992;s:86:"E:\php_project\my.yhjt.com\public/../application/home/view/detail-module/module_1.html";i:1637562242;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637995283;}*/ ?>
 ﻿<!doctype html><html lang="en"><head>    <meta charset="UTF-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title><?php echo $web_site_title; ?></title>    <script src="http://www.jq22.com/jquery/angular-1.4.6.js"></script>    <script type="text/javascript" src="__JS__/angular-ui-router.min.js"></script>    <link rel="stylesheet" href="__CSS__/style.css">    <link rel="stylesheet" href="__CSS__/base.css">    <link rel="stylesheet" href="__CSS__/swiper.min.css">    <link rel="stylesheet" href="__CSS__/iconfont/iconfont.css">    <script src="__JS__/jquery-3.1.1.min.js"></script>    <link href="__CSS__/iCheck/custom.css" rel="stylesheet">    <script src="__JS__/iCheck/icheck.min.js"></script>    <script src="__JS__/swiper.min.js"></script>    <script src="__JS__/base.js"></script>    <script src="__JS__/layui/layui.js"></script>    <script src="__JS__/jquery.form.min.js"></script>    <script src="__JS__/shopping.js"></script></head><body><div class="nav-box inner">
     <div class="w1200 fsc">
         <div class="pic-box">
@@ -337,14 +337,9 @@
             </div>
             <div class="csc-textpic">
                 <ul class="clearfix">
-                    <li><a href="" target="_blank" rel="nofollow" class="icon-facebook"></a></li>
-                    <li><a href="https://twitter.com/MelingBiomedic1" target="_blank" rel="nofollow"
-                           class="icon-twitter"></a></li>
-                    <!-- <li><a href="" target="_blank" rel="nofollow" class="icon-gplus"></a></li> -->
-                    <li><a href="https://www.linkedin.com/feed/" target="_blank" rel="nofollow"
-                           class="icon-linkedin"></a></li>
-                    <!-- <li><a href="https://www.youtube.com/channel/UCZOzvGpQF3ubP_8k-5T7Ouw" target="_blank"
-                            rel="nofollow" class="icon-youtube"></a></li> -->
+                    <?php if(is_array($link) || $link instanceof \think\Collection || $link instanceof \think\Paginator): $i = 0; $__LIST__ = $link;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <li><a href="<?php echo $vo['url']; ?>" target="_blank" rel="nofollow" class="<?php echo $vo['font_family']; ?>"></a></li>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
             </div>
         </div>

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/index/index.html";i:1637827622;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header_index.html";i:1636419676;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637995280;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/index/index.html";i:1637827622;s:75:"E:\php_project\my.yhjt.com\public/../application/home/view/public/head.html";i:1636624294;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/header_index.html";i:1636419676;s:83:"E:\php_project\my.yhjt.com\public/../application/home/view/public/extra_header.html";i:1637638016;s:77:"E:\php_project\my.yhjt.com\public/../application/home/view/public/footer.html";i:1637995283;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,7 +164,9 @@
             </div>
             <div class="csc-textpic">
                 <ul class="clearfix">
-                    
+                    <?php if(is_array($link) || $link instanceof \think\Collection || $link instanceof \think\Paginator): $i = 0; $__LIST__ = $link;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                    <li><a href="<?php echo $vo['url']; ?>" target="_blank" rel="nofollow" class="<?php echo $vo['font_family']; ?>"></a></li>
+                    <?php endforeach; endif; else: echo "" ;endif; ?>
                 </ul>
             </div>
         </div>

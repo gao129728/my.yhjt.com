@@ -36,10 +36,10 @@ class Category extends Base
         if ($childCnt == 0) {
             $cateCur = $cate;           //当前id
         }
-        elseif($navCur == 91||$navCur == 93){
+        /*elseif($navCur == 91||$navCur == 93){
             $cate_arr = array_merge($cate_arr, $this->getChildCate($id));
             $cateCur = end($cate_arr);
-        }
+        }*/
         else {
             $cate_arr = array_merge($cate_arr, $this->get_childs_cate($id));
             $cateCur = end($cate_arr);   //当前id
